@@ -1,0 +1,11 @@
+@use '../settings/variables' as v;
+
+.l-wrapper {
+  width: min(v.$wrapper-max, calc(100% - (v.$wrapper-gutter * 2)));
+  margin-right: auto;
+  margin-left: auto;
+}
+
+.l-wrapper--hero {
+  width: min(v.$wrapper-hero-max, calc(100% - (v.$wrapper-gutter * 2)));
+}

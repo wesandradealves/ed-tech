@@ -1,0 +1,79 @@
+/* ==========================================================================
+   Styleguide de Cores (HEX)
+   ========================================================================== */
+$color-page-bg: #020302;
+$color-surface-dark: #020302;
+$color-text-primary: #f5f7f7;
+$color-text-secondary: #8e949a;
+$color-text-base: #111111;
+$color-accent: #76ce00;
+$color-accent-hover: #88dd16;
+$color-accent-gradient-start: #98ea23;
+$color-accent-gradient-mid: #7ed612;
+$color-accent-gradient-end: #66bf00;
+$color-accent-figma: #76b900;
+$color-focus-outline: #d5fb7a;
+$color-button-text: #090f02;
+$color-icon-arrow: #0c0a08;
+$color-black: #000000;
+
+$styleguide-colors: (
+  'page-bg': $color-page-bg,
+  'surface-dark': $color-surface-dark,
+  'text-primary': $color-text-primary,
+  'text-secondary': $color-text-secondary,
+  'text-base': $color-text-base,
+  'accent': $color-accent,
+  'accent-hover': $color-accent-hover,
+  'accent-gradient-start': $color-accent-gradient-start,
+  'accent-gradient-mid': $color-accent-gradient-mid,
+  'accent-gradient-end': $color-accent-gradient-end,
+  'accent-figma': $color-accent-figma,
+  'focus-outline': $color-focus-outline,
+  'button-text': $color-button-text,
+  'icon-arrow': $color-icon-arrow,
+  'black': $color-black
+);
+
+/* ==========================================================================
+   Tokens semânticos de cor
+   ========================================================================== */
+$page-bg: $color-page-bg;
+$surface-dark: $color-surface-dark;
+$text-primary: $color-text-primary;
+$text-secondary: $color-text-secondary;
+$text-base: $color-text-base;
+$accent: $color-accent;
+$accent-hover: $color-accent-hover;
+$accent-grad-start: $color-accent-gradient-start;
+$accent-grad-mid: $color-accent-gradient-mid;
+$accent-grad-end: $color-accent-gradient-end;
+$accent-figma: $color-accent-figma;
+$focus-outline: $color-focus-outline;
+$button-text: $color-button-text;
+$icon-arrow: $color-icon-arrow;
+$black: $color-black;
+
+$overlay-black-56: rgba($black, 0.56);
+$overlay-black-48: rgba($black, 0.48);
+$overlay-black-35: rgba($black, 0.35);
+$overlay-black-33: rgba($black, 0.33);
+$accent-alpha-42: rgba($accent, 0.42);
+$accent-alpha-18: rgba($accent, 0.18);
+$accent-figma-fade: rgba($accent-figma, 0);
+$title-bar-gradient: linear-gradient(180deg, $accent-figma 0%, $accent-figma-fade 100%);
+$hero-overlay-gradient: linear-gradient(90deg, $overlay-black-56 0%, $overlay-black-33 44%, $overlay-black-48 100%);
+$title-word-gradient: linear-gradient(180deg, $accent-grad-start 0%, $accent-grad-mid 50%, $accent-grad-end 100%);
+$button-primary-shadow: 0 0 24px $accent-alpha-42;
+$hero-visual-shadow: drop-shadow(0 12px 30px $overlay-black-35);
+
+/* ==========================================================================
+   Tokens de layout e motion
+   ========================================================================== */
+$wrapper-max: 960px;
+$wrapper-hero-max: 1104px;
+$wrapper-gutter: 24px;
+$hero-min-height: 744px;
+$hero-radius: 0;
+$breakpoint-mobile: 920px;
+$transition-fast: 160ms ease;

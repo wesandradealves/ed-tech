@@ -1,0 +1,42 @@
+@use '../settings/variables' as v;
+
+.a-button {
+  appearance: none;
+  border: 0;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color v.$transition-fast, transform v.$transition-fast;
+}
+
+.a-button:active {
+  transform: translateY(1px);
+}
+
+.a-button:focus-visible {
+  outline: 2px solid v.$focus-outline;
+  outline-offset: 3px;
+}
+
+.a-button--primary {
+  min-width: 198px;
+  min-height: 56px;
+  padding: 14px 24px;
+  color: v.$button-text;
+  background: v.$accent;
+  font-size: 1rem;
+  font-weight: 700;
+  line-height: 1.1;
+  box-shadow: v.$button-primary-shadow;
+}
+
+.a-button--primary:hover {
+  background: v.$accent-hover;
+}
+
+@media (max-width: v.$breakpoint-mobile) {
+  .a-button--primary {
+    min-width: 172px;
+    min-height: 50px;
+    font-size: 0.9375rem;
+  }
+}

@@ -1,0 +1,12 @@
+@use '../settings/variables' as v;
+
+body {
+  min-height: 100vh;
+  font-family: 'Inter', 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  background: v.$page-bg;
+  color: v.$text-base;
+}
+
+.page {
+  width: 100%;
+}
