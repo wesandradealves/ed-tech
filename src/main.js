@@ -4,6 +4,7 @@ import { HeroBannerComponent } from './js/components/organisms/hero-banner.compo
 import { VideoIntroComponent } from './js/components/organisms/video-intro.component.js';
 import { WaveTextComponent } from './js/components/organisms/wave-text.component.js';
 import { ForestSliderComponent } from './js/components/organisms/forest-slider.component.js';
+import { DarkTextBoxComponent } from './js/components/organisms/dark-text-box.component.js';
 
 async function bootstrapApp() {
   await initializeSiteContent();
@@ -13,6 +14,7 @@ async function bootstrapApp() {
     VideoIntroComponent,
     WaveTextComponent,
     ForestSliderComponent,
+    DarkTextBoxComponent,
   ]);
 
   componentRegistry.mountAll();

@@ -14,7 +14,7 @@ $color-accent-gradient-start: #98ea23;
 $color-accent-gradient-mid: #7ed612;
 $color-accent-gradient-end: #66bf00;
 $color-accent-figma: #76b900;
-$color-focus-outline: #d5fb7a;
+$color-focus-outline: #1f2a3d;
 $color-button-text: #090f02;
 $color-icon-arrow: #0c0a08;
 $color-black: #000000;
@@ -30,6 +30,7 @@ $color-slider-control-icon: #111827;
 $color-slider-control-surface-active: #1f2a3d;
 $color-slider-dot: #d4d4d8;
 $color-slider-dot-active: #182415;
+$color-dark-text-box-bg: #17181d;
 
 $styleguide-colors: (
   'page-bg': $color-page-bg,
@@ -60,7 +61,8 @@ $styleguide-colors: (
   'slider-control-icon': $color-slider-control-icon,
   'slider-control-surface-active': $color-slider-control-surface-active,
   'slider-dot': $color-slider-dot,
-  'slider-dot-active': $color-slider-dot-active
+  'slider-dot-active': $color-slider-dot-active,
+  'dark-text-box-bg': $color-dark-text-box-bg
 );
 
 /* ==========================================================================
@@ -95,6 +97,7 @@ $slider-control-icon: $color-slider-control-icon;
 $slider-control-surface-active: $color-slider-control-surface-active;
 $slider-dot: $color-slider-dot;
 $slider-dot-active: $color-slider-dot-active;
+$dark-text-box-bg: $color-dark-text-box-bg;
 
 $overlay-black-56: rgba($black, 0.56);
 $overlay-black-48: rgba($black, 0.48);
@@ -110,6 +113,8 @@ $button-primary-shadow: 0 0 24px $accent-alpha-42;
 $hero-visual-shadow: drop-shadow(0 12px 30px $overlay-black-35);
 $video-play-shadow: 0 0.75rem 1.75rem $overlay-black-35;
 $video-intro-media-shadow: 0 1.5625rem 3.125rem -0.75rem rgba($black, 0.25);
+$dark-text-box-shadow: 0 0.25rem 0.375rem -0.25rem rgba($black, 0.102),
+  0 0.625rem 0.9375rem -0.1875rem rgba($black, 0.102);
 
 /* ==========================================================================
    Tokens de layout e motion
@@ -169,6 +174,15 @@ $forest-slider-nav-radius: 0.5rem;
 $forest-slider-dot-size: 0.5rem;
 $forest-slider-dot-gap: 0.5rem;
 $forest-slider-image-height: 29.5rem;
+$dark-text-box-padding-top: 0;
+$dark-text-box-padding-bottom: 2.5rem;
+$dark-text-box-max-width: 49rem;
+$dark-text-box-radius: 0.5rem;
+$dark-text-box-padding-y: 2rem;
+$dark-text-box-padding-x: 2rem;
+$dark-text-box-font-size: 1.125rem;
+$dark-text-box-line-height: 1.828125rem;
+$dark-text-box-letter-spacing: 0;
 $breakpoint-mobile: 920px;
 $transition-fast: 160ms ease;
 $font-family-base: 'Inter', 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;

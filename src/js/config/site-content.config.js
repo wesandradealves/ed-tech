@@ -292,6 +292,16 @@ function applyForestSlider(forestSliderConfig = {}) {
   });
 }
 
+function applyDarkTextBox(darkTextBoxConfig = {}) {
+  const section = queryByRole('dark-text-box-section');
+
+  if (section && typeof darkTextBoxConfig.sectionAriaLabel === 'string') {
+    section.setAttribute('aria-label', darkTextBoxConfig.sectionAriaLabel);
+  }
+
+  setNodeTextByRole('dark-text-box-text', darkTextBoxConfig.text);
+}
+
 function applySiteContent(contentConfig = siteContentConfig) {
   if (!isObject(contentConfig)) {
     return;
@@ -303,6 +313,7 @@ function applySiteContent(contentConfig = siteContentConfig) {
   applyVideo(contentConfig.video);
   applyWaveText(contentConfig.waveText);
   applyForestSlider(contentConfig.forestSlider);
+  applyDarkTextBox(contentConfig.darkTextBox);
 }
 
 export async function initializeSiteContent() {

@@ -5,15 +5,15 @@
     "description": "Página do teste técnico EdTech com hero, seção de vídeo interativa, layout responsivo e arquitetura modular em HTML, SCSS e JavaScript Vanilla.",
     "robots": "index,follow",
     "themeColor": "#f7f8f5",
-    "canonicalUrl": "https://example.com/",
+    "canonicalUrl": "https://ed-tech-ten-murex.vercel.app/",
     "og": {
       "type": "website",
       "locale": "pt_BR",
       "siteName": "Teste Frontend EdTech",
       "title": "Teste Técnico Frontend EdTech",
       "description": "Implementação completa da página EdTech com hero, conteúdo introdutório, player de vídeo com controles e estrutura escalável.",
-      "url": "https://example.com/",
-      "image": "/assets/hero-banner-background.png",
+      "url": "https://ed-tech-ten-murex.vercel.app/",
+      "image": "https://ed-tech-ten-murex.vercel.app/assets/hero-banner-background.png",
       "imageWidth": "1280",
       "imageHeight": "744",
       "imageAlt": "Capa da página do teste técnico EdTech"
@@ -22,7 +22,7 @@
       "card": "summary_large_image",
       "title": "Teste Técnico Frontend EdTech",
       "description": "Página EdTech com hero, seção de vídeo funcional, responsividade e código modular para evolução por seções.",
-      "image": "/assets/hero-banner-background.png",
+      "image": "https://ed-tech-ten-murex.vercel.app/assets/hero-banner-background.png",
       "imageAlt": "Capa da página do teste técnico EdTech"
     }
   },
@@ -104,5 +104,9 @@
         "height": 472
       }
     ]
+  },
+  "darkTextBox": {
+    "sectionAriaLabel": "Texto em destaque",
+    "text": "Lorem, ipsum dolor sit amet consectetur adipisicing elit. Labore nihil corporis suscipit soluta dolorem id consectetur, tenetur nesciunt ducimus maiores sequi veritatis nostrum, esse eaque delectus ea laboriosam repellendus! Ipsum nobis, mollitia facilis praesentium cupiditate quidem eaque itaque nulla ab obcaecati sapiente sequi porro, totam, non molestias excepturi explicabo adipisci deleniti architecto animi!"
   }
 }

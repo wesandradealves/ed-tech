@@ -1,0 +1,42 @@
+@use '../settings/variables' as v;
+
+.o-dark-text-box {
+  width: 100%;
+  padding: v.$dark-text-box-padding-top 0 v.$dark-text-box-padding-bottom;
+  background: v.$page-bg;
+}
+
+.o-dark-text-box__card {
+  width: 100%;
+  max-width: v.$dark-text-box-max-width;
+  margin: 0 auto;
+  padding: v.$dark-text-box-padding-y v.$dark-text-box-padding-x;
+  border-radius: v.$dark-text-box-radius;
+  background: v.$dark-text-box-bg;
+  box-shadow: v.$dark-text-box-shadow;
+}
+
+.o-dark-text-box__text {
+  margin: 0;
+  color: v.$text-primary;
+  font-size: v.$dark-text-box-font-size;
+  font-weight: 500;
+  line-height: v.$dark-text-box-line-height;
+  letter-spacing: v.$dark-text-box-letter-spacing;
+}
+
+@media (max-width: v.$breakpoint-mobile) {
+  .o-dark-text-box {
+    padding: 1.625rem 0;
+  }
+
+  .o-dark-text-box .l-wrapper {
+    width: 100%;
+    padding-inline: 0;
+  }
+
+  .o-dark-text-box__card {
+    max-width: none;
+    border-radius: 0;
+  }
+}
