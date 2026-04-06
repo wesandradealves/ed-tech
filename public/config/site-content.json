@@ -1,0 +1,108 @@
+{
+  "meta": {
+    "lang": "pt-BR",
+    "title": "Teste Técnico Frontend EdTech",
+    "description": "Página do teste técnico EdTech com hero, seção de vídeo interativa, layout responsivo e arquitetura modular em HTML, SCSS e JavaScript Vanilla.",
+    "robots": "index,follow",
+    "themeColor": "#f7f8f5",
+    "canonicalUrl": "https://example.com/",
+    "og": {
+      "type": "website",
+      "locale": "pt_BR",
+      "siteName": "Teste Frontend EdTech",
+      "title": "Teste Técnico Frontend EdTech",
+      "description": "Implementação completa da página EdTech com hero, conteúdo introdutório, player de vídeo com controles e estrutura escalável.",
+      "url": "https://example.com/",
+      "image": "/assets/hero-banner-background.png",
+      "imageWidth": "1280",
+      "imageHeight": "744",
+      "imageAlt": "Capa da página do teste técnico EdTech"
+    },
+    "twitter": {
+      "card": "summary_large_image",
+      "title": "Teste Técnico Frontend EdTech",
+      "description": "Página EdTech com hero, seção de vídeo funcional, responsividade e código modular para evolução por seções.",
+      "image": "/assets/hero-banner-background.png",
+      "imageAlt": "Capa da página do teste técnico EdTech"
+    }
+  },
+  "a11y": {
+    "skipToContentText": "Pular para o conteúdo principal"
+  },
+  "hero": {
+    "title": {
+      "line1": "Lorem ipsum",
+      "line2Prefix": "dolor, sit",
+      "line2Highlight": "amet"
+    },
+    "description": "It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout.",
+    "button": {
+      "text": "Lorem Ipsum",
+      "ariaLabel": "Assistir aula em nova aba"
+    },
+    "image": {
+      "src": "/assets/hero-banner-monitor.png",
+      "alt": "Interface ilustrativa do módulo",
+      "width": 560,
+      "height": 436
+    }
+  },
+  "video": {
+    "heroExternalUrl": "https://www.youtube.com/watch?v=1PnVor36_40",
+    "introEmbedUrl": "https://www.youtube.com/embed/1PnVor36_40?autoplay=1&rel=0",
+    "iframeTitle": "Vídeo introdutório do módulo",
+    "title": "Lorem ipsum dolor, sit amet consectetur adipisicing elit",
+    "description": "It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout.",
+    "thumbnail": {
+      "src": "/assets/video.jpg",
+      "alt": "Prévia do vídeo do módulo em uma tela de computador",
+      "width": 948,
+      "height": 523
+    },
+    "controls": {
+      "playAriaLabel": "Reproduzir vídeo",
+      "pauseAriaLabel": "Pausar vídeo"
+    }
+  },
+  "waveText": {
+    "sectionAriaLabel": "Conteúdo complementar com imagem e texto",
+    "image": {
+      "src": "/assets/Nature waves crashing.jpg",
+      "alt": "Onda no mar com espuma em destaque",
+      "width": 431,
+      "height": 258
+    },
+    "paragraphs": [
+      "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Impedit voluptatum voluptatibus aperiam cum quasi repudiandae nostrum, sed amet quam maiores eum consectetur ipsa dolores quis ducimus, iusto dicta consequuntur facere!",
+      "Lorem ipsum dolor sit amet consectetur adipisicing elit. Molestiae, quia! Cumque ipsum harum fuga perferendis autem incidunt dolorem voluptatum illo, quis explicabo. Possimus repudiandae dolore architecto, hic dolorum ab."
+    ]
+  },
+  "forestSlider": {
+    "sectionAriaLabel": "Galeria de imagens em slide",
+    "previousAriaLabel": "Slide anterior",
+    "nextAriaLabel": "Próximo slide",
+    "dotsGroupAriaLabel": "Selecionar slide",
+    "dotAriaLabelPrefix": "Ir para slide",
+    "statusTemplate": "Slide {current} de {total}",
+    "slides": [
+      {
+        "src": "/assets/trees.jpg",
+        "alt": "Estrada entre árvores altas em linha reta",
+        "width": 920,
+        "height": 472
+      },
+      {
+        "src": "/assets/trees.jpg",
+        "alt": "Estrada entre árvores altas em linha reta",
+        "width": 920,
+        "height": 472
+      },
+      {
+        "src": "/assets/trees.jpg",
+        "alt": "Estrada entre árvores altas em linha reta",
+        "width": 920,
+        "height": 472
+      }
+    ]
+  }
+}

@@ -1,5 +1,5 @@
 import { BaseComponent } from '../../core/base-component.js';
-import { VIDEO_CONFIG } from '../../config/video.config.js';
+import { getSiteContentValue } from '../../config/site-content.config.js';
 
 const VIDEO_INTRO_SELECTORS = {
   frame: '[data-role="video-intro-frame"]',
@@ -92,9 +92,20 @@ export class VideoIntroComponent extends BaseComponent {
     }
 
     const iframe = document.createElement('iframe');
+    const iframeSrc = getSiteContentValue('video.introEmbedUrl');
+    const iframeTitle = getSiteContentValue('video.iframeTitle');
+
+    if (typeof iframeSrc !== 'string' || iframeSrc.length === 0) {
+      return;
+    }
+
+    if (typeof iframeTitle !== 'string' || iframeTitle.length === 0) {
+      return;
+    }
+
     iframe.className = 'o-video-intro__iframe';
-    iframe.src = VIDEO_CONFIG.introEmbedUrl;
-    iframe.title = 'Vídeo introdutório do módulo';
+    iframe.src = iframeSrc;
+    iframe.title = iframeTitle;
     iframe.loading = 'eager';
     iframe.allow = 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share';
     iframe.allowFullscreen = true;

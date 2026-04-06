@@ -1,5 +1,5 @@
 import { BaseComponent } from '../../core/base-component.js';
-import { VIDEO_CONFIG } from '../../config/video.config.js';
+import { getSiteContentValue } from '../../config/site-content.config.js';
 
 const HERO_SELECTORS = {
   playButton: '[data-action="hero-play-video"]',
@@ -34,6 +34,12 @@ export class HeroBannerComponent extends BaseComponent {
   }
 
   handlePlayButtonClick() {
-    window.open(VIDEO_CONFIG.heroExternalUrl, '_blank', 'noopener,noreferrer');
+    const targetUrl = getSiteContentValue('video.heroExternalUrl');
+
+    if (typeof targetUrl !== 'string' || targetUrl.length === 0) {
+      return;
+    }
+
+    window.open(targetUrl, '_blank', 'noopener,noreferrer');
   }
 }
