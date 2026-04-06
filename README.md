@@ -1,5 +1,8 @@
 # Teste Técnico Frontend EdTech
 
+## Deploy (Vercel)
+https://ed-tech-ten-murex.vercel.app/
+
 ## Visão geral
 Implementação frontend da página do teste técnico EdTech usando HTML5 semântico, SCSS e JavaScript Vanilla (ES Modules).
 
@@ -61,6 +64,7 @@ npm run preview
    │  │  └─ component-registry.js
    │  └─ components/
    │     └─ organisms/
+   │        ├─ dark-text-box.component.js
    │        ├─ hero-banner.component.js
    │        ├─ forest-slider.component.js
    │        ├─ video-intro.component.js
@@ -78,6 +82,7 @@ npm run preview
       ├─ atoms/
       │  └─ _button.scss
       └─ organisms/
+         ├─ _dark-text-box.scss
          ├─ _forest-slider.scss
          ├─ _hero-banner.scss
          ├─ _video-intro.scss
@@ -123,10 +128,16 @@ npm run preview
 - Suporte a teclado (`ArrowLeft` e `ArrowRight`)
 - Status de slide para leitor de tela (região `aria-live`)
 
+### Seção 5: Box preto com texto
+- Card escuro centralizado com largura máxima de `784px`
+- Tipografia `Inter` 500 com `18px/29.25px`
+- Sombra em duas camadas conforme especificação
+- Em mobile ocupa largura total e remove borda arredondada
+
 ### Configuração central de conteúdo
 - Conteúdo textual e caminhos de imagem centralizados em `public/config/site-content.json`
 - Aplicação desse conteúdo no bootstrap da página por `site-content.config.js`
-- Hero, player, slider e metadados SEO consomem esse JSON
+- Hero, player, bloco de imagem+texto, slider, box escuro e metadados SEO consomem esse JSON
 
 ### Montagem lazy por seção
 - Componentes com `lazyOnScroll = true` são montados com `IntersectionObserver`
@@ -142,6 +153,7 @@ Metadados configurados no `head`:
 - Twitter Card (`twitter:*`)
 - `theme-color`
 - `favicon`
+- URLs absolutas para `canonical`, `og:url`, `og:image` e `twitter:image`
 
 ## Acessibilidade
 - Estrutura semântica com hierarquia de títulos
@@ -157,15 +169,3 @@ Metadados configurados no `head`:
 - Imagens com `loading="lazy"` e `decoding="async"`
 - Organização por responsabilidade (HTML, SCSS, JS)
 - Conteúdo e metadados consumidos de arquivo JSON central
-
-## Validação recomendada
-Antes de publicar alterações:
-1. Executar build de produção
-2. Validar interações das seções (hero, player, card de conteúdo e slider)
-3. Conferir responsividade desktop/mobile
-4. Revisar metadados SEO e navegação por teclado
-
-Comando principal:
-```bash
-npm run build
-```
