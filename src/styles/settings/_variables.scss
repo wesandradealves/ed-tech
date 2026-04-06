@@ -1,11 +1,13 @@
 /* ==========================================================================
    Styleguide de Cores (HEX)
    ========================================================================== */
-$color-page-bg: #020302;
+$color-page-bg: #f7f8f5;
 $color-surface-dark: #020302;
 $color-text-primary: #f5f7f7;
 $color-text-secondary: #8e949a;
 $color-text-base: #111111;
+$color-text-dark-title: #182415;
+$color-text-dark-description: #5f6f58;
 $color-accent: #76ce00;
 $color-accent-hover: #88dd16;
 $color-accent-gradient-start: #98ea23;
@@ -16,6 +18,11 @@ $color-focus-outline: #d5fb7a;
 $color-button-text: #090f02;
 $color-icon-arrow: #0c0a08;
 $color-black: #000000;
+$color-white: #ffffff;
+$color-video-surface: #cfd2d2;
+$color-video-play-surface: #3f4754;
+$color-video-play-surface-hover: #485364;
+$color-video-play-icon: #f7fafc;
 
 $styleguide-colors: (
   'page-bg': $color-page-bg,
@@ -23,6 +30,8 @@ $styleguide-colors: (
   'text-primary': $color-text-primary,
   'text-secondary': $color-text-secondary,
   'text-base': $color-text-base,
+  'text-dark-title': $color-text-dark-title,
+  'text-dark-description': $color-text-dark-description,
   'accent': $color-accent,
   'accent-hover': $color-accent-hover,
   'accent-gradient-start': $color-accent-gradient-start,
@@ -32,7 +41,12 @@ $styleguide-colors: (
   'focus-outline': $color-focus-outline,
   'button-text': $color-button-text,
   'icon-arrow': $color-icon-arrow,
-  'black': $color-black
+  'black': $color-black,
+  'white': $color-white,
+  'video-surface': $color-video-surface,
+  'video-play-surface': $color-video-play-surface,
+  'video-play-surface-hover': $color-video-play-surface-hover,
+  'video-play-icon': $color-video-play-icon
 );
 
 /* ==========================================================================
@@ -43,6 +57,8 @@ $surface-dark: $color-surface-dark;
 $text-primary: $color-text-primary;
 $text-secondary: $color-text-secondary;
 $text-base: $color-text-base;
+$text-dark-title: $color-text-dark-title;
+$text-dark-description: $color-text-dark-description;
 $accent: $color-accent;
 $accent-hover: $color-accent-hover;
 $accent-grad-start: $color-accent-gradient-start;
@@ -53,6 +69,11 @@ $focus-outline: $color-focus-outline;
 $button-text: $color-button-text;
 $icon-arrow: $color-icon-arrow;
 $black: $color-black;
+$white: $color-white;
+$video-surface: $color-video-surface;
+$video-play-surface: $color-video-play-surface;
+$video-play-surface-hover: $color-video-play-surface-hover;
+$video-play-icon: $color-video-play-icon;
 
 $overlay-black-56: rgba($black, 0.56);
 $overlay-black-48: rgba($black, 0.48);
@@ -66,6 +87,7 @@ $hero-overlay-gradient: linear-gradient(90deg, $overlay-black-56 0%, $overlay-bl
 $title-word-gradient: linear-gradient(180deg, $accent-grad-start 0%, $accent-grad-mid 50%, $accent-grad-end 100%);
 $button-primary-shadow: 0 0 24px $accent-alpha-42;
 $hero-visual-shadow: drop-shadow(0 12px 30px $overlay-black-35);
+$video-play-shadow: 0 0.75rem 1.75rem $overlay-black-35;
 
 /* ==========================================================================
    Tokens de layout e motion
@@ -75,5 +97,20 @@ $wrapper-hero-max: 1104px;
 $wrapper-gutter: 24px;
 $hero-min-height: 744px;
 $hero-radius: 0;
+$video-intro-padding-top: 2.9375rem;
+$video-intro-padding-bottom: 2.9375rem;
+$video-intro-padding-mobile: 1.625rem;
+$video-intro-title-max: 55rem;
+$video-intro-description-max: 61.25rem;
+$video-intro-title-size: 3rem;
+$video-intro-title-line-height: 3rem;
+$video-intro-title-letter-spacing: -0.075rem;
+$video-intro-description-size: 1.125rem;
+$video-intro-description-line-height: 1.75rem;
+$video-intro-description-letter-spacing: 0;
+$video-intro-media-margin-top: 3.9375rem;
+$video-intro-media-radius: 0.5rem;
+$video-intro-play-size: 4.75rem;
 $breakpoint-mobile: 920px;
 $transition-fast: 160ms ease;
+$font-family-base: 'Inter', 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;

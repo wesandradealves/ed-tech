@@ -1,10 +1,9 @@
 import { BaseComponent } from '../../core/base-component.js';
+import { VIDEO_CONFIG } from '../../config/video.config.js';
 
 const HERO_SELECTORS = {
   playButton: '[data-action="hero-play-video"]',
 };
-
-const HERO_VIDEO_URL = 'https://www.youtube.com/watch?v=1PnVor36_40';
 
 export class HeroBannerComponent extends BaseComponent {
   static selector = '[data-component="hero-banner"]';
@@ -34,6 +33,6 @@ export class HeroBannerComponent extends BaseComponent {
   }
 
   handlePlayButtonClick() {
-    window.open(HERO_VIDEO_URL, '_blank', 'noopener,noreferrer');
+    window.open(VIDEO_CONFIG.heroExternalUrl, '_blank', 'noopener,noreferrer');
   }
 }

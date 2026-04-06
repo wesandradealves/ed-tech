@@ -8,10 +8,6 @@
   transition: background-color v.$transition-fast, transform v.$transition-fast;
 }
 
-.a-button:active {
-  transform: translateY(1px);
-}
-
 .a-button:focus-visible {
   outline: 2px solid v.$focus-outline;
   outline-offset: 3px;
@@ -33,10 +29,41 @@
   background: v.$accent-hover;
 }
 
+.a-button--primary:active {
+  transform: translateY(1px);
+}
+
+.a-button--icon {
+  width: v.$video-intro-play-size;
+  height: v.$video-intro-play-size;
+  min-width: v.$video-intro-play-size;
+  min-height: v.$video-intro-play-size;
+  padding: 0;
+  border-radius: 50%;
+  color: v.$video-play-icon;
+  background: v.$video-play-surface;
+  box-shadow: v.$video-play-shadow;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: background-color v.$transition-fast;
+}
+
+.a-button--icon:hover {
+  background: v.$video-play-surface-hover;
+}
+
 @media (max-width: v.$breakpoint-mobile) {
   .a-button--primary {
     min-width: 172px;
     min-height: 50px;
     font-size: 0.9375rem;
+  }
+
+  .a-button--icon {
+    width: 4.25rem;
+    height: 4.25rem;
+    min-width: 4.25rem;
+    min-height: 4.25rem;
   }
 }

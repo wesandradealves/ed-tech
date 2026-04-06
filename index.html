@@ -3,10 +3,46 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Teste Frontend EdTech</title>
+    <meta
+      name="description"
+      content="Página do teste técnico EdTech com hero, seção de vídeo interativa, layout responsivo e arquitetura modular em HTML, SCSS e JavaScript Vanilla."
+    />
+    <meta name="robots" content="index,follow" />
+    <meta name="theme-color" content="#f7f8f5" />
+    <meta property="og:type" content="website" />
+    <meta property="og:locale" content="pt_BR" />
+    <meta property="og:site_name" content="Teste Frontend EdTech" />
+    <meta property="og:title" content="Teste Técnico Frontend EdTech" />
+    <meta
+      property="og:description"
+      content="Implementação completa da página EdTech com hero, conteúdo introdutório, player de vídeo com controles e estrutura escalável."
+    />
+    <meta property="og:image" content="/assets/hero-banner-background.png" />
+    <meta property="og:image:width" content="1280" />
+    <meta property="og:image:height" content="744" />
+    <meta property="og:image:alt" content="Capa da página do teste técnico EdTech" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Teste Técnico Frontend EdTech" />
+    <meta
+      name="twitter:description"
+      content="Página EdTech com hero, seção de vídeo funcional, responsividade e código modular para evolução por seções."
+    />
+    <meta name="twitter:image" content="/assets/hero-banner-background.png" />
+    <meta name="twitter:image:alt" content="Capa da página do teste técnico EdTech" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap"
+    />
+    <link rel="stylesheet" href="/src/styles/main.scss" />
+    <title>Teste Técnico Frontend EdTech</title>
   </head>
   <body>
-    <main class="page">
+    <a class="a-skip-link" href="#conteudo-principal">Pular para o conteúdo principal</a>
+
+    <main class="page" id="conteudo-principal">
       <section class="o-hero-banner" aria-labelledby="hero-title" data-component="hero-banner">
         <div class="l-wrapper l-wrapper--hero">
           <div class="o-hero-banner__content">
@@ -19,7 +55,12 @@
                 It is a long established fact that a reader will be distracted by
                 the readable content of a page when looking at its layout.
               </p>
-              <button class="a-button a-button--primary o-hero-banner__button" type="button" data-action="hero-play-video">
+              <button
+                class="a-button a-button--primary o-hero-banner__button"
+                type="button"
+                aria-label="Assistir aula em nova aba"
+                data-action="hero-play-video"
+              >
                 <span>Lorem Ipsum</span>
                 <svg
                   class="o-hero-banner__button-icon"
@@ -39,12 +80,84 @@
             <div class="o-hero-banner__visual-wrap">
               <img
                 class="o-hero-banner__visual"
-                src="/assets/Container (1).png"
+                src="/assets/hero-banner-monitor.png"
                 alt="Interface ilustrativa do módulo"
                 width="560"
                 height="436"
+                loading="lazy"
+                decoding="async"
               />
             </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="o-video-intro" aria-labelledby="video-intro-title" data-component="video-intro">
+        <div class="l-wrapper">
+          <header class="o-video-intro__header">
+            <h2 class="o-video-intro__title" id="video-intro-title">
+              Lorem ipsum dolor, sit amet consectetur
+              adipisicing elit
+            </h2>
+
+            <p class="o-video-intro__description">
+              It is a long established fact that a reader will be distracted by
+              the readable content of a page when looking at its layout.
+            </p>
+          </header>
+
+          <div class="o-video-intro__media" data-role="video-intro-frame">
+            <img
+              class="o-video-intro__image"
+              src="/assets/video.jpg"
+              alt="Prévia do vídeo do módulo em uma tela de computador"
+              width="948"
+              height="523"
+              loading="lazy"
+              decoding="async"
+              data-role="video-intro-image"
+            />
+
+            <button
+              class="a-button a-button--icon o-video-intro__play-button"
+              type="button"
+              aria-label="Reproduzir vídeo"
+              data-action="video-intro-play"
+            >
+              <svg
+                class="o-video-intro__play-icon"
+                width="26"
+                height="30"
+                viewBox="0 0 26 30"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+                aria-hidden="true"
+                focusable="false"
+              >
+                <path d="M0 0L26 15L0 30V0Z" fill="currentColor" />
+              </svg>
+            </button>
+
+            <button
+              class="a-button a-button--icon o-video-intro__pause-button"
+              type="button"
+              aria-label="Pausar vídeo"
+              data-action="video-intro-pause"
+            >
+              <svg
+                class="o-video-intro__pause-icon"
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+                aria-hidden="true"
+                focusable="false"
+              >
+                <rect x="5" y="4" width="5" height="16" rx="1" fill="currentColor" />
+                <rect x="14" y="4" width="5" height="16" rx="1" fill="currentColor" />
+              </svg>
+            </button>
           </div>
         </div>
       </section>

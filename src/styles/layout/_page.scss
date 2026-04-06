@@ -2,7 +2,7 @@
 
 body {
   min-height: 100vh;
-  font-family: 'Inter', 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  font-family: v.$font-family-base;
   background: v.$page-bg;
   color: v.$text-base;
 }
