@@ -23,6 +23,13 @@ $color-video-surface: #cfd2d2;
 $color-video-play-surface: #3f4754;
 $color-video-play-surface-hover: #485364;
 $color-video-play-icon: #f7fafc;
+$color-wave-card-border: #f3f4f6;
+$color-wave-card-shadow: #0000000d;
+$color-slider-control-border: #e5e7eb;
+$color-slider-control-icon: #111827;
+$color-slider-control-surface-active: #1f2a3d;
+$color-slider-dot: #d4d4d8;
+$color-slider-dot-active: #182415;
 
 $styleguide-colors: (
   'page-bg': $color-page-bg,
@@ -46,7 +53,14 @@ $styleguide-colors: (
   'video-surface': $color-video-surface,
   'video-play-surface': $color-video-play-surface,
   'video-play-surface-hover': $color-video-play-surface-hover,
-  'video-play-icon': $color-video-play-icon
+  'video-play-icon': $color-video-play-icon,
+  'wave-card-border': $color-wave-card-border,
+  'wave-card-shadow': $color-wave-card-shadow,
+  'slider-control-border': $color-slider-control-border,
+  'slider-control-icon': $color-slider-control-icon,
+  'slider-control-surface-active': $color-slider-control-surface-active,
+  'slider-dot': $color-slider-dot,
+  'slider-dot-active': $color-slider-dot-active
 );
 
 /* ==========================================================================
@@ -74,6 +88,13 @@ $video-surface: $color-video-surface;
 $video-play-surface: $color-video-play-surface;
 $video-play-surface-hover: $color-video-play-surface-hover;
 $video-play-icon: $color-video-play-icon;
+$wave-card-border: $color-wave-card-border;
+$wave-card-shadow-color: $color-wave-card-shadow;
+$slider-control-border: $color-slider-control-border;
+$slider-control-icon: $color-slider-control-icon;
+$slider-control-surface-active: $color-slider-control-surface-active;
+$slider-dot: $color-slider-dot;
+$slider-dot-active: $color-slider-dot-active;
 
 $overlay-black-56: rgba($black, 0.56);
 $overlay-black-48: rgba($black, 0.48);
@@ -88,6 +109,7 @@ $title-word-gradient: linear-gradient(180deg, $accent-grad-start 0%, $accent-gra
 $button-primary-shadow: 0 0 24px $accent-alpha-42;
 $hero-visual-shadow: drop-shadow(0 12px 30px $overlay-black-35);
 $video-play-shadow: 0 0.75rem 1.75rem $overlay-black-35;
+$video-intro-media-shadow: 0 1.5625rem 3.125rem -0.75rem rgba($black, 0.25);
 
 /* ==========================================================================
    Tokens de layout e motion
@@ -119,6 +141,34 @@ $video-intro-description-letter-spacing: 0;
 $video-intro-media-margin-top: 3.9375rem;
 $video-intro-media-radius: 0.5rem;
 $video-intro-play-size: 4.75rem;
+$wave-text-padding-top: 0;
+$wave-text-padding-bottom: 2.5rem;
+$wave-text-card-padding: 2rem;
+$wave-text-card-gap: 2rem;
+$wave-text-card-radius: 0.5rem;
+$wave-text-card-border: $wave-card-border;
+$wave-text-card-shadow: 0 0.0625rem 0.125rem 0 $wave-card-shadow-color;
+$wave-text-image-radius: 0.5rem;
+$wave-text-image-width: 26.9375rem;
+$wave-text-image-height: 16.125rem;
+$wave-text-copy-size: 1rem;
+$wave-text-copy-line-height: 1.625rem;
+$wave-text-copy-letter-spacing: 0;
+$wave-text-copy-gap: 1rem;
+$forest-slider-padding-top: 2.5rem;
+$forest-slider-padding-bottom: 2.5rem;
+$forest-slider-card-padding-y: 0;
+$forest-slider-card-padding-x: 0;
+$forest-slider-card-radius: 0.5rem;
+$forest-slider-card-border: $wave-card-border;
+$forest-slider-card-shadow: 0 0.0625rem 0.125rem 0 $wave-card-shadow-color;
+$forest-slider-controls-padding-y: 1.5rem;
+$forest-slider-controls-gap: 1rem;
+$forest-slider-nav-size: 2.5rem;
+$forest-slider-nav-radius: 0.5rem;
+$forest-slider-dot-size: 0.5rem;
+$forest-slider-dot-gap: 0.5rem;
+$forest-slider-image-height: 29.5rem;
 $breakpoint-mobile: 920px;
 $transition-fast: 160ms ease;
 $font-family-base: 'Inter', 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;

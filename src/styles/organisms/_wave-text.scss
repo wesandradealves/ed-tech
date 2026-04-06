@@ -1,0 +1,65 @@
+@use '../settings/variables' as v;
+
+.o-wave-text {
+  width: 100%;
+  padding: v.$wave-text-padding-top 0 v.$wave-text-padding-bottom;
+  background: v.$page-bg;
+}
+
+.o-wave-text__card {
+  margin: 0;
+  padding: v.$wave-text-card-padding;
+  border: 1px solid v.$wave-text-card-border;
+  box-shadow: v.$wave-text-card-shadow;
+  border-radius: v.$wave-text-card-radius;
+  background: v.$white;
+  display: grid;
+  grid-template-columns: v.$wave-text-image-width minmax(0, 1fr);
+  gap: v.$wave-text-card-gap;
+  align-items: start;
+}
+
+.o-wave-text__media {
+  margin: 0;
+}
+
+.o-wave-text__image {
+  width: 100%;
+  max-width: v.$wave-text-image-width;
+  height: v.$wave-text-image-height;
+  border-radius: v.$wave-text-image-radius;
+  object-fit: cover;
+}
+
+.o-wave-text__copy {
+  color: v.$text-dark-description;
+  font-size: v.$wave-text-copy-size;
+  font-weight: 400;
+  line-height: v.$wave-text-copy-line-height;
+  letter-spacing: v.$wave-text-copy-letter-spacing;
+}
+
+.o-wave-text__copy p {
+  margin: 0;
+}
+
+.o-wave-text__copy p + p {
+  margin-top: v.$wave-text-copy-gap;
+}
+
+@media (max-width: v.$breakpoint-mobile) {
+  .o-wave-text {
+    padding: 1.625rem 0;
+  }
+
+  .o-wave-text__card {
+    padding: 1rem;
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+
+  .o-wave-text__image {
+    max-width: none;
+    height: auto;
+  }
+}

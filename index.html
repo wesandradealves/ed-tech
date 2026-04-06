@@ -13,6 +13,7 @@
     <meta property="og:locale" content="pt_BR" />
     <meta property="og:site_name" content="Teste Frontend EdTech" />
     <meta property="og:title" content="Teste Técnico Frontend EdTech" />
+    <meta property="og:url" content="https://example.com/" />
     <meta
       property="og:description"
       content="Implementação completa da página EdTech com hero, conteúdo introdutório, player de vídeo com controles e estrutura escalável."
@@ -29,6 +30,7 @@
     />
     <meta name="twitter:image" content="/assets/hero-banner-background.png" />
     <meta name="twitter:image:alt" content="Capa da página do teste técnico EdTech" />
+    <link rel="canonical" href="https://example.com/" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -40,18 +42,21 @@
     <title>Teste Técnico Frontend EdTech</title>
   </head>
   <body>
-    <a class="a-skip-link" href="#conteudo-principal">Pular para o conteúdo principal</a>
+    <a class="a-skip-link" href="#conteudo-principal" data-role="skip-link">Pular para o conteúdo principal</a>
 
-    <main class="page" id="conteudo-principal">
+    <main class="page" id="conteudo-principal" tabindex="-1">
       <section class="o-hero-banner" aria-labelledby="hero-title" data-component="hero-banner">
         <div class="l-wrapper l-wrapper--hero">
           <div class="o-hero-banner__content">
             <div class="o-hero-banner__text-block">
               <h1 class="o-hero-banner__title" id="hero-title">
-                <span>Lorem ipsum</span>
-                <span>dolor, sit <em>amet</em></span>
+                <span data-role="hero-title-line1">Lorem ipsum</span>
+                <span>
+                  <span data-role="hero-title-line2-prefix">dolor, sit</span>
+                  <em data-role="hero-title-line2-highlight">amet</em>
+                </span>
               </h1>
-              <p class="o-hero-banner__description">
+              <p class="o-hero-banner__description" data-role="hero-description">
                 It is a long established fact that a reader will be distracted by
                 the readable content of a page when looking at its layout.
               </p>
@@ -61,7 +66,7 @@
                 aria-label="Assistir aula em nova aba"
                 data-action="hero-play-video"
               >
-                <span>Lorem Ipsum</span>
+                <span data-role="hero-button-text">Lorem Ipsum</span>
                 <svg
                   class="o-hero-banner__button-icon"
                   width="14"
@@ -86,6 +91,7 @@
                 height="436"
                 loading="lazy"
                 decoding="async"
+                data-role="hero-image"
               />
             </div>
           </div>
@@ -95,12 +101,12 @@
       <section class="o-video-intro" aria-labelledby="video-intro-title" data-component="video-intro">
         <div class="l-wrapper">
           <header class="o-video-intro__header">
-            <h2 class="o-video-intro__title" id="video-intro-title">
+            <h2 class="o-video-intro__title" id="video-intro-title" data-role="video-intro-title">
               Lorem ipsum dolor, sit amet consectetur
               adipisicing elit
             </h2>
 
-            <p class="o-video-intro__description">
+            <p class="o-video-intro__description" data-role="video-intro-description">
               It is a long established fact that a reader will be distracted by
               the readable content of a page when looking at its layout.
             </p>
@@ -158,6 +164,169 @@
                 <rect x="14" y="4" width="5" height="16" rx="1" fill="currentColor" />
               </svg>
             </button>
+          </div>
+        </div>
+      </section>
+
+      <section
+        class="o-wave-text"
+        aria-label="Conteúdo complementar com imagem e texto"
+        data-component="wave-text"
+        data-role="wave-text-section"
+      >
+        <div class="l-wrapper">
+          <article class="o-wave-text__card">
+            <figure class="o-wave-text__media">
+              <img
+                class="o-wave-text__image"
+                src="/assets/Nature%20waves%20crashing.jpg"
+                alt="Onda no mar com espuma em destaque"
+                width="431"
+                height="258"
+                loading="lazy"
+                decoding="async"
+                data-role="wave-text-image"
+              />
+            </figure>
+
+            <div class="o-wave-text__copy" data-role="wave-text-copy">
+              <p>
+                Lorem ipsum dolor, sit amet consectetur adipisicing elit. Impedit voluptatum
+                voluptatibus aperiam cum quasi repudiandae nostrum, sed amet quam maiores eum
+                consectetur ipsa dolores quis ducimus, iusto dicta consequuntur facere!
+              </p>
+
+              <p>
+                Lorem ipsum dolor sit amet consectetur adipisicing elit. Molestiae, quia! Cumque
+                ipsum harum fuga perferendis autem incidunt dolorem voluptatum illo, quis explicabo.
+                Possimus repudiandae dolore architecto, hic dolorum ab.
+              </p>
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <section
+        class="o-forest-slider"
+        aria-label="Galeria de imagens em slide"
+        data-component="forest-slider"
+        data-role="forest-slider-section"
+      >
+        <div class="l-wrapper">
+          <div class="o-forest-slider__card">
+            <div class="o-forest-slider__viewport">
+              <ul class="o-forest-slider__track" data-role="forest-slider-track">
+                <li class="o-forest-slider__slide is-active" data-role="forest-slide" aria-hidden="false">
+                  <img
+                    class="o-forest-slider__image"
+                    src="/assets/trees.jpg"
+                    alt="Estrada entre árvores altas em linha reta"
+                    width="920"
+                    height="472"
+                    loading="lazy"
+                    decoding="async"
+                  />
+                </li>
+                <li class="o-forest-slider__slide" data-role="forest-slide" aria-hidden="true" hidden>
+                  <img
+                    class="o-forest-slider__image"
+                    src="/assets/trees.jpg"
+                    alt="Estrada entre árvores altas em linha reta"
+                    width="920"
+                    height="472"
+                    loading="lazy"
+                    decoding="async"
+                  />
+                </li>
+                <li class="o-forest-slider__slide" data-role="forest-slide" aria-hidden="true" hidden>
+                  <img
+                    class="o-forest-slider__image"
+                    src="/assets/trees.jpg"
+                    alt="Estrada entre árvores altas em linha reta"
+                    width="920"
+                    height="472"
+                    loading="lazy"
+                    decoding="async"
+                  />
+                </li>
+              </ul>
+            </div>
+
+            <div class="o-forest-slider__controls">
+              <button
+                class="a-button o-forest-slider__nav o-forest-slider__nav--prev"
+                type="button"
+                aria-label="Slide anterior"
+                data-action="forest-slider-prev"
+              >
+                <svg
+                  class="o-forest-slider__nav-icon"
+                  width="12"
+                  height="12"
+                  viewBox="0 0 12 12"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                  aria-hidden="true"
+                  focusable="false"
+                >
+                  <path d="M7.06112 2.3335L3.39445 6.00016L7.06112 9.66683L8.00028 8.72766L5.27278 6.00016L8.00028 3.27266L7.06112 2.3335Z" fill="currentColor" />
+                </svg>
+              </button>
+
+              <div class="o-forest-slider__dots" role="group" aria-label="Selecionar slide" data-role="forest-slider-dots">
+                <button
+                  class="o-forest-slider__dot is-active"
+                  type="button"
+                  aria-label="Ir para slide 1"
+                  aria-pressed="true"
+                  data-action="forest-slider-dot"
+                  data-slide-index="0"
+                ></button>
+                <button
+                  class="o-forest-slider__dot"
+                  type="button"
+                  aria-label="Ir para slide 2"
+                  aria-pressed="false"
+                  data-action="forest-slider-dot"
+                  data-slide-index="1"
+                ></button>
+                <button
+                  class="o-forest-slider__dot"
+                  type="button"
+                  aria-label="Ir para slide 3"
+                  aria-pressed="false"
+                  data-action="forest-slider-dot"
+                  data-slide-index="2"
+                ></button>
+              </div>
+
+              <button
+                class="a-button o-forest-slider__nav o-forest-slider__nav--next"
+                type="button"
+                aria-label="Próximo slide"
+                data-action="forest-slider-next"
+              >
+                <svg
+                  class="o-forest-slider__nav-icon"
+                  width="12"
+                  height="12"
+                  viewBox="0 0 12 12"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                  aria-hidden="true"
+                  focusable="false"
+                >
+                  <path d="M4.93916 2.3335L8.60583 6.00016L4.93916 9.66683L4 8.72766L6.7275 6.00016L4 3.27266L4.93916 2.3335Z" fill="currentColor" />
+                </svg>
+              </button>
+            </div>
+
+            <p
+              class="a-visually-hidden"
+              aria-live="polite"
+              data-role="forest-slider-status"
+              data-status-template="Slide {current} de {total}"
+            ></p>
           </div>
         </div>
       </section>

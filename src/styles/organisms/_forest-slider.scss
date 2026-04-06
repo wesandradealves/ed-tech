@@ -1,0 +1,115 @@
+@use '../settings/variables' as v;
+
+.o-forest-slider {
+  width: 100%;
+  padding: v.$forest-slider-padding-top 0 v.$forest-slider-padding-bottom;
+  background: v.$page-bg;
+}
+
+.o-forest-slider__card {
+  padding: v.$forest-slider-card-padding-y v.$forest-slider-card-padding-x;
+  border: 1px solid v.$forest-slider-card-border;
+  border-radius: v.$forest-slider-card-radius;
+  background: v.$white;
+  box-shadow: v.$forest-slider-card-shadow;
+  overflow: hidden;
+}
+
+.o-forest-slider__viewport {
+  overflow: hidden;
+}
+
+.o-forest-slider__track {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.o-forest-slider__slide {
+  margin: 0;
+}
+
+.o-forest-slider__image {
+  width: 100%;
+  height: v.$forest-slider-image-height;
+  object-fit: cover;
+}
+
+.o-forest-slider__controls {
+  margin-top: 0;
+  padding: v.$forest-slider-controls-padding-y 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: v.$forest-slider-controls-gap;
+}
+
+.o-forest-slider__nav {
+  width: v.$forest-slider-nav-size;
+  min-width: v.$forest-slider-nav-size;
+  height: v.$forest-slider-nav-size;
+  min-height: v.$forest-slider-nav-size;
+  padding: 0;
+  border-radius: v.$forest-slider-nav-radius;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.o-forest-slider__nav--prev {
+  border: 1px solid v.$slider-control-border;
+  color: v.$slider-control-icon;
+  background: v.$white;
+}
+
+.o-forest-slider__nav--next {
+  color: v.$white;
+  background: v.$slider-control-surface-active;
+}
+
+.o-forest-slider__nav-icon {
+  width: 0.75rem;
+  height: 0.75rem;
+  display: block;
+}
+
+.o-forest-slider__dots {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: v.$forest-slider-dot-gap;
+}
+
+.o-forest-slider__dot {
+  width: v.$forest-slider-dot-size;
+  height: v.$forest-slider-dot-size;
+  border: 0;
+  border-radius: 50%;
+  background: v.$slider-dot;
+  padding: 0;
+  cursor: pointer;
+}
+
+.o-forest-slider__dot.is-active {
+  background: v.$slider-dot-active;
+}
+
+.o-forest-slider__dot:focus-visible {
+  outline: 2px solid v.$focus-outline;
+  outline-offset: 2px;
+}
+
+@media (max-width: v.$breakpoint-mobile) {
+  .o-forest-slider {
+    padding: 1.625rem 0;
+  }
+
+  .o-forest-slider__card {
+    padding: 0;
+  }
+
+  .o-forest-slider__image {
+    height: auto;
+    aspect-ratio: 920 / 472;
+  }
+}

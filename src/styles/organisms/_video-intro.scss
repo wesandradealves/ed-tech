@@ -32,6 +32,7 @@
   border-radius: v.$video-intro-media-radius;
   overflow: hidden;
   background: v.$video-surface;
+  box-shadow: v.$video-intro-media-shadow;
 }
 
 .o-video-intro__image {
@@ -92,6 +93,20 @@
   opacity: 1;
   visibility: visible;
   pointer-events: auto;
+}
+
+.o-video-intro__media.is-playing:focus-within .o-video-intro__pause-button {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+}
+
+@media (hover: none) {
+  .o-video-intro__media.is-playing .o-video-intro__pause-button {
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+  }
 }
 
 @media (max-width: v.$breakpoint-mobile) {

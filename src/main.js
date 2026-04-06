@@ -1,6 +1,21 @@
 import { ComponentRegistry } from './js/core/component-registry.js';
+import { initializeSiteContent } from './js/config/site-content.config.js';
 import { HeroBannerComponent } from './js/components/organisms/hero-banner.component.js';
 import { VideoIntroComponent } from './js/components/organisms/video-intro.component.js';
+import { WaveTextComponent } from './js/components/organisms/wave-text.component.js';
+import { ForestSliderComponent } from './js/components/organisms/forest-slider.component.js';
 
-const componentRegistry = new ComponentRegistry([HeroBannerComponent, VideoIntroComponent]);
-componentRegistry.mountAll();
+async function bootstrapApp() {
+  await initializeSiteContent();
+
+  const componentRegistry = new ComponentRegistry([
+    HeroBannerComponent,
+    VideoIntroComponent,
+    WaveTextComponent,
+    ForestSliderComponent,
+  ]);
+
+  componentRegistry.mountAll();
+}
+
+bootstrapApp();
