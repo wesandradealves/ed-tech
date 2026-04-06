@@ -1,15 +1,15 @@
 # Teste Técnico Frontend EdTech
 
 ## Visão geral
-Projeto frontend em HTML5, SCSS e JavaScript Vanilla para implementação da página do teste técnico da EdTech.
+Implementação frontend da página do teste técnico EdTech usando HTML5 semântico, SCSS e JavaScript Vanilla (ES Modules).
 
-O código está organizado para escalar por seções, com separação clara entre estrutura (HTML), estilo (SCSS) e comportamento (JS).
+O projeto está estruturado para evolução por seções, com separação entre marcação, estilo e comportamento.
 
 ## Stack
 - Vite
 - HTML5 semântico
 - SCSS
-- JavaScript Vanilla (ES Modules + classes)
+- JavaScript Vanilla (ES Modules com classes)
 
 ## Requisitos
 - Node.js 18+
@@ -45,20 +45,26 @@ npm run preview
 │  ├─ assets/
 │  │  ├─ hero-banner-background.png
 │  │  ├─ hero-banner-monitor.png
-│  │  └─ video.jpg
+│  │  ├─ video.jpg
+│  │  ├─ Nature waves crashing.jpg
+│  │  └─ trees.jpg
+│  ├─ config/
+│  │  └─ site-content.json
 │  └─ favicon.svg
 └─ src/
    ├─ main.js
    ├─ js/
    │  ├─ config/
-   │  │  └─ video.config.js
+   │  │  └─ site-content.config.js
    │  ├─ core/
    │  │  ├─ base-component.js
    │  │  └─ component-registry.js
    │  └─ components/
    │     └─ organisms/
    │        ├─ hero-banner.component.js
-   │        └─ video-intro.component.js
+   │        ├─ forest-slider.component.js
+   │        ├─ video-intro.component.js
+   │        └─ wave-text.component.js
    └─ styles/
       ├─ main.scss
       ├─ settings/
@@ -72,42 +78,66 @@ npm run preview
       ├─ atoms/
       │  └─ _button.scss
       └─ organisms/
+         ├─ _forest-slider.scss
          ├─ _hero-banner.scss
-         └─ _video-intro.scss
+         ├─ _video-intro.scss
+         └─ _wave-text.scss
 ```
 
 ## Arquitetura
 
 ### SCSS (Atomic Design)
-- `settings`: tokens globais (cores, tipografia, espaçamento, breakpoints)
+- `settings`: tokens globais (cores, tipografia, espaçamento, sombras, breakpoints)
 - `base`: reset e acessibilidade base
-- `layout`: wrappers e estrutura de página
-- `atoms`: componentes pequenos reutilizáveis (ex.: botão)
-- `organisms`: seções compostas (hero e vídeo)
+- `layout`: estrutura macro da página e wrappers
+- `atoms`: unidades reutilizáveis de UI (ex.: botão)
+- `organisms`: seções compostas da página
 
 ### JavaScript
-- `config`: constantes de domínio compartilhadas (URLs de vídeo)
-- `core`: base de componentes e registro de montagem
-- `components/organisms`: comportamento específico de cada seção
+- `config`: carregamento e aplicação do conteúdo via JSON
+- `core`: classes base e registro de componentes
+- `components/organisms`: comportamento específico por seção
 
 ## Funcionalidades implementadas
 
 ### Seção 1: Hero banner
 - Fundo full width com conteúdo centralizado
-- CTA principal com abertura de vídeo em nova aba
-- Layout responsivo (desktop/mobile)
+- CTA com abertura de vídeo externo em nova aba
+- Layout responsivo com ajuste de ordem/posicionamento em mobile
 
 ### Seção 2: Bloco de vídeo introdutório
-- Título e texto conforme referência
+- Título e texto introdutórios
 - Thumbnail com botão de play central
-- Reprodução via `iframe` do YouTube
-- Pausa por botão (no hover), clique fora do bloco e tecla `Escape`
-- Retorno ao estado inicial após pausar
+- Troca para `iframe` do YouTube ao reproduzir
+- Pausa por botão (exibido no hover), clique fora do bloco e tecla `Escape`
+- Retorno ao estado inicial ao pausar
+
+### Seção 3: Bloco imagem + texto
+- Card com imagem lateral e dois blocos de texto
+- Layout em grid no desktop e empilhado no mobile
+- Tokens dedicados para espaçamento, borda, sombra e tipografia
+
+### Seção 4: Slider de imagem
+- Card com fundo branco, borda e sombra leve
+- Navegação por setas e indicadores (dots)
+- Suporte a teclado (`ArrowLeft` e `ArrowRight`)
+- Status de slide para leitor de tela (região `aria-live`)
+
+### Configuração central de conteúdo
+- Conteúdo textual e caminhos de imagem centralizados em `public/config/site-content.json`
+- Aplicação desse conteúdo no bootstrap da página por `site-content.config.js`
+- Hero, player, slider e metadados SEO consomem esse JSON
+
+### Montagem lazy por seção
+- Componentes com `lazyOnScroll = true` são montados com `IntersectionObserver`
+- Montagem acontece quando a seção entra no viewport
 
 ## SEO e compartilhamento social
 Metadados configurados no `head`:
 - `title`
+- `canonical`
 - `meta description`
+- `meta robots`
 - Open Graph (`og:*`)
 - Twitter Card (`twitter:*`)
 - `theme-color`
@@ -115,22 +145,25 @@ Metadados configurados no `head`:
 
 ## Acessibilidade
 - Estrutura semântica com hierarquia de títulos
-- `skip link` para conteúdo principal
+- `skip link` para o conteúdo principal
 - `aria-label` em controles interativos
 - foco visível em elementos acionáveis
-- estados de controle atualizados no player (`aria-hidden`, `tabIndex`)
+- estados de controle atualizados no player (`aria-hidden`, `aria-pressed`, `tabIndex`)
 
 ## Padrões adotados
 - `font-size` em `rem`
-- Cores centralizadas em `src/styles/settings/_variables.scss`
+- Tokens SCSS centralizados em `src/styles/settings/_variables.scss`
 - Sem hardcode de cores fora da camada de tokens
 - Imagens com `loading="lazy"` e `decoding="async"`
+- Organização por responsabilidade (HTML, SCSS, JS)
+- Conteúdo e metadados consumidos de arquivo JSON central
 
 ## Validação recomendada
-Antes de subir alterações:
+Antes de publicar alterações:
 1. Executar build de produção
-2. Verificar funcionamento das interações (hero e player)
-3. Conferir responsividade em desktop e mobile
+2. Validar interações das seções (hero, player, card de conteúdo e slider)
+3. Conferir responsividade desktop/mobile
+4. Revisar metadados SEO e navegação por teclado
 
 Comando principal:
 ```bash
