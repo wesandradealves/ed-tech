@@ -7,6 +7,7 @@ const HERO_SELECTORS = {
 
 export class HeroBannerComponent extends BaseComponent {
   static selector = '[data-component="hero-banner"]';
+  static lazyOnScroll = true;
 
   constructor(root) {
     super(root);

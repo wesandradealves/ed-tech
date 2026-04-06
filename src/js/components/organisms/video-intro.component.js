@@ -9,6 +9,7 @@ const VIDEO_INTRO_SELECTORS = {
 
 export class VideoIntroComponent extends BaseComponent {
   static selector = '[data-component="video-intro"]';
+  static lazyOnScroll = true;
 
   constructor(root) {
     super(root);
