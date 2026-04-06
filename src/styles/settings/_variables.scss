@@ -31,6 +31,11 @@ $color-slider-control-surface-active: #1f2a3d;
 $color-slider-dot: #d4d4d8;
 $color-slider-dot-active: #182415;
 $color-dark-text-box-bg: #17181d;
+$color-reveal-card-bg: #f3f4f6;
+$color-reveal-card-symbol: #1f2a3d;
+$color-reveal-card-action-border: #d1d5db;
+$color-reveal-card-action-text: #334155;
+$color-reveal-card-action-active-border: #374151;
 
 $styleguide-colors: (
   'page-bg': $color-page-bg,
@@ -62,7 +67,12 @@ $styleguide-colors: (
   'slider-control-surface-active': $color-slider-control-surface-active,
   'slider-dot': $color-slider-dot,
   'slider-dot-active': $color-slider-dot-active,
-  'dark-text-box-bg': $color-dark-text-box-bg
+  'dark-text-box-bg': $color-dark-text-box-bg,
+  'reveal-card-bg': $color-reveal-card-bg,
+  'reveal-card-symbol': $color-reveal-card-symbol,
+  'reveal-card-action-border': $color-reveal-card-action-border,
+  'reveal-card-action-text': $color-reveal-card-action-text,
+  'reveal-card-action-active-border': $color-reveal-card-action-active-border
 );
 
 /* ==========================================================================
@@ -98,6 +108,11 @@ $slider-control-surface-active: $color-slider-control-surface-active;
 $slider-dot: $color-slider-dot;
 $slider-dot-active: $color-slider-dot-active;
 $dark-text-box-bg: $color-dark-text-box-bg;
+$reveal-card-bg: $color-reveal-card-bg;
+$reveal-card-symbol: $color-reveal-card-symbol;
+$reveal-card-action-border: $color-reveal-card-action-border;
+$reveal-card-action-text: $color-reveal-card-action-text;
+$reveal-card-action-active-border: $color-reveal-card-action-active-border;
 
 $overlay-black-56: rgba($black, 0.56);
 $overlay-black-48: rgba($black, 0.48);
@@ -183,6 +198,25 @@ $dark-text-box-padding-x: 2rem;
 $dark-text-box-font-size: 1.125rem;
 $dark-text-box-line-height: 1.828125rem;
 $dark-text-box-letter-spacing: 0;
+$reveal-cards-padding-top: 2.5rem;
+$reveal-cards-padding-bottom: 2.5rem;
+$reveal-cards-track-max-width: 59.05rem;
+$reveal-cards-gap: 1.025rem;
+$reveal-card-padding: 2rem;
+$reveal-card-radius: 0.5rem;
+$reveal-card-min-height: 20rem;
+$reveal-card-active-min-height: 21rem;
+$reveal-card-active-offset: -0.5rem;
+$reveal-card-symbol-size: 2.25rem;
+$reveal-card-symbol-line-height: 2.5rem;
+$reveal-card-symbol-weight: 700;
+$reveal-card-symbol-letter-spacing: 0;
+$reveal-card-text-size: 1rem;
+$reveal-card-text-line-height: 1.625rem;
+$reveal-card-text-max-width: 14.25rem;
+$reveal-card-action-min-width: 6.5rem;
+$reveal-card-action-height: 2.625rem;
+$reveal-card-action-radius: 0.375rem;
 $breakpoint-mobile: 920px;
 $transition-fast: 160ms ease;
 $font-family-base: 'Inter', 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;

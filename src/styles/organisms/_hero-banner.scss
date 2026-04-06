@@ -100,21 +100,6 @@
 
 .o-hero-banner__button {
   margin-top: 58px;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 14px;
-  font-size: v.$hero-button-font-size;
-  line-height: v.$hero-button-line-height;
-  letter-spacing: 0;
-}
-
-.o-hero-banner__button-icon {
-  color: v.$icon-arrow;
-  width: 14px;
-  height: 14px;
-  display: block;
-  flex: 0 0 auto;
 }
 
 @media (max-width: v.$breakpoint-mobile) {

@@ -1,0 +1,113 @@
+@use '../settings/variables' as v;
+
+.o-reveal-cards {
+  width: 100%;
+  padding: v.$reveal-cards-padding-top 0 v.$reveal-cards-padding-bottom;
+  background: v.$page-bg;
+}
+
+.o-reveal-cards__list {
+  margin: 0;
+  padding: 0;
+  max-width: v.$reveal-cards-track-max-width;
+  margin-inline: auto;
+  list-style: none;
+  display: flex;
+  align-items: flex-start;
+  gap: v.$reveal-cards-gap;
+}
+
+.o-reveal-cards__item {
+  flex: 1 1 0;
+  min-height: v.$reveal-card-min-height;
+  padding: v.$reveal-card-padding;
+  border-radius: v.$reveal-card-radius;
+  background: v.$reveal-card-bg;
+  box-shadow: v.$wave-text-card-shadow;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  transition: margin-top v.$transition-fast, min-height v.$transition-fast,
+    background-color v.$transition-fast;
+}
+
+.o-reveal-cards__item.is-active {
+  margin-top: v.$reveal-card-active-offset;
+  min-height: v.$reveal-card-active-min-height;
+  background: v.$dark-text-box-bg;
+}
+
+.o-reveal-cards__content {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.o-reveal-cards__symbol {
+  font-family: v.$font-family-base;
+  color: v.$reveal-card-symbol;
+  font-size: v.$reveal-card-symbol-size;
+  font-weight: v.$reveal-card-symbol-weight;
+  line-height: v.$reveal-card-symbol-line-height;
+  letter-spacing: v.$reveal-card-symbol-letter-spacing;
+}
+
+.o-reveal-cards__item.is-active .o-reveal-cards__symbol {
+  display: none;
+}
+
+.o-reveal-cards__text {
+  margin: 0;
+  max-width: v.$reveal-card-text-max-width;
+  color: v.$text-primary;
+  font-size: v.$reveal-card-text-size;
+  font-weight: 400;
+  line-height: v.$reveal-card-text-line-height;
+  letter-spacing: 0;
+  text-align: center;
+}
+
+.o-reveal-cards__action-wrap {
+  margin-top: 1.5rem;
+  display: flex;
+  justify-content: center;
+}
+
+.o-reveal-cards__action {
+  min-width: v.$reveal-card-action-min-width;
+  height: v.$reveal-card-action-height;
+  padding: 0 1rem;
+  border: 1px solid v.$reveal-card-action-border;
+  border-radius: v.$reveal-card-action-radius;
+  color: v.$reveal-card-action-text;
+  background: transparent;
+  font-size: 1rem;
+  font-weight: 400;
+  line-height: 1.5rem;
+}
+
+.o-reveal-cards__item.is-active .o-reveal-cards__action {
+  border-color: v.$reveal-card-action-active-border;
+  color: v.$text-primary;
+}
+
+@media (max-width: v.$breakpoint-mobile) {
+  .o-reveal-cards {
+    padding: 1.625rem 0;
+  }
+
+  .o-reveal-cards__list {
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .o-reveal-cards__item {
+    width: 100%;
+  }
+
+  .o-reveal-cards__item.is-active {
+    margin-top: 0;
+    min-height: v.$reveal-card-min-height;
+  }
+}

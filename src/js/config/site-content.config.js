@@ -1,4 +1,9 @@
 const SITE_CONTENT_URL = '/config/site-content.json';
+const BUTTON_TONE_CLASSES = [
+  'a-button--tone-accent',
+  'a-button--tone-dark',
+  'a-button--tone-light',
+];
 
 let siteContentConfig = null;
 
@@ -58,6 +63,33 @@ function setNodeAttrByAction(action, attribute, value) {
   if (node) {
     node.setAttribute(attribute, String(value));
   }
+}
+
+function setButtonToneByAction(action, tone) {
+  const node = document.querySelector(`[data-action="${action}"]`);
+
+  if (!node) {
+    return;
+  }
+
+  BUTTON_TONE_CLASSES.forEach((toneClass) => {
+    node.classList.remove(toneClass);
+  });
+
+  if (typeof tone !== 'string' || tone.length === 0) {
+    node.classList.add('a-button--tone-accent');
+    return;
+  }
+
+  const normalizedTone = tone.toLowerCase();
+  const toneClass = `a-button--tone-${normalizedTone}`;
+
+  if (BUTTON_TONE_CLASSES.includes(toneClass)) {
+    node.classList.add(toneClass);
+    return;
+  }
+
+  node.classList.add('a-button--tone-accent');
 }
 
 function setMetaByName(name, value) {
@@ -145,6 +177,7 @@ function applyHero(heroConfig = {}) {
   setNodeTextByRole('hero-description', heroConfig.description);
   setNodeTextByRole('hero-button-text', button.text);
   setNodeAttrByAction('hero-play-video', 'aria-label', button.ariaLabel);
+  setButtonToneByAction('hero-play-video', button.colorScheme);
   setNodeAttrByRole('hero-image', 'src', image.src);
   setNodeAttrByRole('hero-image', 'alt', image.alt);
   setNodeAttrByRole('hero-image', 'width', image.width);

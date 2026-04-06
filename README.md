@@ -67,6 +67,7 @@ npm run preview
    │        ├─ dark-text-box.component.js
    │        ├─ hero-banner.component.js
    │        ├─ forest-slider.component.js
+   │        ├─ reveal-cards.component.js
    │        ├─ video-intro.component.js
    │        └─ wave-text.component.js
    └─ styles/
@@ -85,6 +86,7 @@ npm run preview
          ├─ _dark-text-box.scss
          ├─ _forest-slider.scss
          ├─ _hero-banner.scss
+         ├─ _reveal-cards.scss
          ├─ _video-intro.scss
          └─ _wave-text.scss
 ```
@@ -133,6 +135,12 @@ npm run preview
 - Tipografia `Inter` 500 com `18px/29.25px`
 - Sombra em duas camadas conforme especificação
 - Em mobile ocupa largura total e remove borda arredondada
+
+### Seção 6: Cards interativos (3 boxes)
+- Componente limitado a 3 cards em layout flex com largura equilibrada
+- Estado inicial com card central aberto e os demais com `?`
+- Ação de abrir/fechar por card com botão dedicado
+- Card ativo com fundo escuro e altura maior; cards inativos com fundo claro
 
 ### Configuração central de conteúdo
 - Conteúdo textual e caminhos de imagem centralizados em `public/config/site-content.json`

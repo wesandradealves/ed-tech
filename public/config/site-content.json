@@ -38,7 +38,8 @@
     "description": "It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout.",
     "button": {
       "text": "Lorem Ipsum",
-      "ariaLabel": "Assistir aula em nova aba"
+      "ariaLabel": "Assistir aula em nova aba",
+      "colorScheme": "accent"
     },
     "image": {
       "src": "/assets/hero-banner-monitor.png",
@@ -108,5 +109,13 @@
   "darkTextBox": {
     "sectionAriaLabel": "Texto em destaque",
     "text": "Lorem, ipsum dolor sit amet consectetur adipisicing elit. Labore nihil corporis suscipit soluta dolorem id consectetur, tenetur nesciunt ducimus maiores sequi veritatis nostrum, esse eaque delectus ea laboriosam repellendus! Ipsum nobis, mollitia facilis praesentium cupiditate quidem eaque itaque nulla ab obcaecati sapiente sequi porro, totam, non molestias excepturi explicabo adipisci deleniti architecto animi!"
+  },
+  "revealCards": {
+    "sectionAriaLabel": "Cards interativos de conteúdo",
+    "symbol": "?",
+    "openLabel": "Abrir",
+    "closeLabel": "Fechar",
+    "cardText": "Lorem ipsum dolor sit amet consectetur adipisicing elit. Saepe excepturi, dolores perspiciatis commodi eum dolore nesciunt tempore similique at quas.",
+    "defaultActiveIndex": 1
   }
 }

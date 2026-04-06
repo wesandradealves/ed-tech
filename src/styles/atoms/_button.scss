@@ -5,6 +5,10 @@
   border: 0;
   border-radius: 8px;
   cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0;
   transition: background-color v.$transition-fast, transform v.$transition-fast;
 }
 
@@ -13,22 +17,57 @@
   outline-offset: 3px;
 }
 
+.a-button__icon {
+  display: block;
+  flex: 0 0 auto;
+}
+
+.a-button__icon--arrow {
+  width: 0.875rem;
+  height: 0.875rem;
+}
+
+.a-button--cta,
 .a-button--primary {
   min-width: 198px;
   min-height: 56px;
   padding: 14px 24px;
-  color: v.$button-text;
-  background: v.$accent;
+  gap: 14px;
   font-size: 1rem;
   font-weight: 700;
-  line-height: 1.1;
+  line-height: 1.5rem;
+  letter-spacing: 0;
+}
+
+.a-button--tone-accent,
+.a-button--primary {
+  color: v.$button-text;
+  background: v.$accent;
   box-shadow: v.$button-primary-shadow;
 }
 
+.a-button--tone-accent:hover,
 .a-button--primary:hover {
   background: v.$accent-hover;
 }
 
+.a-button--tone-accent .a-button__icon--arrow,
+.a-button--primary .a-button__icon--arrow {
+  color: v.$icon-arrow;
+}
+
+.a-button--tone-dark {
+  color: v.$white;
+  background: v.$slider-control-surface-active;
+}
+
+.a-button--tone-light {
+  border: 1px solid v.$slider-control-border;
+  color: v.$text-base;
+  background: v.$white;
+}
+
+.a-button--cta:active,
 .a-button--primary:active {
   transform: translateY(1px);
 }
@@ -54,6 +93,7 @@
 }
 
 @media (max-width: v.$breakpoint-mobile) {
+  .a-button--cta,
   .a-button--primary {
     min-width: 172px;
     min-height: 50px;
