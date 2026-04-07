@@ -90,6 +90,10 @@
   cursor: pointer;
 }
 
+.o-activity-panel__option:has(.o-activity-panel__option-input:disabled) {
+  cursor: default;
+}
+
 .o-activity-panel__option:has(.o-activity-panel__option-input:checked) {
   border-color: v.$black;
   background: v.$activity-panel-option-bg-selected;
@@ -181,28 +185,19 @@
   line-height: 1.5rem;
 }
 
-.o-activity-panel__action--disabled {
+.o-activity-panel__action--disabled,
+.o-activity-panel__action:disabled {
   color: v.$activity-panel-action-disabled-text;
   background: v.$activity-panel-action-disabled-bg;
   cursor: not-allowed;
 }
 
-.o-activity-panel__action--dark {
+.o-activity-panel__action--dark:not(:disabled) {
   color: v.$white;
   background: v.$black;
 }
 
-.o-activity-panel__action--submit {
-  color: v.$white;
-  background: v.$black;
-}
-
-.o-activity-panel__action--submit.o-activity-panel__action--disabled {
-  color: v.$activity-panel-action-disabled-text;
-  background: v.$activity-panel-action-disabled-bg;
-}
-
-.o-activity-panel__action--submit:not(.o-activity-panel__action--disabled) {
+.o-activity-panel__action--submit:not(:disabled) {
   color: v.$white;
   background: v.$black;
 }

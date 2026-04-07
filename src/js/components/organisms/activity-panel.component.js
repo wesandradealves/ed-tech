@@ -12,6 +12,8 @@ const ACTIVITY_SELECTORS = {
   textarea: '[data-role="activity-textarea"]',
 };
 
+const ACTIVITY_STORAGE_PREFIX = 'edtech:activity-panel';
+
 function normalizeActivityType(type) {
   const value = toText(type, 'objective').toLowerCase();
   return value === 'discursive' ? 'discursive' : 'objective';
@@ -99,7 +101,7 @@ function createObjectiveBody(config, selectedIndex) {
     label.className = 'o-activity-panel__option';
 
     const input = document.createElement('input');
-    input.type = 'radio';
+    input.type = 'checkbox';
     input.name = `activity-objective-${sectionLabel}`;
     input.value = String(index);
     input.className = 'o-activity-panel__option-input';
@@ -133,14 +135,25 @@ function createDiscursiveBody(config, value) {
   const body = document.createElement('div');
   body.className = 'o-activity-panel__body';
 
+  const textareaId = toText(config.textareaId, 'activity-discursive-input');
+  const textareaLabel = document.createElement('label');
+  textareaLabel.className = 'a-visually-hidden';
+  textareaLabel.setAttribute('for', textareaId);
+  textareaLabel.textContent = toText(
+    config.textareaAriaLabel,
+    'Digite sua resposta para a atividade discursiva'
+  );
+
   const textarea = document.createElement('textarea');
   textarea.className = 'o-activity-panel__textarea';
+  textarea.id = textareaId;
   textarea.rows = 7;
   textarea.value = value;
   textarea.setAttribute('data-role', 'activity-textarea');
+  textarea.setAttribute('aria-label', toText(config.textareaAriaLabel, 'Resposta discursiva'));
   textarea.setAttribute('placeholder', toText(config.placeholder, 'Digite sua resposta aqui...'));
 
-  body.append(textarea);
+  body.append(textareaLabel, textarea);
   return body;
 }
 
@@ -157,8 +170,10 @@ function createActions(config) {
   submit.textContent = toText(config.submitLabel, 'Responder');
 
   const edit = document.createElement('button');
-  edit.className = 'a-button o-activity-panel__action o-activity-panel__action--dark';
+  edit.className =
+    'a-button o-activity-panel__action o-activity-panel__action--dark o-activity-panel__action--disabled';
   edit.type = 'button';
+  edit.disabled = true;
   edit.setAttribute('data-action', 'activity-edit');
   edit.textContent = toText(config.editLabel, 'Alterar');
 
@@ -212,6 +227,7 @@ function cloneState(state) {
     selectedOption: state.selectedOption,
     text: state.text,
     dirty: state.dirty,
+    submitted: state.submitted,
   };
 }
 
@@ -228,12 +244,16 @@ export class ActivityPanelComponent extends BaseComponent {
       selectedOption: null,
       text: '',
       dirty: false,
+      submitted: false,
     };
     this.state = cloneState(this.initialState);
     this.submitButton = null;
+    this.editButton = null;
     this.toast = null;
     this.optionInputs = [];
     this.textarea = null;
+    this.storageKey = '';
+    this.storageEnabled = this.isStorageEnabled();
     this.handleClick = this.handleClick.bind(this);
     this.handleChange = this.handleChange.bind(this);
     this.handleInput = this.handleInput.bind(this);
@@ -248,7 +268,8 @@ export class ActivityPanelComponent extends BaseComponent {
 
     this.config = getActivityConfigByType(this.activityType);
     this.initialState = this.createInitialState();
-    this.state = cloneState(this.initialState);
+    this.storageKey = this.createStorageKey();
+    this.state = this.loadStoredState() ?? cloneState(this.initialState);
 
     this.render();
 
@@ -269,6 +290,7 @@ export class ActivityPanelComponent extends BaseComponent {
         selectedOption: null,
         text: '',
         dirty: false,
+        submitted: false,
       };
     }
 
@@ -276,7 +298,87 @@ export class ActivityPanelComponent extends BaseComponent {
       selectedOption: parseDefaultSelected(this.config),
       text: '',
       dirty: false,
+      submitted: false,
     };
+  }
+
+  isStorageEnabled() {
+    try {
+      const key = `${ACTIVITY_STORAGE_PREFIX}:probe`;
+      sessionStorage.setItem(key, '1');
+      sessionStorage.removeItem(key);
+      return true;
+    } catch {
+      return false;
+    }
+  }
+
+  createStorageKey() {
+    const sections = Array.from(document.querySelectorAll(ActivityPanelComponent.selector));
+    const index = sections.indexOf(this.root);
+    const normalizedIndex = index >= 0 ? index : 0;
+    return `${ACTIVITY_STORAGE_PREFIX}:${this.activityType}:${normalizedIndex}`;
+  }
+
+  loadStoredState() {
+    if (!this.storageEnabled || !this.storageKey) {
+      return null;
+    }
+
+    try {
+      const rawValue = sessionStorage.getItem(this.storageKey);
+
+      if (!rawValue) {
+        return null;
+      }
+
+      const parsed = JSON.parse(rawValue);
+
+      if (!isObject(parsed)) {
+        return null;
+      }
+
+      const selectedOption =
+        Number.isInteger(parsed.selectedOption) && parsed.selectedOption >= 0
+          ? parsed.selectedOption
+          : null;
+      const text = toText(parsed.text, '');
+      const submitted = parsed.submitted === true;
+      const dirty = parsed.dirty === true;
+
+      return {
+        selectedOption,
+        text,
+        dirty: submitted ? false : dirty,
+        submitted,
+      };
+    } catch {
+      return null;
+    }
+  }
+
+  persistState() {
+    if (!this.storageEnabled || !this.storageKey) {
+      return;
+    }
+
+    try {
+      sessionStorage.setItem(this.storageKey, JSON.stringify(this.state));
+    } catch {
+      // no-op
+    }
+  }
+
+  clearStoredState() {
+    if (!this.storageEnabled || !this.storageKey) {
+      return;
+    }
+
+    try {
+      sessionStorage.removeItem(this.storageKey);
+    } catch {
+      // no-op
+    }
   }
 
   hasValidPayload() {
@@ -288,7 +390,7 @@ export class ActivityPanelComponent extends BaseComponent {
   }
 
   canSubmit() {
-    return this.state.dirty && this.hasValidPayload();
+    return !this.state.submitted && this.state.dirty && this.hasValidPayload();
   }
 
   syncSubmitState() {
@@ -299,6 +401,28 @@ export class ActivityPanelComponent extends BaseComponent {
     const isDisabled = !this.canSubmit();
     this.submitButton.disabled = isDisabled;
     this.submitButton.classList.toggle('o-activity-panel__action--disabled', isDisabled);
+  }
+
+  syncEditState() {
+    if (!this.editButton) {
+      return;
+    }
+
+    const isDisabled = !this.state.submitted;
+    this.editButton.disabled = isDisabled;
+    this.editButton.classList.toggle('o-activity-panel__action--disabled', isDisabled);
+  }
+
+  syncFormDisabledState() {
+    if (this.textarea instanceof HTMLTextAreaElement) {
+      this.textarea.disabled = this.state.submitted;
+    }
+
+    this.optionInputs.forEach((input) => {
+      if (input instanceof HTMLInputElement) {
+        input.disabled = this.state.submitted;
+      }
+    });
   }
 
   showToast() {
@@ -335,6 +459,9 @@ export class ActivityPanelComponent extends BaseComponent {
     this.applyFormState();
     this.hideToast();
     this.syncSubmitState();
+    this.syncEditState();
+    this.syncFormDisabledState();
+    this.clearStoredState();
   }
 
   handleClick(event) {
@@ -354,9 +481,13 @@ export class ActivityPanelComponent extends BaseComponent {
         return;
       }
 
+      this.state.submitted = true;
       this.state.dirty = false;
       this.showToast();
       this.syncSubmitState();
+      this.syncEditState();
+      this.syncFormDisabledState();
+      this.persistState();
       return;
     }
 
@@ -375,10 +506,21 @@ export class ActivityPanelComponent extends BaseComponent {
       return;
     }
 
-    this.state.selectedOption = Number.parseInt(event.target.value, 10);
-    this.state.dirty = true;
+    const optionIndex = Number.parseInt(event.target.value, 10);
+    const isChecked = event.target.checked;
+
+    if (!Number.isInteger(optionIndex) || optionIndex < 0) {
+      return;
+    }
+
+    this.state.selectedOption = isChecked ? optionIndex : null;
+    this.state.dirty = this.state.selectedOption !== null;
     this.hideToast();
+    this.applyFormState();
     this.syncSubmitState();
+    this.syncEditState();
+    this.syncFormDisabledState();
+    this.persistState();
   }
 
   handleInput(event) {
@@ -394,6 +536,9 @@ export class ActivityPanelComponent extends BaseComponent {
     this.state.dirty = event.target.value.trim().length > 0;
     this.hideToast();
     this.syncSubmitState();
+    this.syncEditState();
+    this.syncFormDisabledState();
+    this.persistState();
   }
 
   render() {
@@ -405,7 +550,16 @@ export class ActivityPanelComponent extends BaseComponent {
     this.panelRoot.append(createHeader(this.config, this.activityType));
 
     if (this.activityType === 'discursive') {
-      this.panelRoot.append(createDiscursiveBody(this.config, this.state.text));
+      const textareaId = `${this.storageKey.replace(/[^a-z0-9-:]/gi, '-')}--textarea`;
+      this.panelRoot.append(
+        createDiscursiveBody(
+          {
+            ...this.config,
+            textareaId,
+          },
+          this.state.text
+        )
+      );
     } else {
       this.panelRoot.append(createObjectiveBody(this.config, this.state.selectedOption));
     }
@@ -413,12 +567,19 @@ export class ActivityPanelComponent extends BaseComponent {
     this.panelRoot.append(createActions(this.config), createToast(this.config));
 
     this.submitButton = this.panelRoot.querySelector(ACTIVITY_SELECTORS.submit);
+    this.editButton = this.panelRoot.querySelector(ACTIVITY_SELECTORS.edit);
     this.toast = this.panelRoot.querySelector(ACTIVITY_SELECTORS.toast);
     this.optionInputs = Array.from(this.panelRoot.querySelectorAll(ACTIVITY_SELECTORS.optionInput));
     this.textarea = this.panelRoot.querySelector(ACTIVITY_SELECTORS.textarea);
 
     this.applyFormState();
-    this.hideToast();
+    if (this.state.submitted) {
+      this.showToast();
+    } else {
+      this.hideToast();
+    }
     this.syncSubmitState();
+    this.syncEditState();
+    this.syncFormDisabledState();
   }
 }
