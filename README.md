@@ -17,6 +17,7 @@ O projeto está estruturado para evolução por seções, com separação entre 
 ## Requisitos
 - Node.js 18+
 - npm 9+
+- Docker + Docker Compose (opcional, para rodar sem Node/npm local)
 
 ## Instalação
 ```bash
@@ -39,10 +40,44 @@ Preview do build:
 npm run preview
 ```
 
+## Execução com Docker
+Subir ambiente de desenvolvimento:
+```bash
+docker compose up --build
+```
+
+A aplicação ficará disponível em:
+```text
+http://localhost:5173
+```
+
+Se a porta `5173` já estiver em uso, suba em outra porta:
+```bash
+VITE_HOST_PORT=5174 docker compose up --build
+```
+
+Nesse caso, acesse:
+```text
+http://localhost:5174
+```
+
+Parar os containers:
+```bash
+docker compose down
+```
+
+Remover também o volume de dependências do container:
+```bash
+docker compose down -v
+```
+
 ## Estrutura do projeto
 ```text
 .
 ├─ index.html
+├─ Dockerfile
+├─ .dockerignore
+├─ docker-compose.yml
 ├─ package.json
 ├─ public/
 │  ├─ assets/
