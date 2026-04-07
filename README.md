@@ -50,7 +50,10 @@ npm run preview
 │  │  ├─ hero-banner-monitor.png
 │  │  ├─ video.jpg
 │  │  ├─ Nature waves crashing.jpg
-│  │  └─ trees.jpg
+│  │  ├─ trees.jpg
+│  │  ├─ atividade-discursiva.svg
+│  │  ├─ atividade-objetiva.svg
+│  │  └─ check.svg
 │  ├─ config/
 │  │  └─ site-content.json
 │  └─ favicon.svg
@@ -64,6 +67,8 @@ npm run preview
    │  │  └─ component-registry.js
    │  └─ components/
    │     └─ organisms/
+   │        ├─ activity-panel.component.js
+   │        ├─ audio-player.component.js
    │        ├─ dark-text-box.component.js
    │        ├─ hero-banner.component.js
    │        ├─ forest-slider.component.js
@@ -79,10 +84,14 @@ npm run preview
       │  └─ _reset.scss
       ├─ layout/
       │  ├─ _page.scss
+      │  ├─ _section-intro.scss
       │  └─ _wrapper.scss
       ├─ atoms/
-      │  └─ _button.scss
+      │  ├─ _button.scss
+      │  └─ _toast.scss
       └─ organisms/
+         ├─ _activity-panel.scss
+         ├─ _audio-player.scss
          ├─ _dark-text-box.scss
          ├─ _forest-slider.scss
          ├─ _hero-banner.scss
@@ -142,10 +151,25 @@ npm run preview
 - Ação de abrir/fechar por card com botão dedicado
 - Card ativo com fundo escuro e altura maior; cards inativos com fundo claro
 
+### Seção 7: Player de áudio
+- Título e texto com tipografia alinhada ao padrão da página
+- Player customizado com borda `#E5E7EB`, sombra leve e `padding` de `16px`
+- Barra de progresso com trilha cinza, progresso verde (`#76B900`) e handle branco
+- Controles de play/pause, mute, volume e tempo
+- Reprodução de áudio remoto via URL definida em configuração
+
+### Seção 8 e 9: Atividades (discursiva e objetiva)
+- Mesmo organismo reutilizável (`activity-panel`) com variação por `data-activity-type`
+- Atividade discursiva com textarea, validação de preenchimento e ações `Responder`/`Alterar`
+- Atividade objetiva com alternativas e seleção única (sem item marcado por padrão)
+- Toaster contextual por atividade (sucesso/aviso), com botão de fechar
+- `Responder` habilita apenas após interação válida no formulário
+- `Alterar` reseta formulário e toaster para estado inicial
+
 ### Configuração central de conteúdo
 - Conteúdo textual e caminhos de imagem centralizados em `public/config/site-content.json`
 - Aplicação desse conteúdo no bootstrap da página por `site-content.config.js`
-- Hero, player, bloco de imagem+texto, slider, box escuro e metadados SEO consomem esse JSON
+- Hero, players de vídeo/áudio, bloco de imagem+texto, slider, box escuro, atividades e metadados SEO consomem esse JSON
 
 ### Montagem lazy por seção
 - Componentes com `lazyOnScroll = true` são montados com `IntersectionObserver`
@@ -169,6 +193,7 @@ Metadados configurados no `head`:
 - `aria-label` em controles interativos
 - foco visível em elementos acionáveis
 - estados de controle atualizados no player (`aria-hidden`, `aria-pressed`, `tabIndex`)
+- feedbacks de formulário com `role="status"` e `aria-live="polite"`
 
 ## Padrões adotados
 - `font-size` em `rem`
