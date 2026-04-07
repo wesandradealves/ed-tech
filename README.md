@@ -53,7 +53,8 @@ npm run preview
 │  │  ├─ trees.jpg
 │  │  ├─ atividade-discursiva.svg
 │  │  ├─ atividade-objetiva.svg
-│  │  └─ check.svg
+│  │  ├─ check.svg
+│  │  └─ logo.svg
 │  ├─ config/
 │  │  └─ site-content.json
 │  └─ favicon.svg
@@ -64,12 +65,14 @@ npm run preview
    │  │  └─ site-content.config.js
    │  ├─ core/
    │  │  ├─ base-component.js
-   │  │  └─ component-registry.js
+   │  │  ├─ component-registry.js
+   │  │  └─ value.utils.js
    │  └─ components/
    │     └─ organisms/
    │        ├─ activity-panel.component.js
    │        ├─ audio-player.component.js
    │        ├─ dark-text-box.component.js
+   │        ├─ faq-accordion.component.js
    │        ├─ hero-banner.component.js
    │        ├─ forest-slider.component.js
    │        ├─ reveal-cards.component.js
@@ -93,6 +96,7 @@ npm run preview
          ├─ _activity-panel.scss
          ├─ _audio-player.scss
          ├─ _dark-text-box.scss
+         ├─ _faq-accordion.scss
          ├─ _forest-slider.scss
          ├─ _hero-banner.scss
          ├─ _reveal-cards.scss
@@ -113,6 +117,44 @@ npm run preview
 - `config`: carregamento e aplicação do conteúdo via JSON
 - `core`: classes base e registro de componentes
 - `components/organisms`: comportamento específico por seção
+
+## Styleguide
+
+### Fonte única de tokens
+- Arquivo base: `src/styles/settings/_variables.scss`
+- Todas as cores em hexadecimal ficam no bloco `Styleguide de Cores (HEX)` com prefixo `$color-*`
+- A coleção completa de cores está no map `$styleguide-colors`
+- Os tokens semânticos consumidos pelos componentes ficam abaixo do bloco de cores (ex.: `$page-bg`, `$accent`, `$text-base`)
+
+### Paleta principal
+- `$color-page-bg`: `#f7f8f5`
+- `$color-surface-dark`: `#020302`
+- `$color-text-primary`: `#f5f7f7`
+- `$color-text-base`: `#111111`
+- `$color-text-dark-title`: `#182415`
+- `$color-text-dark-description`: `#5f6f58`
+- `$color-accent`: `#76ce00`
+- `$color-accent-figma`: `#76b900`
+- `$color-slider-control-border`: `#e5e7eb`
+- `$color-wave-card-border`: `#f3f4f6`
+- `$color-toast-success-bg`: `#dcfce7`
+- `$color-toast-success-text`: `#166534`
+- `$color-toast-warning-bg`: `#fff9c4`
+- `$color-toast-warning-text`: `#713f12e5`
+- `$color-footer-text`: `#697586`
+
+### Escalas padronizadas
+- Espaçamento: `$token-space-*` (`xs`, `sm`, `md`, `lg`, `xl`, `2xl`, `3xl`, `section`, `footer-y`)
+- Tamanhos de fonte: `$token-font-size-*` (`sm`, `base`, `md`, `lg`)
+- Line-height: `$token-line-height-*` (`sm`, `base`, `md`, `lg`, `xl`)
+- Radius: `$token-radius-sm`, `$token-radius-md`
+- Auxiliares globais: `$token-zero`, `$token-letter-spacing-none`, `$token-shadow-card`
+
+### Convenção de nomenclatura
+- Cores base: `$color-*`
+- Tokens semânticos reutilizáveis: sem prefixo `color` (ex.: `$page-bg`, `$footer-text-color`)
+- Tokens de escala global: `$token-*`
+- Tokens por componente/seção: `$hero-*`, `$video-intro-*`, `$audio-player-*`, `$activity-panel-*`, `$faq-*`
 
 ## Funcionalidades implementadas
 
@@ -166,14 +208,30 @@ npm run preview
 - `Responder` habilita apenas após interação válida no formulário
 - `Alterar` reseta formulário e toaster para estado inicial
 
+### Seção 10: FAQ (Accordion)
+- Cabeçalho de seção com título e descrição centralizados
+- Lista de accordions com estado aberto/fechado e comportamento acessível (`aria-expanded` e `aria-controls`)
+- Item aberto em verde com conteúdo em branco; itens fechados em fundo claro com título escuro
+- Conteúdo e textos vindos de configuração (`faq` em `site-content.json`)
+
+### Seção 11: Footer
+- Rodapé em faixa escura full width
+- Logo configurável com link externo
+- Texto de copyright via configuração central
+- Wrapper específico de `1024px` para alinhamento com o layout
+
 ### Configuração central de conteúdo
 - Conteúdo textual e caminhos de imagem centralizados em `public/config/site-content.json`
 - Aplicação desse conteúdo no bootstrap da página por `site-content.config.js`
-- Hero, players de vídeo/áudio, bloco de imagem+texto, slider, box escuro, atividades e metadados SEO consomem esse JSON
+- Hero, players de vídeo/áudio, bloco de imagem+texto, slider, box escuro, atividades, FAQ e metadados SEO consomem esse JSON
 
 ### Montagem lazy por seção
 - Componentes com `lazyOnScroll = true` são montados com `IntersectionObserver`
 - Montagem acontece quando a seção entra no viewport
+
+### Build de produção
+- Minificação de HTML, CSS e JavaScript no pipeline de build
+- Configuração centralizada em `vite.config.js` para saída otimizada na Vercel
 
 ## SEO e compartilhamento social
 Metadados configurados no `head`:
