@@ -1,0 +1,61 @@
+@use '../settings/variables' as v;
+
+.a-toast {
+  margin-top: v.$toast-margin-top;
+  padding: v.$toast-padding;
+  border-radius: v.$toast-border-radius;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.a-toast__content {
+  min-width: 0;
+}
+
+.a-toast__title {
+  margin: 0;
+  font-size: v.$toast-title-size;
+  font-weight: 700;
+  line-height: v.$toast-title-line-height;
+  letter-spacing: 0;
+}
+
+.a-toast__text {
+  margin: 0.5rem 0 0;
+  font-size: v.$toast-text-size;
+  font-weight: 400;
+  line-height: v.$toast-text-line-height;
+  letter-spacing: 0;
+}
+
+.a-toast__close {
+  appearance: none;
+  border: 0;
+  background: transparent;
+  padding: 0;
+  width: 1rem;
+  height: 1rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: v.$toast-close-size;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.a-toast__close:focus-visible {
+  outline: 2px solid v.$focus-outline;
+  outline-offset: 2px;
+}
+
+.a-toast--success {
+  background: v.$toast-success-bg;
+  color: v.$toast-success-text;
+}
+
+.a-toast--warning {
+  background: v.$toast-warning-bg;
+  color: v.$toast-warning-text;
+}

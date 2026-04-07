@@ -18,3 +18,7 @@ input,
 textarea {
   font: inherit;
 }
+
+[hidden] {
+  display: none !important;
+}

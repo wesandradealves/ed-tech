@@ -36,6 +36,16 @@ $color-reveal-card-symbol: #1f2a3d;
 $color-reveal-card-action-border: #d1d5db;
 $color-reveal-card-action-text: #334155;
 $color-reveal-card-action-active-border: #374151;
+$color-activity-panel-border: #e5e7eb;
+$color-activity-panel-heading: #1f2937;
+$color-activity-panel-option-text: #3b4c66;
+$color-activity-panel-option-bg-selected: #000000;
+$color-activity-panel-action-disabled-bg: #e5e7eb;
+$color-activity-panel-action-disabled-text: #8e99ab;
+$color-toast-success-bg: #dcfce7;
+$color-toast-success-text: #166534;
+$color-toast-warning-bg: #fff9c4;
+$color-toast-warning-text: #713f12e5;
 
 $styleguide-colors: (
   'page-bg': $color-page-bg,
@@ -72,7 +82,17 @@ $styleguide-colors: (
   'reveal-card-symbol': $color-reveal-card-symbol,
   'reveal-card-action-border': $color-reveal-card-action-border,
   'reveal-card-action-text': $color-reveal-card-action-text,
-  'reveal-card-action-active-border': $color-reveal-card-action-active-border
+  'reveal-card-action-active-border': $color-reveal-card-action-active-border,
+  'activity-panel-border': $color-activity-panel-border,
+  'activity-panel-heading': $color-activity-panel-heading,
+  'activity-panel-option-text': $color-activity-panel-option-text,
+  'activity-panel-option-bg-selected': $color-activity-panel-option-bg-selected,
+  'activity-panel-action-disabled-bg': $color-activity-panel-action-disabled-bg,
+  'activity-panel-action-disabled-text': $color-activity-panel-action-disabled-text,
+  'toast-success-bg': $color-toast-success-bg,
+  'toast-success-text': $color-toast-success-text,
+  'toast-warning-bg': $color-toast-warning-bg,
+  'toast-warning-text': $color-toast-warning-text
 );
 
 /* ==========================================================================
@@ -113,6 +133,16 @@ $reveal-card-symbol: $color-reveal-card-symbol;
 $reveal-card-action-border: $color-reveal-card-action-border;
 $reveal-card-action-text: $color-reveal-card-action-text;
 $reveal-card-action-active-border: $color-reveal-card-action-active-border;
+$activity-panel-border: $color-activity-panel-border;
+$activity-panel-heading: $color-activity-panel-heading;
+$activity-panel-option-text: $color-activity-panel-option-text;
+$activity-panel-option-bg-selected: $color-activity-panel-option-bg-selected;
+$activity-panel-action-disabled-bg: $color-activity-panel-action-disabled-bg;
+$activity-panel-action-disabled-text: $color-activity-panel-action-disabled-text;
+$toast-success-bg: $color-toast-success-bg;
+$toast-success-text: $color-toast-success-text;
+$toast-warning-bg: $color-toast-warning-bg;
+$toast-warning-text: $color-toast-warning-text;
 
 $overlay-black-56: rgba($black, 0.56);
 $overlay-black-48: rgba($black, 0.48);
@@ -161,6 +191,14 @@ $video-intro-description-letter-spacing: 0;
 $video-intro-media-margin-top: 3.9375rem;
 $video-intro-media-radius: 0.5rem;
 $video-intro-play-size: 4.75rem;
+$section-intro-title-max: $video-intro-title-max;
+$section-intro-description-max: $video-intro-description-max;
+$section-intro-title-size: $video-intro-title-size;
+$section-intro-title-line-height: $video-intro-title-line-height;
+$section-intro-title-letter-spacing: $video-intro-title-letter-spacing;
+$section-intro-description-size: $video-intro-description-size;
+$section-intro-description-line-height: $video-intro-description-line-height;
+$section-intro-description-letter-spacing: $video-intro-description-letter-spacing;
 $wave-text-padding-top: 0;
 $wave-text-padding-bottom: 2.5rem;
 $wave-text-card-padding: 2rem;
@@ -217,6 +255,78 @@ $reveal-card-text-max-width: 14.25rem;
 $reveal-card-action-min-width: 6.5rem;
 $reveal-card-action-height: 2.625rem;
 $reveal-card-action-radius: 0.375rem;
+$audio-player-padding-top: 0;
+$audio-player-padding-bottom: 2.5rem;
+$audio-player-title-max: $video-intro-title-max;
+$audio-player-description-max: $video-intro-description-max;
+$audio-player-title-size: $video-intro-title-size;
+$audio-player-title-line-height: $video-intro-title-line-height;
+$audio-player-title-letter-spacing: $video-intro-title-letter-spacing;
+$audio-player-description-size: $video-intro-description-size;
+$audio-player-description-line-height: $video-intro-description-line-height;
+$audio-player-description-letter-spacing: $video-intro-description-letter-spacing;
+$audio-player-controls-margin-top: 4rem;
+$audio-player-controls-max-width: 60rem;
+$audio-player-controls-min-height: 3.21875rem;
+$audio-player-controls-padding: 1rem;
+$audio-player-controls-gap: 1rem;
+$audio-player-controls-radius: 0.5rem;
+$audio-player-controls-border: $slider-control-border;
+$audio-player-controls-shadow: $wave-text-card-shadow;
+$audio-player-toggle-size: 1.75rem;
+$audio-player-icon-color: $slider-control-surface-active;
+$audio-player-progress-height: 0.5rem;
+$audio-player-progress-track: $slider-control-border;
+$audio-player-progress-fill: $accent-figma;
+$audio-player-progress-thumb-width: 6.75rem;
+$audio-player-progress-thumb-height: 1rem;
+$audio-player-progress-thumb-border: $reveal-card-action-border;
+$audio-player-time-size: 1rem;
+$audio-player-time-line-height: 1.5rem;
+$audio-player-time-color: $reveal-card-action-text;
+$audio-player-volume-width: 2.25rem;
+$audio-player-volume-height: 0.5rem;
+$audio-player-volume-fill: $slider-control-surface-active;
+$audio-player-volume-track: $slider-control-border;
+$audio-player-volume-thumb-size: 0.75rem;
+$activity-panel-padding-top: 0;
+$activity-panel-padding-bottom: 2.5rem;
+$activity-panel-card-border-radius: 0.5rem;
+$activity-panel-card-border: $activity-panel-border;
+$activity-panel-card-shadow: $wave-text-card-shadow;
+$activity-panel-card-padding: 2rem;
+$activity-panel-header-gap: 1.25rem;
+$activity-panel-icon-size: 2.5rem;
+$activity-panel-icon-bg: rgba($accent-figma, 0.14);
+$activity-panel-icon-color: $accent-figma;
+$activity-panel-title-size: 1.25rem;
+$activity-panel-title-line-height: 1.75rem;
+$activity-panel-description-size: 1.125rem;
+$activity-panel-description-line-height: 1.75rem;
+$activity-panel-body-margin-top: 1.5rem;
+$activity-panel-options-gap: 1rem;
+$activity-panel-option-min-height: 3.5rem;
+$activity-panel-option-border-radius: 0.375rem;
+$activity-panel-option-padding-x: 1rem;
+$activity-panel-option-control-size: 1.25rem;
+$activity-panel-option-font-size: 1rem;
+$activity-panel-option-text-size: 1rem;
+$activity-panel-option-text-line-height: 1.625rem;
+$activity-panel-textarea-min-height: 9.875rem;
+$activity-panel-textarea-padding: 1rem;
+$activity-panel-actions-margin-top: 2rem;
+$activity-panel-actions-gap: 1rem;
+$activity-panel-action-min-width: 8.125rem;
+$activity-panel-action-height: 2.875rem;
+$activity-panel-action-font-size: 1rem;
+$toast-margin-top: 2rem;
+$toast-padding: 1rem;
+$toast-border-radius: 0.25rem;
+$toast-title-size: 1.25rem;
+$toast-title-line-height: 1.75rem;
+$toast-text-size: 0.875rem;
+$toast-text-line-height: 1.421875rem;
+$toast-close-size: 0.625rem;
 $breakpoint-mobile: 920px;
 $transition-fast: 160ms ease;
 $font-family-base: 'Inter', 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;

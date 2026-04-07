@@ -6,6 +6,8 @@ import { WaveTextComponent } from './js/components/organisms/wave-text.component
 import { ForestSliderComponent } from './js/components/organisms/forest-slider.component.js';
 import { DarkTextBoxComponent } from './js/components/organisms/dark-text-box.component.js';
 import { RevealCardsComponent } from './js/components/organisms/reveal-cards.component.js';
+import { AudioPlayerComponent } from './js/components/organisms/audio-player.component.js';
+import { ActivityPanelComponent } from './js/components/organisms/activity-panel.component.js';
 
 async function bootstrapApp() {
   await initializeSiteContent();
@@ -17,6 +19,8 @@ async function bootstrapApp() {
     ForestSliderComponent,
     DarkTextBoxComponent,
     RevealCardsComponent,
+    AudioPlayerComponent,
+    ActivityPanelComponent,
   ]);
 
   componentRegistry.mountAll();

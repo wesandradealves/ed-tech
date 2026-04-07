@@ -6,26 +6,6 @@
   background: v.$page-bg;
 }
 
-.o-video-intro__title {
-  margin: 0;
-  max-width: v.$video-intro-title-max;
-  color: v.$text-dark-title;
-  font-size: v.$video-intro-title-size;
-  font-weight: 900;
-  line-height: v.$video-intro-title-line-height;
-  letter-spacing: v.$video-intro-title-letter-spacing;
-}
-
-.o-video-intro__description {
-  max-width: v.$video-intro-description-max;
-  margin: 2rem 0 0;
-  color: v.$text-dark-description;
-  font-size: v.$video-intro-description-size;
-  font-weight: 400;
-  line-height: v.$video-intro-description-line-height;
-  letter-spacing: v.$video-intro-description-letter-spacing;
-}
-
 .o-video-intro__media {
   position: relative;
   margin-top: v.$video-intro-media-margin-top;
@@ -112,15 +92,6 @@
 @media (max-width: v.$breakpoint-mobile) {
   .o-video-intro {
     padding: v.$video-intro-padding-mobile 0;
-  }
-
-  .o-video-intro__title {
-    font-size: clamp(2.125rem, 9vw, 3rem);
-  }
-
-  .o-video-intro__description {
-    margin-top: 1.25rem;
-    font-size: 1rem;
   }
 
   .o-video-intro__media {

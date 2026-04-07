@@ -335,6 +335,28 @@ function applyDarkTextBox(darkTextBoxConfig = {}) {
   setNodeTextByRole('dark-text-box-text', darkTextBoxConfig.text);
 }
 
+function applyAudioPlayer(audioPlayerConfig = {}) {
+  const section = queryByRole('audio-player-section');
+  const audio = isObject(audioPlayerConfig.audio) ? audioPlayerConfig.audio : {};
+  const controls = isObject(audioPlayerConfig.controls) ? audioPlayerConfig.controls : {};
+
+  if (section && typeof audioPlayerConfig.sectionAriaLabel === 'string') {
+    section.setAttribute('aria-label', audioPlayerConfig.sectionAriaLabel);
+  }
+
+  setNodeTextByRole('audio-player-title', audioPlayerConfig.title);
+  setNodeTextByRole('audio-player-description', audioPlayerConfig.description);
+  setNodeTextByRole('audio-player-time', audioPlayerConfig.durationLabel);
+
+  setNodeAttrByRole('audio-player-element', 'src', audio.src);
+
+  setNodeAttrByAction('audio-player-toggle', 'aria-label', controls.playAriaLabel);
+  setNodeAttrByAction('audio-player-mute', 'aria-label', controls.muteAriaLabel);
+  setNodeAttrByAction('audio-player-settings', 'aria-label', controls.settingsAriaLabel);
+  setNodeAttrByRole('audio-player-progress', 'aria-label', controls.progressAriaLabel);
+  setNodeAttrByRole('audio-player-volume', 'aria-label', controls.volumeAriaLabel);
+}
+
 function applySiteContent(contentConfig = siteContentConfig) {
   if (!isObject(contentConfig)) {
     return;
@@ -347,6 +369,7 @@ function applySiteContent(contentConfig = siteContentConfig) {
   applyWaveText(contentConfig.waveText);
   applyForestSlider(contentConfig.forestSlider);
   applyDarkTextBox(contentConfig.darkTextBox);
+  applyAudioPlayer(contentConfig.audioPlayer);
 }
 
 export async function initializeSiteContent() {

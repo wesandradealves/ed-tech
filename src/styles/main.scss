@@ -3,10 +3,14 @@
 @use './base/a11y';
 @use './layout/page';
 @use './layout/wrapper';
+@use './layout/section-intro';
 @use './atoms/button';
+@use './atoms/toast';
 @use './organisms/hero-banner';
 @use './organisms/video-intro';
 @use './organisms/wave-text';
 @use './organisms/forest-slider';
 @use './organisms/dark-text-box';
 @use './organisms/reveal-cards';
+@use './organisms/audio-player';
+@use './organisms/activity-panel';

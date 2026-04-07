@@ -117,5 +117,76 @@
     "closeLabel": "Fechar",
     "cardText": "Lorem ipsum dolor sit amet consectetur adipisicing elit. Saepe excepturi, dolores perspiciatis commodi eum dolore nesciunt tempore similique at quas.",
     "defaultActiveIndex": 1
+  },
+  "audioPlayer": {
+    "sectionAriaLabel": "Player de áudio com controles personalizados",
+    "title": "Lorem ipsum dolor, sit amet consectetur adipisicing elit",
+    "description": "It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout.",
+    "durationLabel": "03:03",
+    "audio": {
+      "src": "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3",
+      "type": "audio/mpeg"
+    },
+    "controls": {
+      "playAriaLabel": "Reproduzir áudio",
+      "pauseAriaLabel": "Pausar áudio",
+      "progressAriaLabel": "Linha do tempo do áudio",
+      "muteAriaLabel": "Silenciar áudio",
+      "volumeAriaLabel": "Volume do áudio",
+      "settingsAriaLabel": "Configurações de áudio"
+    }
+  },
+  "activities": {
+    "objective": {
+      "title": "Atividade Objetiva",
+      "description": "It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout.",
+      "icon": {
+        "src": "/assets/atividade-objetiva.svg"
+      },
+      "legend": "Selecione uma alternativa",
+      "defaultSelectedIndex": null,
+      "options": [
+        {
+          "prefix": "A)",
+          "text": "Lorem Ipsum is simply dummy text of the printing and typesetting industry."
+        },
+        {
+          "prefix": "B)",
+          "text": "Lorem Ipsum is simply dummy text of the printing and typesetting industry."
+        },
+        {
+          "prefix": "C)",
+          "text": "Lorem Ipsum is simply dummy text of the printing and typesetting industry."
+        },
+        {
+          "prefix": "D)",
+          "text": "Lorem Ipsum is simply dummy text of the printing and typesetting industry."
+        }
+      ],
+      "submitLabel": "Responder",
+      "editLabel": "Alterar",
+      "toast": {
+        "tone": "warning",
+        "title": "Tente novamente!",
+        "text": "Lorem ipsum dolor sit, amet consectetur adipisicing elit. Pariatur commodi odio maiores accusamus aspernatur consequatur ipsam dignissimos magnam hic, velit est perferendis explicabo aperiam ratione veritatis labore.",
+        "closeAriaLabel": "Fechar alerta de tentativa"
+      }
+    },
+    "discursive": {
+      "title": "Atividade discursiva",
+      "description": "It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout.",
+      "icon": {
+        "src": "/assets/atividade-discursiva.svg"
+      },
+      "placeholder": "Digite sua resposta aqui...",
+      "submitLabel": "Responder",
+      "editLabel": "Alterar",
+      "toast": {
+        "tone": "success",
+        "title": "É isso aí!",
+        "text": "Lorem ipsum dolor sit, amet consectetur adipisicing elit. Pariatur commodi odio maiores accusamus aspernatur consequatur ipsam dignissimos magnam hic, velit est perferendis explicabo aperiam ratione veritatis labore.",
+        "closeAriaLabel": "Fechar alerta de sucesso"
+      }
+    }
   }
 }

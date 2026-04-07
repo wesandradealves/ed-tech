@@ -1,0 +1,32 @@
+@use '../settings/variables' as v;
+
+.l-section-intro__title {
+  margin: 0;
+  max-width: v.$section-intro-title-max;
+  color: v.$text-dark-title;
+  font-size: v.$section-intro-title-size;
+  font-weight: 900;
+  line-height: v.$section-intro-title-line-height;
+  letter-spacing: v.$section-intro-title-letter-spacing;
+}
+
+.l-section-intro__description {
+  margin: 2rem 0 0;
+  max-width: v.$section-intro-description-max;
+  color: v.$text-dark-description;
+  font-size: v.$section-intro-description-size;
+  font-weight: 400;
+  line-height: v.$section-intro-description-line-height;
+  letter-spacing: v.$section-intro-description-letter-spacing;
+}
+
+@media (max-width: v.$breakpoint-mobile) {
+  .l-section-intro__title {
+    font-size: clamp(2.125rem, 9vw, 3rem);
+  }
+
+  .l-section-intro__description {
+    margin-top: 1.25rem;
+    font-size: 1rem;
+  }
+}
