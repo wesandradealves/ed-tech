@@ -62,9 +62,30 @@
   background: v.$white;
 }
 
+.o-forest-slider__nav--prev:hover:not(:disabled) {
+  background: v.$page-bg;
+}
+
 .o-forest-slider__nav--next {
   color: v.$white;
   background: v.$slider-control-surface-active;
+}
+
+.o-forest-slider__nav--next:hover:not(:disabled) {
+  background: v.$focus-outline;
+}
+
+.o-forest-slider__nav:disabled {
+  cursor: not-allowed;
+}
+
+.o-forest-slider__nav--prev:disabled {
+  color: v.$slider-control-border;
+}
+
+.o-forest-slider__nav--next:disabled {
+  color: v.$white;
+  background: v.$slider-control-border;
 }
 
 .o-forest-slider__nav-icon {

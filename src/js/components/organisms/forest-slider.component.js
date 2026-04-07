@@ -116,13 +116,8 @@ export class ForestSliderComponent extends BaseComponent {
       return;
     }
 
-    if (index < 0) {
-      this.currentIndex = total - 1;
-    } else if (index >= total) {
-      this.currentIndex = 0;
-    } else {
-      this.currentIndex = index;
-    }
+    const maxIndex = total - 1;
+    this.currentIndex = Math.min(Math.max(index, 0), maxIndex);
 
     this.render();
   }
@@ -142,6 +137,18 @@ export class ForestSliderComponent extends BaseComponent {
       button.classList.toggle('is-active', isActive);
       button.setAttribute('aria-pressed', isActive ? 'true' : 'false');
     });
+
+    if (this.prevButton) {
+      const isDisabled = this.currentIndex === 0;
+      this.prevButton.disabled = isDisabled;
+      this.prevButton.setAttribute('aria-disabled', isDisabled ? 'true' : 'false');
+    }
+
+    if (this.nextButton) {
+      const isDisabled = this.currentIndex === total - 1;
+      this.nextButton.disabled = isDisabled;
+      this.nextButton.setAttribute('aria-disabled', isDisabled ? 'true' : 'false');
+    }
 
     if (this.status) {
       const templateFromNode = this.status.dataset.statusTemplate;
