@@ -1,3 +1,5 @@
+import { isObject } from '../core/value.utils.js';
+
 const SITE_CONTENT_URL = '/config/site-content.json';
 const BUTTON_TONE_CLASSES = [
   'a-button--tone-accent',
@@ -6,10 +8,6 @@ const BUTTON_TONE_CLASSES = [
 ];
 
 let siteContentConfig = null;
-
-function isObject(value) {
-  return value !== null && typeof value === 'object' && !Array.isArray(value);
-}
 
 function getValueByPath(source, path) {
   if (!isObject(source) || !path) {
@@ -357,6 +355,39 @@ function applyAudioPlayer(audioPlayerConfig = {}) {
   setNodeAttrByRole('audio-player-volume', 'aria-label', controls.volumeAriaLabel);
 }
 
+function applyFaq(faqConfig = {}) {
+  const section = queryByRole('faq-accordion-section');
+
+  if (
+    section &&
+    typeof faqConfig.sectionAriaLabel === 'string' &&
+    !section.hasAttribute('aria-labelledby')
+  ) {
+    section.setAttribute('aria-label', faqConfig.sectionAriaLabel);
+  }
+
+  setNodeTextByRole('faq-title', faqConfig.title);
+  setNodeTextByRole('faq-description', faqConfig.description);
+}
+
+function applyFooter(footerConfig = {}) {
+  const section = queryByRole('site-footer');
+  const logo = isObject(footerConfig.logo) ? footerConfig.logo : {};
+  const link = isObject(footerConfig.link) ? footerConfig.link : {};
+
+  if (section && typeof footerConfig.ariaLabel === 'string') {
+    section.setAttribute('aria-label', footerConfig.ariaLabel);
+  }
+
+  setNodeAttrByRole('footer-logo', 'src', logo.src);
+  setNodeAttrByRole('footer-logo', 'alt', logo.alt);
+  setNodeAttrByRole('footer-logo', 'width', logo.width);
+  setNodeAttrByRole('footer-logo', 'height', logo.height);
+  setNodeAttrByRole('footer-logo-link', 'href', link.href);
+  setNodeAttrByRole('footer-logo-link', 'aria-label', link.ariaLabel);
+  setNodeTextByRole('footer-copyright', footerConfig.copyright);
+}
+
 function applySiteContent(contentConfig = siteContentConfig) {
   if (!isObject(contentConfig)) {
     return;
@@ -370,6 +401,8 @@ function applySiteContent(contentConfig = siteContentConfig) {
   applyForestSlider(contentConfig.forestSlider);
   applyDarkTextBox(contentConfig.darkTextBox);
   applyAudioPlayer(contentConfig.audioPlayer);
+  applyFaq(contentConfig.faq);
+  applyFooter(contentConfig.footer);
 }
 
 export async function initializeSiteContent() {

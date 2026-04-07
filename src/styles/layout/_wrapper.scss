@@ -9,3 +9,7 @@
 .l-wrapper--hero {
   width: min(v.$wrapper-hero-max, calc(100% - (v.$wrapper-gutter * 2)));
 }
+
+.l-wrapper--footer {
+  width: min(v.$wrapper-footer-max, calc(100% - (v.$wrapper-gutter * 2)));
+}

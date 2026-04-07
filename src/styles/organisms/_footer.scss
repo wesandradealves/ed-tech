@@ -1,0 +1,43 @@
+@use '../settings/variables' as v;
+
+.o-footer {
+  width: 100%;
+  background: v.$footer-surface;
+  padding: v.$footer-padding-y 0;
+}
+
+.o-footer__content {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.5rem;
+}
+
+.o-footer__brand {
+  display: inline-flex;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+.o-footer__logo {
+  width: v.$footer-logo-width;
+  height: auto;
+  max-width: 100%;
+}
+
+.o-footer__copyright {
+  margin: 0;
+  color: v.$footer-text-color;
+  font-size: v.$footer-text-size;
+  font-weight: 400;
+  line-height: v.$footer-text-line-height;
+  letter-spacing: v.$footer-text-letter-spacing;
+}
+
+@media (max-width: v.$breakpoint-mobile) {
+  .o-footer__content {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}

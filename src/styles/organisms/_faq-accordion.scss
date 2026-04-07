@@ -1,0 +1,165 @@
+@use '../settings/variables' as v;
+
+.o-faq-accordion {
+  width: 100%;
+  padding: v.$faq-padding-top 0 v.$faq-padding-bottom;
+  background: v.$page-bg;
+}
+
+.o-faq-accordion__header {
+  max-width: v.$faq-header-max-width;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.o-faq-accordion__title {
+  max-width: none;
+  margin-left: auto;
+  margin-right: auto;
+  font-size: v.$faq-title-size;
+  font-weight: 700;
+  line-height: v.$faq-title-line-height;
+  letter-spacing: v.$faq-title-letter-spacing;
+  text-align: center;
+}
+
+.o-faq-accordion__description {
+  max-width: none;
+  margin-top: 1.5rem;
+  margin-left: auto;
+  margin-right: auto;
+  font-size: v.$faq-description-size;
+  font-weight: 400;
+  line-height: v.$faq-description-line-height;
+  letter-spacing: v.$faq-description-letter-spacing;
+  text-align: center;
+  color: v.$text-dark-description;
+}
+
+.o-faq-accordion__list {
+  width: 100%;
+  max-width: v.$faq-list-max-width;
+  margin: v.$faq-list-margin-top auto 0;
+  display: grid;
+  gap: v.$faq-list-gap;
+}
+
+.o-faq-accordion__item {
+  border-radius: v.$faq-item-radius;
+  background: v.$faq-item-closed-bg;
+  color: v.$text-base;
+  overflow: hidden;
+}
+
+.o-faq-accordion__item.is-open {
+  background: v.$faq-item-open-bg;
+  color: v.$white;
+}
+
+.o-faq-accordion__heading {
+  margin: 0;
+}
+
+.o-faq-accordion__trigger {
+  width: 100%;
+  border: 0;
+  background: transparent;
+  color: inherit;
+  padding: v.$faq-trigger-padding-y v.$faq-trigger-padding-x;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  cursor: pointer;
+  text-align: left;
+}
+
+.o-faq-accordion__trigger-text {
+  font-size: v.$faq-item-title-size;
+  font-weight: v.$faq-item-title-weight;
+  line-height: v.$faq-item-title-line-height;
+  letter-spacing: v.$faq-item-title-letter-spacing;
+}
+
+.o-faq-accordion__icon {
+  width: 1rem;
+  height: 1rem;
+  color: v.$text-base;
+  flex: 0 0 auto;
+  transform: rotate(180deg);
+  transition: transform v.$transition-fast;
+}
+
+.o-faq-accordion__item.is-open .o-faq-accordion__icon {
+  color: v.$white;
+  transform: rotate(0deg);
+}
+
+.o-faq-accordion__panel {
+  display: grid;
+  grid-template-rows: 0fr;
+  padding: 0 v.$faq-panel-padding-x;
+  border-top: 1px solid transparent;
+  opacity: 0;
+  transition:
+    grid-template-rows v.$transition-fast,
+    padding v.$transition-fast,
+    opacity v.$transition-fast,
+    border-color v.$transition-fast;
+}
+
+.o-faq-accordion__item.is-open .o-faq-accordion__panel {
+  grid-template-rows: 1fr;
+  padding: v.$faq-panel-padding-y v.$faq-panel-padding-x;
+  border-top-color: v.$faq-open-divider;
+  opacity: 1;
+}
+
+.o-faq-accordion__panel-inner {
+  overflow: hidden;
+}
+
+.o-faq-accordion__panel-text {
+  margin: 0;
+  font-size: v.$faq-item-text-size;
+  font-weight: 400;
+  line-height: v.$faq-item-text-line-height;
+  letter-spacing: v.$faq-item-text-letter-spacing;
+}
+
+.o-faq-accordion__trigger:focus-visible {
+  outline: 2px solid v.$focus-outline;
+  outline-offset: -2px;
+}
+
+@media (max-width: v.$breakpoint-mobile) {
+  .o-faq-accordion {
+    padding-bottom: 1.625rem;
+  }
+
+  .o-faq-accordion__title {
+    font-size: 1.875rem;
+    line-height: 2.25rem;
+  }
+
+  .o-faq-accordion__description {
+    font-size: 1rem;
+    line-height: 1.625rem;
+  }
+
+  .o-faq-accordion__list {
+    margin-top: 2rem;
+  }
+
+  .o-faq-accordion__trigger {
+    padding: 1.125rem 1rem;
+  }
+
+  .o-faq-accordion__panel {
+    padding: 0 1rem;
+  }
+
+  .o-faq-accordion__item.is-open .o-faq-accordion__panel {
+    padding: 1rem;
+  }
+}

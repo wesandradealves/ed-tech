@@ -8,6 +8,7 @@ import { DarkTextBoxComponent } from './js/components/organisms/dark-text-box.co
 import { RevealCardsComponent } from './js/components/organisms/reveal-cards.component.js';
 import { AudioPlayerComponent } from './js/components/organisms/audio-player.component.js';
 import { ActivityPanelComponent } from './js/components/organisms/activity-panel.component.js';
+import { FaqAccordionComponent } from './js/components/organisms/faq-accordion.component.js';
 
 async function bootstrapApp() {
   await initializeSiteContent();
@@ -21,6 +22,7 @@ async function bootstrapApp() {
     RevealCardsComponent,
     AudioPlayerComponent,
     ActivityPanelComponent,
+    FaqAccordionComponent,
   ]);
 
   componentRegistry.mountAll();

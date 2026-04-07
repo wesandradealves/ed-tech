@@ -2,7 +2,7 @@
   "meta": {
     "lang": "pt-BR",
     "title": "Teste Técnico Frontend EdTech",
-    "description": "Página do teste técnico EdTech com hero, seção de vídeo interativa, layout responsivo e arquitetura modular em HTML, SCSS e JavaScript Vanilla.",
+    "description": "Página do teste técnico EdTech com hero, vídeo, áudio, cards interativos, atividades objetiva e discursiva e FAQ, construída com HTML semântico, SCSS e JavaScript Vanilla.",
     "robots": "index,follow",
     "themeColor": "#f7f8f5",
     "canonicalUrl": "https://ed-tech-ten-murex.vercel.app/",
@@ -11,7 +11,7 @@
       "locale": "pt_BR",
       "siteName": "Teste Frontend EdTech",
       "title": "Teste Técnico Frontend EdTech",
-      "description": "Implementação completa da página EdTech com hero, conteúdo introdutório, player de vídeo com controles e estrutura escalável.",
+      "description": "Implementação completa da página EdTech com hero, vídeo, áudio, cards interativos, atividades e FAQ, seguindo arquitetura modular e responsiva.",
       "url": "https://ed-tech-ten-murex.vercel.app/",
       "image": "https://ed-tech-ten-murex.vercel.app/assets/hero-banner-background.png",
       "imageWidth": "1280",
@@ -21,7 +21,7 @@
     "twitter": {
       "card": "summary_large_image",
       "title": "Teste Técnico Frontend EdTech",
-      "description": "Página EdTech com hero, seção de vídeo funcional, responsividade e código modular para evolução por seções.",
+      "description": "Página EdTech com hero, vídeo, áudio, atividades e FAQ em arquitetura modular, responsiva e orientada a componentes.",
       "image": "https://ed-tech-ten-murex.vercel.app/assets/hero-banner-background.png",
       "imageAlt": "Capa da página do teste técnico EdTech"
     }
@@ -188,5 +188,43 @@
         "closeAriaLabel": "Fechar alerta de sucesso"
       }
     }
+  },
+  "faq": {
+    "sectionAriaLabel": "Perguntas frequentes",
+    "title": "Perguntas frequentes",
+    "description": "Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
+    "defaultOpenIndex": 0,
+    "items": [
+      {
+        "title": "Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
+        "text": "It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English."
+      },
+      {
+        "title": "Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
+        "text": "It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English."
+      },
+      {
+        "title": "Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
+        "text": "It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English."
+      },
+      {
+        "title": "Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
+        "text": "It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English."
+      }
+    ]
+  },
+  "footer": {
+    "ariaLabel": "Rodapé do site",
+    "link": {
+      "href": "https://dotgroup.com.br/",
+      "ariaLabel": "Acessar site da DOT Digital Group"
+    },
+    "logo": {
+      "src": "/assets/logo.svg",
+      "alt": "DOT Digital Group",
+      "width": 138,
+      "height": 42
+    },
+    "copyright": "© 2026 DOT Digital Group. Todos os direitos reservados."
   }
 }
