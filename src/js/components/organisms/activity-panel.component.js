@@ -1,15 +1,25 @@
 import { BaseComponent } from '../../core/base-component.js';
-import { getSiteContentValue } from '../../config/site-content.config.js';
 import { isObject, toText } from '../../core/value.utils.js';
+import { getComponentConfig, getComponentProps } from '../../core/component-props.utils.js';
 
 const ACTIVITY_SELECTORS = {
   root: '[data-role="activity-panel-root"]',
+  iconImage: '[data-role="activity-icon-image"]',
+  title: '[data-role="activity-title"]',
+  description: '[data-role="activity-description"]',
+  optionsLegend: '[data-role="activity-options-legend"]',
+  optionRow: '[data-role="activity-option"]',
+  optionInput: '[data-role="activity-option-input"]',
+  optionPrefix: '[data-role="activity-option-prefix"]',
+  optionLabel: '[data-role="activity-option-label"]',
+  textareaLabel: '[data-role="activity-textarea-label"]',
+  textarea: '[data-role="activity-textarea"]',
   submit: '[data-action="activity-submit"]',
   edit: '[data-action="activity-edit"]',
   toast: '[data-role="activity-toast"]',
+  toastTitle: '[data-role="activity-toast-title"]',
+  toastText: '[data-role="activity-toast-text"]',
   toastClose: '[data-action="activity-toast-close"]',
-  optionInput: '[data-role="activity-option-input"]',
-  textarea: '[data-role="activity-textarea"]',
 };
 
 const ACTIVITY_STORAGE_PREFIX = 'edtech:activity-panel';
@@ -19,216 +29,57 @@ function normalizeActivityType(type) {
   return value === 'discursive' ? 'discursive' : 'objective';
 }
 
+function normalizeToastTone(tone) {
+  const value = toText(tone, 'warning').toLowerCase();
+  return value === 'success' ? 'success' : 'warning';
+}
+
 function parseDefaultSelected(config) {
   const parsed = Number.parseInt(String(config.defaultSelectedIndex), 10);
   return Number.isInteger(parsed) && parsed >= 0 ? parsed : null;
 }
 
-function getActivityConfigByType(type) {
+function getActivityConfigByType(root, type) {
   const normalizedType = normalizeActivityType(type);
-  const config = getSiteContentValue(`activities.${normalizedType}`, {});
-
+  const config = getComponentConfig(root, `activities.${normalizedType}`, {});
   return isObject(config) ? config : {};
-}
-
-function createIconNode(config, type) {
-  const iconConfig = isObject(config.icon) ? config.icon : {};
-  const iconSrc = toText(
-    iconConfig.src,
-    type === 'discursive' ? '/assets/atividade-discursiva.svg' : '/assets/atividade-objetiva.svg'
-  );
-
-  const iconImage = document.createElement('img');
-  iconImage.className = 'o-activity-panel__icon-image';
-  iconImage.src = iconSrc;
-  iconImage.alt = '';
-  iconImage.setAttribute('aria-hidden', 'true');
-  iconImage.width = 22;
-  iconImage.height = 22;
-  iconImage.loading = 'lazy';
-  iconImage.decoding = 'async';
-
-  return iconImage;
-}
-
-function createHeader(config, type) {
-  const header = document.createElement('header');
-  header.className = 'o-activity-panel__header';
-
-  const iconWrap = document.createElement('span');
-  iconWrap.className = 'o-activity-panel__icon';
-  iconWrap.append(createIconNode(config, type));
-
-  const copy = document.createElement('div');
-  copy.className = 'o-activity-panel__header-copy';
-
-  const title = document.createElement('h2');
-  title.className = 'o-activity-panel__title';
-  title.textContent = toText(config.title, 'Atividade');
-
-  const description = document.createElement('p');
-  description.className = 'o-activity-panel__description';
-  description.textContent = toText(
-    config.description,
-    'It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout.'
-  );
-
-  copy.append(title, description);
-  header.append(iconWrap, copy);
-  return header;
-}
-
-function createObjectiveBody(config, selectedIndex) {
-  const body = document.createElement('div');
-  body.className = 'o-activity-panel__body';
-
-  const optionsWrap = document.createElement('fieldset');
-  optionsWrap.className = 'o-activity-panel__options';
-
-  const legend = document.createElement('legend');
-  legend.className = 'a-visually-hidden';
-  legend.textContent = toText(config.legend, 'Selecione uma alternativa');
-  optionsWrap.append(legend);
-
-  const options = Array.isArray(config.options) ? config.options.slice(0, 4) : [];
-  const sectionLabel = toText(config.title, 'atividade')
-    .toLowerCase()
-    .replace(/\s+/g, '-');
-
-  options.forEach((option, index) => {
-    const optionConfig = isObject(option) ? option : {};
-    const label = document.createElement('label');
-    label.className = 'o-activity-panel__option';
-
-    const input = document.createElement('input');
-    input.type = 'checkbox';
-    input.name = `activity-objective-${sectionLabel}`;
-    input.value = String(index);
-    input.className = 'o-activity-panel__option-input';
-    input.checked = selectedIndex === index;
-    input.setAttribute('data-role', 'activity-option-input');
-
-    const control = document.createElement('span');
-    control.className = 'o-activity-panel__option-control';
-    control.setAttribute('aria-hidden', 'true');
-
-    const text = document.createElement('span');
-    text.className = 'o-activity-panel__option-text';
-
-    const prefix = toText(optionConfig.prefix, `${String.fromCharCode(65 + index)})`);
-    const content = toText(
-      optionConfig.text,
-      'Lorem Ipsum is simply dummy text of the printing and typesetting industry.'
-    );
-
-    text.textContent = `${prefix} ${content}`;
-
-    label.append(input, control, text);
-    optionsWrap.append(label);
-  });
-
-  body.append(optionsWrap);
-  return body;
-}
-
-function createDiscursiveBody(config, value) {
-  const body = document.createElement('div');
-  body.className = 'o-activity-panel__body';
-
-  const textareaId = toText(config.textareaId, 'activity-discursive-input');
-  const textareaLabel = document.createElement('label');
-  textareaLabel.className = 'a-visually-hidden';
-  textareaLabel.setAttribute('for', textareaId);
-  textareaLabel.textContent = toText(
-    config.textareaAriaLabel,
-    'Digite sua resposta para a atividade discursiva'
-  );
-
-  const textarea = document.createElement('textarea');
-  textarea.className = 'o-activity-panel__textarea';
-  textarea.id = textareaId;
-  textarea.rows = 7;
-  textarea.value = value;
-  textarea.setAttribute('data-role', 'activity-textarea');
-  textarea.setAttribute('aria-label', toText(config.textareaAriaLabel, 'Resposta discursiva'));
-  textarea.setAttribute('placeholder', toText(config.placeholder, 'Digite sua resposta aqui...'));
-
-  body.append(textareaLabel, textarea);
-  return body;
-}
-
-function createActions(config) {
-  const actions = document.createElement('div');
-  actions.className = 'o-activity-panel__actions';
-
-  const submit = document.createElement('button');
-  submit.className =
-    'a-button o-activity-panel__action o-activity-panel__action--submit o-activity-panel__action--disabled';
-  submit.type = 'button';
-  submit.disabled = true;
-  submit.setAttribute('data-action', 'activity-submit');
-  submit.textContent = toText(config.submitLabel, 'Responder');
-
-  const edit = document.createElement('button');
-  edit.className =
-    'a-button o-activity-panel__action o-activity-panel__action--dark o-activity-panel__action--disabled';
-  edit.type = 'button';
-  edit.disabled = true;
-  edit.setAttribute('data-action', 'activity-edit');
-  edit.textContent = toText(config.editLabel, 'Alterar');
-
-  actions.append(submit, edit);
-  return actions;
-}
-
-function createToast(config) {
-  const toastConfig = isObject(config.toast) ? config.toast : {};
-  const tone = toText(toastConfig.tone, 'warning').toLowerCase();
-  const toast = document.createElement('div');
-  toast.className =
-    tone === 'success' ? 'a-toast a-toast--success' : 'a-toast a-toast--warning';
-  toast.setAttribute('data-role', 'activity-toast');
-  toast.setAttribute('role', 'status');
-  toast.setAttribute('aria-live', 'polite');
-  toast.hidden = true;
-
-  const content = document.createElement('div');
-  content.className = 'a-toast__content';
-
-  const title = document.createElement('p');
-  title.className = 'a-toast__title';
-  title.textContent = toText(
-    toastConfig.title,
-    tone === 'success' ? 'É isso aí!' : 'Tente novamente!'
-  );
-
-  const text = document.createElement('p');
-  text.className = 'a-toast__text';
-  text.textContent = toText(
-    toastConfig.text,
-    'Lorem ipsum dolor sit, amet consectetur adipisicing elit.'
-  );
-
-  content.append(title, text);
-
-  const close = document.createElement('button');
-  close.className = 'a-toast__close';
-  close.type = 'button';
-  close.setAttribute('aria-label', toText(toastConfig.closeAriaLabel, 'Fechar notificação'));
-  close.setAttribute('data-action', 'activity-toast-close');
-  close.textContent = '✕';
-
-  toast.append(content, close);
-  return toast;
 }
 
 function cloneState(state) {
   return {
-    selectedOption: state.selectedOption,
+    selectedOptions: Array.isArray(state.selectedOptions) ? [...state.selectedOptions] : [],
     text: state.text,
     dirty: state.dirty,
     submitted: state.submitted,
+    toastVisible: state.toastVisible,
   };
+}
+
+function createOptionsMarkup(options = []) {
+  return options
+    .map((rawOption, index) => {
+      const option = isObject(rawOption) ? rawOption : {};
+      const prefix = toText(option.prefix, '');
+      const text = toText(option.text, '');
+
+      return `
+        <label class="o-activity-panel__option" data-role="activity-option">
+          <input
+            class="o-activity-panel__option-input"
+            type="checkbox"
+            value="${index}"
+            data-role="activity-option-input"
+            aria-label="${prefix} ${text}"
+          />
+          <span class="o-activity-panel__option-control" aria-hidden="true"></span>
+          <span class="o-activity-panel__option-text">
+            <span data-role="activity-option-prefix">${prefix}</span>
+            <span data-role="activity-option-label">${text}</span>
+          </span>
+        </label>
+      `;
+    })
+    .join('');
 }
 
 export class ActivityPanelComponent extends BaseComponent {
@@ -238,44 +89,74 @@ export class ActivityPanelComponent extends BaseComponent {
   constructor(root) {
     super(root);
     this.panelRoot = null;
-    this.activityType = normalizeActivityType(root.dataset.activityType);
+    const props = getComponentProps(root);
+    const propValues = isObject(props.values) ? props.values : {};
+    this.activityType = normalizeActivityType(
+      toText(propValues.activityType, root.dataset.activityType)
+    );
+    this.activityId = toText(propValues.activityId, root.dataset.activityId || this.activityType);
     this.config = {};
+    this.storageKey = '';
+    this.storageEnabled = this.isStorageEnabled();
+
     this.initialState = {
-      selectedOption: null,
+      selectedOptions: [],
       text: '',
       dirty: false,
       submitted: false,
+      toastVisible: false,
     };
+
     this.state = cloneState(this.initialState);
+
+    this.iconImageNode = null;
+    this.titleNode = null;
+    this.descriptionNode = null;
+    this.optionsLegendNode = null;
+    this.optionRows = [];
+    this.optionInputs = [];
+    this.optionPrefixNodes = [];
+    this.optionLabelNodes = [];
+    this.textareaLabelNode = null;
+    this.textareaNode = null;
     this.submitButton = null;
     this.editButton = null;
-    this.toast = null;
-    this.optionInputs = [];
-    this.textarea = null;
-    this.storageKey = '';
-    this.storageEnabled = this.isStorageEnabled();
+    this.toastNode = null;
+    this.toastTitleNode = null;
+    this.toastTextNode = null;
+    this.toastCloseButton = null;
+
     this.handleClick = this.handleClick.bind(this);
     this.handleChange = this.handleChange.bind(this);
     this.handleInput = this.handleInput.bind(this);
   }
 
   onMount() {
+    this.config = getActivityConfigByType(this.root, this.activityType);
+    this.renderShell();
+
     this.panelRoot = this.query(ACTIVITY_SELECTORS.root);
 
     if (!this.panelRoot) {
       return;
     }
 
-    this.config = getActivityConfigByType(this.activityType);
+    this.cacheNodes();
+
+    if (!this.hasRequiredNodes()) {
+      return;
+    }
+
+    this.applyProps();
     this.initialState = this.createInitialState();
     this.storageKey = this.createStorageKey();
     this.state = this.loadStoredState() ?? cloneState(this.initialState);
 
-    this.render();
-
     this.root.addEventListener('click', this.handleClick);
     this.root.addEventListener('change', this.handleChange);
     this.root.addEventListener('input', this.handleInput);
+
+    this.applyStateToUI();
   }
 
   onUnmount() {
@@ -284,21 +165,270 @@ export class ActivityPanelComponent extends BaseComponent {
     this.root.removeEventListener('input', this.handleInput);
   }
 
-  createInitialState() {
+  renderShell() {
+    const iconConfig = isObject(this.config.icon) ? this.config.icon : {};
+    const toastConfig = isObject(this.config.toast) ? this.config.toast : {};
+    const toastTone = normalizeToastTone(toastConfig.tone);
+
+    const bodyMarkup =
+      this.activityType === 'discursive'
+        ? `
+          <label class="a-visually-hidden" for="${this.activityId}-textarea" data-role="activity-textarea-label"></label>
+          <textarea
+            id="${this.activityId}-textarea"
+            class="o-activity-panel__textarea"
+            data-role="activity-textarea"
+          ></textarea>
+        `
+        : `
+          <fieldset class="o-activity-panel__options">
+            <legend class="a-visually-hidden" data-role="activity-options-legend"></legend>
+            ${createOptionsMarkup(Array.isArray(this.config.options) ? this.config.options : [])}
+          </fieldset>
+        `;
+
+    this.root.innerHTML = `
+      <div class="l-wrapper">
+        <div class="o-activity-panel__card" data-role="activity-panel-root">
+          <header class="o-activity-panel__header">
+            <span class="o-activity-panel__icon" aria-hidden="true">
+              <img
+                class="o-activity-panel__icon-image"
+                src="${toText(iconConfig.src, '')}"
+                alt=""
+                data-role="activity-icon-image"
+                loading="lazy"
+                decoding="async"
+              />
+            </span>
+
+            <div class="o-activity-panel__header-copy">
+              <h2 class="o-activity-panel__title" data-role="activity-title"></h2>
+              <p class="o-activity-panel__description" data-role="activity-description"></p>
+            </div>
+          </header>
+
+          <div class="o-activity-panel__body">
+            ${bodyMarkup}
+
+            <div class="o-activity-panel__actions">
+              <button
+                class="a-button o-activity-panel__action o-activity-panel__action--submit"
+                type="button"
+                data-action="activity-submit"
+              ></button>
+              <button
+                class="a-button o-activity-panel__action o-activity-panel__action--dark"
+                type="button"
+                data-action="activity-edit"
+              ></button>
+            </div>
+
+            <div class="a-toast a-toast--${toastTone}" data-role="activity-toast" hidden>
+              <div class="a-toast__content">
+                <h3 class="a-toast__title" data-role="activity-toast-title"></h3>
+                <p class="a-toast__text" data-role="activity-toast-text"></p>
+              </div>
+              <button class="a-toast__close" type="button" data-action="activity-toast-close">×</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    `;
+  }
+
+  cacheNodes() {
+    this.iconImageNode = this.panelRoot.querySelector(ACTIVITY_SELECTORS.iconImage);
+    this.titleNode = this.panelRoot.querySelector(ACTIVITY_SELECTORS.title);
+    this.descriptionNode = this.panelRoot.querySelector(ACTIVITY_SELECTORS.description);
+    this.optionsLegendNode = this.panelRoot.querySelector(ACTIVITY_SELECTORS.optionsLegend);
+    this.optionRows = Array.from(this.panelRoot.querySelectorAll(ACTIVITY_SELECTORS.optionRow));
+    this.optionInputs = Array.from(this.panelRoot.querySelectorAll(ACTIVITY_SELECTORS.optionInput));
+    this.optionPrefixNodes = Array.from(this.panelRoot.querySelectorAll(ACTIVITY_SELECTORS.optionPrefix));
+    this.optionLabelNodes = Array.from(this.panelRoot.querySelectorAll(ACTIVITY_SELECTORS.optionLabel));
+    this.textareaLabelNode = this.panelRoot.querySelector(ACTIVITY_SELECTORS.textareaLabel);
+    this.textareaNode = this.panelRoot.querySelector(ACTIVITY_SELECTORS.textarea);
+    this.submitButton = this.panelRoot.querySelector(ACTIVITY_SELECTORS.submit);
+    this.editButton = this.panelRoot.querySelector(ACTIVITY_SELECTORS.edit);
+    this.toastNode = this.panelRoot.querySelector(ACTIVITY_SELECTORS.toast);
+    this.toastTitleNode = this.panelRoot.querySelector(ACTIVITY_SELECTORS.toastTitle);
+    this.toastTextNode = this.panelRoot.querySelector(ACTIVITY_SELECTORS.toastText);
+    this.toastCloseButton = this.panelRoot.querySelector(ACTIVITY_SELECTORS.toastClose);
+  }
+
+  hasRequiredNodes() {
+    const hasCommonNodes =
+      this.iconImageNode instanceof HTMLImageElement &&
+      this.titleNode instanceof HTMLElement &&
+      this.descriptionNode instanceof HTMLElement &&
+      this.submitButton instanceof HTMLButtonElement &&
+      this.editButton instanceof HTMLButtonElement &&
+      this.toastNode instanceof HTMLElement &&
+      this.toastTitleNode instanceof HTMLElement &&
+      this.toastTextNode instanceof HTMLElement &&
+      this.toastCloseButton instanceof HTMLButtonElement;
+
+    if (!hasCommonNodes) {
+      return false;
+    }
+
     if (this.activityType === 'discursive') {
-      return {
-        selectedOption: null,
-        text: '',
-        dirty: false,
-        submitted: false,
-      };
+      return this.textareaNode instanceof HTMLTextAreaElement;
+    }
+
+    return this.optionInputs.length > 0;
+  }
+
+  applyProps() {
+    if (!(this.titleNode && this.descriptionNode && this.iconImageNode)) {
+      return;
+    }
+
+    this.titleNode.textContent = toText(this.config.title, '');
+    this.descriptionNode.textContent = toText(this.config.description, '');
+
+    const iconConfig = isObject(this.config.icon) ? this.config.icon : {};
+    this.iconImageNode.src = toText(iconConfig.src, '');
+    this.iconImageNode.alt = '';
+    this.iconImageNode.setAttribute('aria-hidden', 'true');
+
+    if (this.submitButton) {
+      this.submitButton.textContent = toText(this.config.submitLabel, '');
+    }
+
+    if (this.editButton) {
+      this.editButton.textContent = toText(this.config.editLabel, '');
+    }
+
+    this.applyToastProps();
+
+    if (this.activityType === 'discursive') {
+      this.applyDiscursiveProps();
+      return;
+    }
+
+    this.applyObjectiveProps();
+  }
+
+  applyDiscursiveProps() {
+    if (!(this.textareaNode instanceof HTMLTextAreaElement)) {
+      return;
+    }
+
+    const label = toText(
+      this.config.textareaAriaLabel,
+      ''
+    );
+
+    this.textareaNode.setAttribute('aria-label', label);
+    this.textareaNode.setAttribute(
+      'placeholder',
+      toText(this.config.placeholder, '')
+    );
+
+    if (this.textareaLabelNode instanceof HTMLElement) {
+      this.textareaLabelNode.textContent = label;
+    }
+  }
+
+  applyObjectiveProps() {
+    if (this.optionsLegendNode instanceof HTMLElement) {
+      this.optionsLegendNode.textContent = toText(this.config.legend, '');
+    }
+
+    const options = Array.isArray(this.config.options) ? this.config.options : [];
+
+    this.optionRows.forEach((row, index) => {
+      const input = this.optionInputs[index];
+      const prefixNode = this.optionPrefixNodes[index];
+      const labelNode = this.optionLabelNodes[index];
+      const option = isObject(options[index]) ? options[index] : null;
+
+      if (!(input instanceof HTMLInputElement) || !option) {
+        row.hidden = true;
+        return;
+      }
+
+      row.hidden = false;
+      input.type = 'checkbox';
+      input.value = String(index);
+
+      const prefix = toText(option.prefix, '');
+      const text = toText(option.text, '');
+
+      if (prefixNode instanceof HTMLElement) {
+        prefixNode.textContent = `${prefix} `;
+      }
+
+      if (labelNode instanceof HTMLElement) {
+        labelNode.textContent = text;
+      }
+
+      input.setAttribute('aria-label', `${prefix} ${text}`);
+    });
+  }
+
+  applyToastProps() {
+    if (
+      !(this.toastNode instanceof HTMLElement) ||
+      !(this.toastTitleNode instanceof HTMLElement) ||
+      !(this.toastTextNode instanceof HTMLElement) ||
+      !(this.toastCloseButton instanceof HTMLButtonElement)
+    ) {
+      return;
+    }
+
+    const toastConfig = isObject(this.config.toast) ? this.config.toast : {};
+    const tone = normalizeToastTone(toastConfig.tone);
+
+    this.toastNode.classList.remove('a-toast--success', 'a-toast--warning');
+    this.toastNode.classList.add(tone === 'success' ? 'a-toast--success' : 'a-toast--warning');
+
+    this.toastTitleNode.textContent = toText(
+      toastConfig.title,
+      ''
+    );
+    this.toastTextNode.textContent = toText(
+      toastConfig.text,
+      ''
+    );
+    this.toastCloseButton.setAttribute(
+      'aria-label',
+      toText(toastConfig.closeAriaLabel, '')
+    );
+  }
+
+  createInitialState() {
+    let selectedOptions = [];
+
+    if (this.activityType === 'objective') {
+      const defaultIndexes = Array.isArray(this.config.defaultSelectedIndexes)
+        ? this.config.defaultSelectedIndexes
+        : [];
+
+      selectedOptions = defaultIndexes
+        .map((value) => Number.parseInt(String(value), 10))
+        .filter((index, position, array) => (
+          Number.isInteger(index) &&
+          this.isValidOptionIndex(index) &&
+          array.indexOf(index) === position
+        ));
+
+      if (selectedOptions.length === 0) {
+        const defaultSelectedIndex = parseDefaultSelected(this.config);
+
+        if (this.isValidOptionIndex(defaultSelectedIndex)) {
+          selectedOptions = [defaultSelectedIndex];
+        }
+      }
     }
 
     return {
-      selectedOption: parseDefaultSelected(this.config),
+      selectedOptions,
       text: '',
       dirty: false,
       submitted: false,
+      toastVisible: false,
     };
   }
 
@@ -314,10 +444,7 @@ export class ActivityPanelComponent extends BaseComponent {
   }
 
   createStorageKey() {
-    const sections = Array.from(document.querySelectorAll(ActivityPanelComponent.selector));
-    const index = sections.indexOf(this.root);
-    const normalizedIndex = index >= 0 ? index : 0;
-    return `${ACTIVITY_STORAGE_PREFIX}:${this.activityType}:${normalizedIndex}`;
+    return `${ACTIVITY_STORAGE_PREFIX}:${this.activityId}`;
   }
 
   loadStoredState() {
@@ -338,19 +465,39 @@ export class ActivityPanelComponent extends BaseComponent {
         return null;
       }
 
-      const selectedOption =
-        Number.isInteger(parsed.selectedOption) && parsed.selectedOption >= 0
-          ? parsed.selectedOption
-          : null;
+      const selectedOptions = Array.isArray(parsed.selectedOptions)
+        ? parsed.selectedOptions
+          .map((value) => Number.parseInt(String(value), 10))
+          .filter((index, position, array) => (
+            this.isValidOptionIndex(index) && array.indexOf(index) === position
+          ))
+        : [];
+
+      const legacySelectedOption = this.isValidOptionIndex(parsed.selectedOption)
+        ? parsed.selectedOption
+        : null;
+
+      if (selectedOptions.length === 0 && legacySelectedOption !== null) {
+        selectedOptions.push(legacySelectedOption);
+      }
+
       const text = toText(parsed.text, '');
       const submitted = parsed.submitted === true;
-      const dirty = parsed.dirty === true;
+      const hasPayload = this.activityType === 'discursive'
+        ? text.trim().length > 0
+        : selectedOptions.length > 0;
+      const dirty = submitted ? false : parsed.dirty === true || hasPayload;
+      const toastVisible =
+        typeof parsed.toastVisible === 'boolean'
+          ? parsed.toastVisible
+          : submitted;
 
       return {
-        selectedOption,
+        selectedOptions,
         text,
-        dirty: submitted ? false : dirty,
+        dirty,
         submitted,
+        toastVisible,
       };
     } catch {
       return null;
@@ -381,20 +528,52 @@ export class ActivityPanelComponent extends BaseComponent {
     }
   }
 
+  isValidOptionIndex(value) {
+    const index = Number.parseInt(String(value), 10);
+
+    if (!Number.isInteger(index) || index < 0 || index >= this.optionInputs.length) {
+      return false;
+    }
+
+    const row = this.optionRows[index];
+    return !(row instanceof HTMLElement && row.hidden);
+  }
+
   hasValidPayload() {
     if (this.activityType === 'discursive') {
       return this.state.text.trim().length > 0;
     }
 
-    return Number.isInteger(this.state.selectedOption) && this.state.selectedOption >= 0;
+    return Array.isArray(this.state.selectedOptions) && this.state.selectedOptions.length > 0;
   }
 
   canSubmit() {
     return !this.state.submitted && this.state.dirty && this.hasValidPayload();
   }
 
+  applyFormState() {
+    if (this.activityType === 'discursive') {
+      if (this.textareaNode instanceof HTMLTextAreaElement) {
+        this.textareaNode.value = this.state.text;
+      }
+      return;
+    }
+
+    this.optionInputs.forEach((input, index) => {
+      if (!(input instanceof HTMLInputElement)) {
+        return;
+      }
+
+      const row = this.optionRows[index];
+      input.checked = Array.isArray(this.state.selectedOptions)
+        ? this.state.selectedOptions.includes(index)
+        : false;
+      input.disabled = this.state.submitted || (row instanceof HTMLElement && row.hidden);
+    });
+  }
+
   syncSubmitState() {
-    if (!this.submitButton) {
+    if (!(this.submitButton instanceof HTMLButtonElement)) {
       return;
     }
 
@@ -404,7 +583,7 @@ export class ActivityPanelComponent extends BaseComponent {
   }
 
   syncEditState() {
-    if (!this.editButton) {
+    if (!(this.editButton instanceof HTMLButtonElement)) {
       return;
     }
 
@@ -414,53 +593,28 @@ export class ActivityPanelComponent extends BaseComponent {
   }
 
   syncFormDisabledState() {
-    if (this.textarea instanceof HTMLTextAreaElement) {
-      this.textarea.disabled = this.state.submitted;
-    }
-
-    this.optionInputs.forEach((input) => {
-      if (input instanceof HTMLInputElement) {
-        input.disabled = this.state.submitted;
-      }
-    });
-  }
-
-  showToast() {
-    if (this.toast) {
-      this.toast.hidden = false;
+    if (this.textareaNode instanceof HTMLTextAreaElement) {
+      this.textareaNode.disabled = this.state.submitted;
     }
   }
 
-  hideToast() {
-    if (this.toast) {
-      this.toast.hidden = true;
+  syncToastState() {
+    if (this.toastNode instanceof HTMLElement) {
+      this.toastNode.hidden = !this.state.toastVisible;
     }
   }
 
-  applyFormState() {
-    if (this.activityType === 'discursive') {
-      if (this.textarea) {
-        this.textarea.value = this.state.text;
-      }
-      return;
-    }
-
-    this.optionInputs.forEach((input) => {
-      if (!(input instanceof HTMLInputElement)) {
-        return;
-      }
-      const inputValue = Number.parseInt(input.value, 10);
-      input.checked = inputValue === this.state.selectedOption;
-    });
+  applyStateToUI() {
+    this.applyFormState();
+    this.syncSubmitState();
+    this.syncEditState();
+    this.syncFormDisabledState();
+    this.syncToastState();
   }
 
   resetState() {
     this.state = cloneState(this.initialState);
-    this.applyFormState();
-    this.hideToast();
-    this.syncSubmitState();
-    this.syncEditState();
-    this.syncFormDisabledState();
+    this.applyStateToUI();
     this.clearStoredState();
   }
 
@@ -471,7 +625,9 @@ export class ActivityPanelComponent extends BaseComponent {
 
     const closeButton = event.target.closest(ACTIVITY_SELECTORS.toastClose);
     if (closeButton) {
-      this.hideToast();
+      this.state.toastVisible = false;
+      this.syncToastState();
+      this.persistState();
       return;
     }
 
@@ -483,10 +639,8 @@ export class ActivityPanelComponent extends BaseComponent {
 
       this.state.submitted = true;
       this.state.dirty = false;
-      this.showToast();
-      this.syncSubmitState();
-      this.syncEditState();
-      this.syncFormDisabledState();
+      this.state.toastVisible = true;
+      this.applyStateToUI();
       this.persistState();
       return;
     }
@@ -507,19 +661,30 @@ export class ActivityPanelComponent extends BaseComponent {
     }
 
     const optionIndex = Number.parseInt(event.target.value, 10);
-    const isChecked = event.target.checked;
 
-    if (!Number.isInteger(optionIndex) || optionIndex < 0) {
+    if (!this.isValidOptionIndex(optionIndex)) {
       return;
     }
 
-    this.state.selectedOption = isChecked ? optionIndex : null;
-    this.state.dirty = this.state.selectedOption !== null;
-    this.hideToast();
-    this.applyFormState();
-    this.syncSubmitState();
-    this.syncEditState();
-    this.syncFormDisabledState();
+    const currentSelected = Array.isArray(this.state.selectedOptions)
+      ? [...this.state.selectedOptions]
+      : [];
+
+    const hasOption = currentSelected.includes(optionIndex);
+
+    if (event.target.checked && !hasOption) {
+      currentSelected.push(optionIndex);
+    }
+
+    if (!event.target.checked && hasOption) {
+      const position = currentSelected.indexOf(optionIndex);
+      currentSelected.splice(position, 1);
+    }
+
+    this.state.selectedOptions = currentSelected;
+    this.state.dirty = currentSelected.length > 0;
+    this.state.toastVisible = false;
+    this.applyStateToUI();
     this.persistState();
   }
 
@@ -534,52 +699,8 @@ export class ActivityPanelComponent extends BaseComponent {
 
     this.state.text = event.target.value;
     this.state.dirty = event.target.value.trim().length > 0;
-    this.hideToast();
-    this.syncSubmitState();
-    this.syncEditState();
-    this.syncFormDisabledState();
+    this.state.toastVisible = false;
+    this.applyStateToUI();
     this.persistState();
-  }
-
-  render() {
-    if (!this.panelRoot) {
-      return;
-    }
-
-    this.panelRoot.innerHTML = '';
-    this.panelRoot.append(createHeader(this.config, this.activityType));
-
-    if (this.activityType === 'discursive') {
-      const textareaId = `${this.storageKey.replace(/[^a-z0-9-:]/gi, '-')}--textarea`;
-      this.panelRoot.append(
-        createDiscursiveBody(
-          {
-            ...this.config,
-            textareaId,
-          },
-          this.state.text
-        )
-      );
-    } else {
-      this.panelRoot.append(createObjectiveBody(this.config, this.state.selectedOption));
-    }
-
-    this.panelRoot.append(createActions(this.config), createToast(this.config));
-
-    this.submitButton = this.panelRoot.querySelector(ACTIVITY_SELECTORS.submit);
-    this.editButton = this.panelRoot.querySelector(ACTIVITY_SELECTORS.edit);
-    this.toast = this.panelRoot.querySelector(ACTIVITY_SELECTORS.toast);
-    this.optionInputs = Array.from(this.panelRoot.querySelectorAll(ACTIVITY_SELECTORS.optionInput));
-    this.textarea = this.panelRoot.querySelector(ACTIVITY_SELECTORS.textarea);
-
-    this.applyFormState();
-    if (this.state.submitted) {
-      this.showToast();
-    } else {
-      this.hideToast();
-    }
-    this.syncSubmitState();
-    this.syncEditState();
-    this.syncFormDisabledState();
   }
 }
