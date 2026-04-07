@@ -1,105 +1,23 @@
-import { isObject } from '../core/value.utils.js';
+import { getValueByPath, isObject } from '../core/value.utils.js';
 
 const SITE_CONTENT_URL = '/config/site-content.json';
-const BUTTON_TONE_CLASSES = [
-  'a-button--tone-accent',
-  'a-button--tone-dark',
-  'a-button--tone-light',
-];
 
 let siteContentConfig = null;
-
-function getValueByPath(source, path) {
-  if (!isObject(source) || !path) {
-    return undefined;
-  }
-
-  return path.split('.').reduce((accumulator, key) => {
-    if (accumulator === undefined || accumulator === null) {
-      return undefined;
-    }
-
-    return accumulator[key];
-  }, source);
-}
-
-function queryByRole(role) {
-  return document.querySelector(`[data-role="${role}"]`);
-}
-
-function setNodeTextByRole(role, value) {
-  if (typeof value !== 'string') {
-    return;
-  }
-
-  const node = queryByRole(role);
-
-  if (node) {
-    node.textContent = value;
-  }
-}
-
-function setNodeAttrByRole(role, attribute, value) {
-  if (value === undefined || value === null) {
-    return;
-  }
-
-  const node = queryByRole(role);
-
-  if (node) {
-    node.setAttribute(attribute, String(value));
-  }
-}
-
-function setNodeAttrByAction(action, attribute, value) {
-  if (value === undefined || value === null) {
-    return;
-  }
-
-  const node = document.querySelector(`[data-action="${action}"]`);
-
-  if (node) {
-    node.setAttribute(attribute, String(value));
-  }
-}
-
-function setButtonToneByAction(action, tone) {
-  const node = document.querySelector(`[data-action="${action}"]`);
-
-  if (!node) {
-    return;
-  }
-
-  BUTTON_TONE_CLASSES.forEach((toneClass) => {
-    node.classList.remove(toneClass);
-  });
-
-  if (typeof tone !== 'string' || tone.length === 0) {
-    node.classList.add('a-button--tone-accent');
-    return;
-  }
-
-  const normalizedTone = tone.toLowerCase();
-  const toneClass = `a-button--tone-${normalizedTone}`;
-
-  if (BUTTON_TONE_CLASSES.includes(toneClass)) {
-    node.classList.add(toneClass);
-    return;
-  }
-
-  node.classList.add('a-button--tone-accent');
-}
 
 function setMetaByName(name, value) {
   if (typeof value !== 'string') {
     return;
   }
 
-  const meta = document.querySelector(`meta[name="${name}"]`);
+  let meta = document.querySelector(`meta[name="${name}"]`);
 
-  if (meta) {
-    meta.setAttribute('content', value);
+  if (!meta) {
+    meta = document.createElement('meta');
+    meta.setAttribute('name', name);
+    document.head.append(meta);
   }
+
+  meta.setAttribute('content', value);
 }
 
 function setMetaByProperty(property, value) {
@@ -107,11 +25,15 @@ function setMetaByProperty(property, value) {
     return;
   }
 
-  const meta = document.querySelector(`meta[property="${property}"]`);
+  let meta = document.querySelector(`meta[property="${property}"]`);
 
-  if (meta) {
-    meta.setAttribute('content', value);
+  if (!meta) {
+    meta = document.createElement('meta');
+    meta.setAttribute('property', property);
+    document.head.append(meta);
   }
+
+  meta.setAttribute('content', value);
 }
 
 function setCanonical(value) {
@@ -119,11 +41,15 @@ function setCanonical(value) {
     return;
   }
 
-  const canonical = document.querySelector('link[rel="canonical"]');
+  let canonical = document.querySelector('link[rel="canonical"]');
 
-  if (canonical) {
-    canonical.setAttribute('href', value);
+  if (!canonical) {
+    canonical = document.createElement('link');
+    canonical.setAttribute('rel', 'canonical');
+    document.head.append(canonical);
   }
+
+  canonical.setAttribute('href', value);
 }
 
 function applyMeta(metaConfig = {}) {
@@ -161,248 +87,15 @@ function applyMeta(metaConfig = {}) {
 }
 
 function applyA11y(a11yConfig = {}) {
-  setNodeTextByRole('skip-link', a11yConfig.skipToContentText);
-}
-
-function applyHero(heroConfig = {}) {
-  const title = isObject(heroConfig.title) ? heroConfig.title : {};
-  const button = isObject(heroConfig.button) ? heroConfig.button : {};
-  const image = isObject(heroConfig.image) ? heroConfig.image : {};
-
-  setNodeTextByRole('hero-title-line1', title.line1);
-  setNodeTextByRole('hero-title-line2-prefix', title.line2Prefix);
-  setNodeTextByRole('hero-title-line2-highlight', title.line2Highlight);
-  setNodeTextByRole('hero-description', heroConfig.description);
-  setNodeTextByRole('hero-button-text', button.text);
-  setNodeAttrByAction('hero-play-video', 'aria-label', button.ariaLabel);
-  setButtonToneByAction('hero-play-video', button.colorScheme);
-  setNodeAttrByRole('hero-image', 'src', image.src);
-  setNodeAttrByRole('hero-image', 'alt', image.alt);
-  setNodeAttrByRole('hero-image', 'width', image.width);
-  setNodeAttrByRole('hero-image', 'height', image.height);
-}
-
-function applyVideo(videoConfig = {}) {
-  const thumbnail = isObject(videoConfig.thumbnail) ? videoConfig.thumbnail : {};
-  const controls = isObject(videoConfig.controls) ? videoConfig.controls : {};
-
-  setNodeTextByRole('video-intro-title', videoConfig.title);
-  setNodeTextByRole('video-intro-description', videoConfig.description);
-  setNodeAttrByRole('video-intro-image', 'src', thumbnail.src);
-  setNodeAttrByRole('video-intro-image', 'alt', thumbnail.alt);
-  setNodeAttrByRole('video-intro-image', 'width', thumbnail.width);
-  setNodeAttrByRole('video-intro-image', 'height', thumbnail.height);
-  setNodeAttrByAction('video-intro-play', 'aria-label', controls.playAriaLabel);
-  setNodeAttrByAction('video-intro-pause', 'aria-label', controls.pauseAriaLabel);
-}
-
-function syncParagraphs(container, values = []) {
-  if (!container || !Array.isArray(values)) {
+  if (typeof a11yConfig.skipToContentText !== 'string') {
     return;
   }
 
-  const normalized = values.filter((value) => typeof value === 'string');
+  const skipLink = document.querySelector('[data-role="skip-link"]');
 
-  container.innerHTML = '';
-
-  normalized.forEach((paragraphText) => {
-    const paragraph = document.createElement('p');
-    paragraph.textContent = paragraphText;
-    container.append(paragraph);
-  });
-}
-
-function applyWaveText(waveTextConfig = {}) {
-  const section = queryByRole('wave-text-section');
-  const image = isObject(waveTextConfig.image) ? waveTextConfig.image : {};
-
-  if (section && typeof waveTextConfig.sectionAriaLabel === 'string') {
-    section.setAttribute('aria-label', waveTextConfig.sectionAriaLabel);
+  if (skipLink) {
+    skipLink.textContent = a11yConfig.skipToContentText;
   }
-
-  setNodeAttrByRole('wave-text-image', 'src', image.src);
-  setNodeAttrByRole('wave-text-image', 'alt', image.alt);
-  setNodeAttrByRole('wave-text-image', 'width', image.width);
-  setNodeAttrByRole('wave-text-image', 'height', image.height);
-
-  const copyContainer = queryByRole('wave-text-copy');
-  syncParagraphs(copyContainer, waveTextConfig.paragraphs);
-}
-
-function createSlideNode(slideConfig = {}, isActive) {
-  const slide = document.createElement('li');
-  slide.className = 'o-forest-slider__slide';
-  slide.setAttribute('data-role', 'forest-slide');
-  slide.setAttribute('aria-hidden', isActive ? 'false' : 'true');
-
-  if (!isActive) {
-    slide.hidden = true;
-  }
-
-  const image = document.createElement('img');
-  image.className = 'o-forest-slider__image';
-  image.setAttribute('loading', 'lazy');
-  image.setAttribute('decoding', 'async');
-
-  if (typeof slideConfig.src === 'string') {
-    image.setAttribute('src', slideConfig.src);
-  }
-
-  if (typeof slideConfig.alt === 'string') {
-    image.setAttribute('alt', slideConfig.alt);
-  }
-
-  if (slideConfig.width !== undefined) {
-    image.setAttribute('width', String(slideConfig.width));
-  }
-
-  if (slideConfig.height !== undefined) {
-    image.setAttribute('height', String(slideConfig.height));
-  }
-
-  slide.append(image);
-  return slide;
-}
-
-function createDotNode(index, isActive, prefix) {
-  const dot = document.createElement('button');
-  dot.className = isActive ? 'o-forest-slider__dot is-active' : 'o-forest-slider__dot';
-  dot.type = 'button';
-  dot.setAttribute('data-action', 'forest-slider-dot');
-  dot.setAttribute('data-slide-index', String(index));
-  dot.setAttribute('aria-label', `${prefix} ${index + 1}`);
-  dot.setAttribute('aria-pressed', isActive ? 'true' : 'false');
-
-  return dot;
-}
-
-function applyForestSlider(forestSliderConfig = {}) {
-  const section = queryByRole('forest-slider-section');
-
-  if (!section) {
-    return;
-  }
-
-  if (typeof forestSliderConfig.sectionAriaLabel === 'string') {
-    section.setAttribute('aria-label', forestSliderConfig.sectionAriaLabel);
-  }
-
-  setNodeAttrByAction('forest-slider-prev', 'aria-label', forestSliderConfig.previousAriaLabel);
-  setNodeAttrByAction('forest-slider-next', 'aria-label', forestSliderConfig.nextAriaLabel);
-
-  const statusNode = queryByRole('forest-slider-status');
-
-  if (statusNode && typeof forestSliderConfig.statusTemplate === 'string') {
-    statusNode.setAttribute('data-status-template', forestSliderConfig.statusTemplate);
-  }
-
-  const track = queryByRole('forest-slider-track');
-  const dotsContainer = queryByRole('forest-slider-dots');
-  const slides = Array.isArray(forestSliderConfig.slides) ? forestSliderConfig.slides : [];
-
-  if (!track || !dotsContainer || slides.length === 0) {
-    return;
-  }
-
-  const dotPrefix =
-    typeof forestSliderConfig.dotAriaLabelPrefix === 'string'
-      ? forestSliderConfig.dotAriaLabelPrefix
-      : '';
-
-  if (typeof forestSliderConfig.dotsGroupAriaLabel === 'string') {
-    dotsContainer.setAttribute('aria-label', forestSliderConfig.dotsGroupAriaLabel);
-  }
-
-  track.innerHTML = '';
-  dotsContainer.innerHTML = '';
-
-  slides.forEach((slideConfig, index) => {
-    const isActive = index === 0;
-    track.append(createSlideNode(slideConfig, isActive));
-    dotsContainer.append(createDotNode(index, isActive, dotPrefix));
-  });
-}
-
-function applyDarkTextBox(darkTextBoxConfig = {}) {
-  const section = queryByRole('dark-text-box-section');
-
-  if (section && typeof darkTextBoxConfig.sectionAriaLabel === 'string') {
-    section.setAttribute('aria-label', darkTextBoxConfig.sectionAriaLabel);
-  }
-
-  setNodeTextByRole('dark-text-box-text', darkTextBoxConfig.text);
-}
-
-function applyAudioPlayer(audioPlayerConfig = {}) {
-  const section = queryByRole('audio-player-section');
-  const audio = isObject(audioPlayerConfig.audio) ? audioPlayerConfig.audio : {};
-  const controls = isObject(audioPlayerConfig.controls) ? audioPlayerConfig.controls : {};
-
-  if (section && typeof audioPlayerConfig.sectionAriaLabel === 'string') {
-    section.setAttribute('aria-label', audioPlayerConfig.sectionAriaLabel);
-  }
-
-  setNodeTextByRole('audio-player-title', audioPlayerConfig.title);
-  setNodeTextByRole('audio-player-description', audioPlayerConfig.description);
-  setNodeTextByRole('audio-player-time', audioPlayerConfig.durationLabel);
-
-  setNodeAttrByRole('audio-player-element', 'src', audio.src);
-
-  setNodeAttrByAction('audio-player-toggle', 'aria-label', controls.playAriaLabel);
-  setNodeAttrByAction('audio-player-mute', 'aria-label', controls.muteAriaLabel);
-  setNodeAttrByAction('audio-player-settings', 'aria-label', controls.settingsAriaLabel);
-  setNodeAttrByRole('audio-player-progress', 'aria-label', controls.progressAriaLabel);
-  setNodeAttrByRole('audio-player-volume', 'aria-label', controls.volumeAriaLabel);
-}
-
-function applyFaq(faqConfig = {}) {
-  const section = queryByRole('faq-accordion-section');
-
-  if (
-    section &&
-    typeof faqConfig.sectionAriaLabel === 'string' &&
-    !section.hasAttribute('aria-labelledby')
-  ) {
-    section.setAttribute('aria-label', faqConfig.sectionAriaLabel);
-  }
-
-  setNodeTextByRole('faq-title', faqConfig.title);
-  setNodeTextByRole('faq-description', faqConfig.description);
-}
-
-function applyFooter(footerConfig = {}) {
-  const section = queryByRole('site-footer');
-  const logo = isObject(footerConfig.logo) ? footerConfig.logo : {};
-  const link = isObject(footerConfig.link) ? footerConfig.link : {};
-
-  if (section && typeof footerConfig.ariaLabel === 'string') {
-    section.setAttribute('aria-label', footerConfig.ariaLabel);
-  }
-
-  setNodeAttrByRole('footer-logo', 'src', logo.src);
-  setNodeAttrByRole('footer-logo', 'alt', logo.alt);
-  setNodeAttrByRole('footer-logo', 'width', logo.width);
-  setNodeAttrByRole('footer-logo', 'height', logo.height);
-  setNodeAttrByRole('footer-logo-link', 'href', link.href);
-  setNodeAttrByRole('footer-logo-link', 'aria-label', link.ariaLabel);
-  setNodeTextByRole('footer-copyright', footerConfig.copyright);
-}
-
-function applySiteContent(contentConfig = siteContentConfig) {
-  if (!isObject(contentConfig)) {
-    return;
-  }
-
-  applyMeta(contentConfig.meta);
-  applyA11y(contentConfig.a11y);
-  applyHero(contentConfig.hero);
-  applyVideo(contentConfig.video);
-  applyWaveText(contentConfig.waveText);
-  applyForestSlider(contentConfig.forestSlider);
-  applyDarkTextBox(contentConfig.darkTextBox);
-  applyAudioPlayer(contentConfig.audioPlayer);
-  applyFaq(contentConfig.faq);
-  applyFooter(contentConfig.footer);
 }
 
 export async function initializeSiteContent() {
@@ -420,7 +113,8 @@ export async function initializeSiteContent() {
     }
 
     siteContentConfig = parsed;
-    applySiteContent(siteContentConfig);
+    applyMeta(siteContentConfig.meta);
+    applyA11y(siteContentConfig.a11y);
   } catch (error) {
     console.error('[site-content] Erro ao carregar configuração:', error);
   }

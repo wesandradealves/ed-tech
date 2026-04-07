@@ -1,5 +1,6 @@
 import { BaseComponent } from '../../core/base-component.js';
-import { getSiteContentValue } from '../../config/site-content.config.js';
+import { isObject, toText } from '../../core/value.utils.js';
+import { getComponentConfig } from '../../core/component-props.utils.js';
 
 const AUDIO_PLAYER_SELECTORS = {
   controls: '[data-role="audio-player-controls"]',
@@ -42,6 +43,11 @@ function clamp(value, min, max) {
   return Math.min(Math.max(value, min), max);
 }
 
+function getAudioConfig(root) {
+  const audioConfig = getComponentConfig(root, 'audioPlayer', {});
+  return isObject(audioConfig) ? audioConfig : {};
+}
+
 export class AudioPlayerComponent extends BaseComponent {
   static selector = '[data-component="audio-player"]';
   static lazyOnScroll = true;
@@ -56,11 +62,12 @@ export class AudioPlayerComponent extends BaseComponent {
     this.muteButton = null;
     this.volume = null;
     this.settingsButton = null;
-    this.playLabel = 'Reproduzir áudio';
-    this.pauseLabel = 'Pausar áudio';
-    this.settingsLabel = 'Configurações de áudio';
+    this.playLabel = '';
+    this.pauseLabel = '';
+    this.settingsLabel = '';
     this.playbackRates = [1, 1.25, 1.5, 2];
     this.durationSeconds = null;
+    this.config = {};
 
     this.handleToggle = this.handleToggle.bind(this);
     this.handleTimeUpdate = this.handleTimeUpdate.bind(this);
@@ -73,6 +80,8 @@ export class AudioPlayerComponent extends BaseComponent {
   }
 
   onMount() {
+    this.render();
+
     this.controls = this.query(AUDIO_PLAYER_SELECTORS.controls);
     this.audio = this.query(AUDIO_PLAYER_SELECTORS.audio);
     this.toggleButton = this.query(AUDIO_PLAYER_SELECTORS.toggleButton);
@@ -95,18 +104,10 @@ export class AudioPlayerComponent extends BaseComponent {
       return;
     }
 
-    this.playLabel = getSiteContentValue(
-      'audioPlayer.controls.playAriaLabel',
-      this.playLabel
-    );
-    this.pauseLabel = getSiteContentValue(
-      'audioPlayer.controls.pauseAriaLabel',
-      this.pauseLabel
-    );
-    this.settingsLabel = getSiteContentValue(
-      'audioPlayer.controls.settingsAriaLabel',
-      this.settingsLabel
-    );
+    const controls = isObject(this.config.controls) ? this.config.controls : {};
+    this.playLabel = toText(controls.playAriaLabel, '');
+    this.pauseLabel = toText(controls.pauseAriaLabel, '');
+    this.settingsLabel = toText(controls.settingsAriaLabel, '');
 
     this.toggleButton.addEventListener('click', this.handleToggle);
     this.audio.addEventListener('timeupdate', this.handleTimeUpdate);
@@ -117,7 +118,7 @@ export class AudioPlayerComponent extends BaseComponent {
     this.volume.addEventListener('input', this.handleVolumeInput);
     this.settingsButton.addEventListener('click', this.handleSettingsClick);
 
-    const initialDuration = getSiteContentValue('audioPlayer.durationLabel', '03:03');
+    const initialDuration = toText(this.config.durationLabel, '');
     this.durationSeconds = parseDurationLabelToSeconds(initialDuration);
     this.updateDisplayedTime(0);
 
@@ -150,6 +151,143 @@ export class AudioPlayerComponent extends BaseComponent {
     this.volume.removeEventListener('input', this.handleVolumeInput);
     this.settingsButton.removeEventListener('click', this.handleSettingsClick);
     this.audio.pause();
+  }
+
+  render() {
+    const config = getAudioConfig(this.root);
+    this.config = config;
+    const controls = isObject(config.controls) ? config.controls : {};
+    const audio = isObject(config.audio) ? config.audio : {};
+
+    this.root.setAttribute(
+      'aria-labelledby',
+      'audio-player-title'
+    );
+
+    this.root.innerHTML = `
+      <div class="l-wrapper">
+        <header class="o-audio-player__header">
+          <h2
+            class="o-audio-player__title l-section-intro__title"
+            id="audio-player-title"
+          >
+            ${toText(config.title, '')}
+          </h2>
+
+          <p class="o-audio-player__description l-section-intro__description">
+            ${toText(config.description, '')}
+          </p>
+        </header>
+
+        <div class="o-audio-player__controls" data-role="audio-player-controls">
+          <button
+            class="a-button o-audio-player__toggle"
+            type="button"
+            data-action="audio-player-toggle"
+            aria-label="${toText(controls.playAriaLabel, '')}"
+            aria-pressed="false"
+          >
+            <svg
+              class="o-audio-player__toggle-icon o-audio-player__toggle-icon--play"
+              width="12"
+              height="14"
+              viewBox="0 0 12 14"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+              aria-hidden="true"
+              focusable="false"
+            >
+              <path d="M0 0L12 7L0 14V0Z" fill="currentColor" />
+            </svg>
+            <svg
+              class="o-audio-player__toggle-icon o-audio-player__toggle-icon--pause"
+              width="12"
+              height="14"
+              viewBox="0 0 12 14"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+              aria-hidden="true"
+              focusable="false"
+            >
+              <rect x="0" y="0" width="4" height="14" rx="1" fill="currentColor" />
+              <rect x="8" y="0" width="4" height="14" rx="1" fill="currentColor" />
+            </svg>
+          </button>
+
+          <div class="o-audio-player__progress-wrap">
+            <input
+              class="o-audio-player__progress"
+              type="range"
+              min="0"
+              max="100"
+              value="0"
+              step="0.1"
+              data-role="audio-player-progress"
+              aria-label="${toText(controls.progressAriaLabel, '')}"
+            />
+          </div>
+
+          <time class="o-audio-player__time" data-role="audio-player-time" datetime="PT3M3S">${toText(config.durationLabel, '')}</time>
+
+          <button
+            class="a-button o-audio-player__mute"
+            type="button"
+            data-action="audio-player-mute"
+            aria-label="${toText(controls.muteAriaLabel, '')}"
+            aria-pressed="false"
+          >
+            <svg
+              class="o-audio-player__icon"
+              width="16"
+              height="16"
+              viewBox="0 0 16 16"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+              aria-hidden="true"
+              focusable="false"
+            >
+              <path d="M7 2.5L3.9 5.6H2C1.45 5.6 1 6.05 1 6.6V9.4C1 9.95 1.45 10.4 2 10.4H3.9L7 13.5V2.5Z" fill="currentColor" />
+              <path d="M10.6 5.1C11.4 5.9 11.4 10.1 10.6 10.9" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" />
+              <path d="M12.8 3C14.6 4.8 14.6 11.2 12.8 13" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" />
+            </svg>
+          </button>
+
+          <input
+            class="o-audio-player__volume"
+            type="range"
+            min="0"
+            max="1"
+            value="1"
+            step="0.01"
+            data-role="audio-player-volume"
+            aria-label="${toText(controls.volumeAriaLabel, '')}"
+          />
+
+          <button
+            class="a-button o-audio-player__settings"
+            type="button"
+            data-action="audio-player-settings"
+            aria-label="${toText(controls.settingsAriaLabel, '')}"
+          >
+            <svg
+              class="o-audio-player__icon"
+              width="16"
+              height="16"
+              viewBox="0 0 16 16"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+              aria-hidden="true"
+              focusable="false"
+            >
+              <path d="M6.6 1.3L7.1 2.4C7.5 2.3 7.9 2.3 8.3 2.4L8.8 1.3L10.3 1.9L10.1 3.1C10.4 3.3 10.7 3.6 10.9 3.9L12.1 3.7L12.7 5.2L11.6 5.7C11.7 6.1 11.7 6.5 11.6 6.9L12.7 7.4L12.1 8.9L10.9 8.7C10.7 9 10.4 9.3 10.1 9.5L10.3 10.7L8.8 11.3L8.3 10.2C7.9 10.3 7.5 10.3 7.1 10.2L6.6 11.3L5.1 10.7L5.3 9.5C5 9.3 4.7 9 4.5 8.7L3.3 8.9L2.7 7.4L3.8 6.9C3.7 6.5 3.7 6.1 3.8 5.7L2.7 5.2L3.3 3.7L4.5 3.9C4.7 3.6 5 3.3 5.3 3.1L5.1 1.9L6.6 1.3Z" stroke="currentColor" stroke-width="1.1" />
+              <circle cx="7.7" cy="6.3" r="1.8" stroke="currentColor" stroke-width="1.1" />
+            </svg>
+          </button>
+
+          <audio data-role="audio-player-element" preload="metadata" src="${toText(audio.src, '')}"></audio>
+        </div>
+      </div>
+    `;
   }
 
   async handleToggle() {
@@ -193,7 +331,7 @@ export class AudioPlayerComponent extends BaseComponent {
       return;
     }
 
-    const configDurationLabel = getSiteContentValue('audioPlayer.durationLabel', '');
+    const configDurationLabel = toText(this.config.durationLabel, '');
     const configDurationSeconds = parseDurationLabelToSeconds(configDurationLabel);
 
     this.durationSeconds =
@@ -325,7 +463,7 @@ export class AudioPlayerComponent extends BaseComponent {
       return;
     }
 
-    const fallbackLabel = getSiteContentValue('audioPlayer.durationLabel', '00:00');
+    const fallbackLabel = toText(this.config.durationLabel, '');
     const fallbackSeconds = parseDurationLabelToSeconds(fallbackLabel);
     const totalSeconds = this.durationSeconds ?? fallbackSeconds;
 

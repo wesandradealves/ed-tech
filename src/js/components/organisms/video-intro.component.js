@@ -1,11 +1,17 @@
 import { BaseComponent } from '../../core/base-component.js';
-import { getSiteContentValue } from '../../config/site-content.config.js';
+import { isObject, toText } from '../../core/value.utils.js';
+import { getComponentConfig, getComponentValue } from '../../core/component-props.utils.js';
 
 const VIDEO_INTRO_SELECTORS = {
   frame: '[data-role="video-intro-frame"]',
   playButton: '[data-action="video-intro-play"]',
   pauseButton: '[data-action="video-intro-pause"]',
 };
+
+function getVideoConfig(root) {
+  const videoConfig = getComponentConfig(root, 'video', {});
+  return isObject(videoConfig) ? videoConfig : {};
+}
 
 export class VideoIntroComponent extends BaseComponent {
   static selector = '[data-component="video-intro"]';
@@ -25,6 +31,8 @@ export class VideoIntroComponent extends BaseComponent {
   }
 
   onMount() {
+    this.render();
+
     this.frame = this.query(VIDEO_INTRO_SELECTORS.frame);
     this.playButton = this.query(VIDEO_INTRO_SELECTORS.playButton);
     this.pauseButton = this.query(VIDEO_INTRO_SELECTORS.pauseButton);
@@ -50,6 +58,84 @@ export class VideoIntroComponent extends BaseComponent {
     document.removeEventListener('pointerdown', this.handleDocumentPointerDown);
     document.removeEventListener('keydown', this.handleDocumentKeyDown);
     this.stopPlayback();
+  }
+
+  render() {
+    const video = getVideoConfig(this.root);
+    const thumbnail = isObject(video.thumbnail) ? video.thumbnail : {};
+    const controls = isObject(video.controls) ? video.controls : {};
+
+    this.root.setAttribute('aria-labelledby', 'video-intro-title');
+
+    this.root.innerHTML = `
+      <div class="l-wrapper">
+        <header class="o-video-intro__header">
+          <h2
+            class="o-video-intro__title l-section-intro__title"
+            id="video-intro-title"
+          >
+            ${toText(video.title, '')}
+          </h2>
+
+          <p class="o-video-intro__description l-section-intro__description">
+            ${toText(video.description, '')}
+          </p>
+        </header>
+
+        <div class="o-video-intro__media" data-role="video-intro-frame">
+          <img
+            class="o-video-intro__image"
+            src="${toText(thumbnail.src, '')}"
+            alt="${toText(thumbnail.alt, '')}"
+            width="${String(thumbnail.width ?? 948)}"
+            height="${String(thumbnail.height ?? 523)}"
+            loading="lazy"
+            decoding="async"
+          />
+
+          <button
+            class="a-button a-button--icon o-video-intro__play-button"
+            type="button"
+            aria-label="${toText(controls.playAriaLabel, '')}"
+            data-action="video-intro-play"
+          >
+            <svg
+              class="o-video-intro__play-icon"
+              width="26"
+              height="30"
+              viewBox="0 0 26 30"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+              aria-hidden="true"
+              focusable="false"
+            >
+              <path d="M0 0L26 15L0 30V0Z" fill="currentColor" />
+            </svg>
+          </button>
+
+          <button
+            class="a-button a-button--icon o-video-intro__pause-button"
+            type="button"
+            aria-label="${toText(controls.pauseAriaLabel, '')}"
+            data-action="video-intro-pause"
+          >
+            <svg
+              class="o-video-intro__pause-icon"
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+              aria-hidden="true"
+              focusable="false"
+            >
+              <rect x="5" y="4" width="5" height="16" rx="1" fill="currentColor" />
+              <rect x="14" y="4" width="5" height="16" rx="1" fill="currentColor" />
+            </svg>
+          </button>
+        </div>
+      </div>
+    `;
   }
 
   handlePlayButtonClick() {
@@ -92,8 +178,8 @@ export class VideoIntroComponent extends BaseComponent {
     }
 
     const iframe = document.createElement('iframe');
-    const iframeSrc = getSiteContentValue('video.introEmbedUrl');
-    const iframeTitle = getSiteContentValue('video.iframeTitle');
+    const iframeSrc = getComponentValue(this.root, 'video', 'introEmbedUrl', '');
+    const iframeTitle = getComponentValue(this.root, 'video', 'iframeTitle', '');
 
     if (typeof iframeSrc !== 'string' || iframeSrc.length === 0) {
       return;

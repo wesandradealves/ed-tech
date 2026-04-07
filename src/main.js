@@ -9,6 +9,7 @@ import { RevealCardsComponent } from './js/components/organisms/reveal-cards.com
 import { AudioPlayerComponent } from './js/components/organisms/audio-player.component.js';
 import { ActivityPanelComponent } from './js/components/organisms/activity-panel.component.js';
 import { FaqAccordionComponent } from './js/components/organisms/faq-accordion.component.js';
+import { FooterComponent } from './js/components/organisms/footer.component.js';
 
 async function bootstrapApp() {
   await initializeSiteContent();
@@ -23,6 +24,7 @@ async function bootstrapApp() {
     AudioPlayerComponent,
     ActivityPanelComponent,
     FaqAccordionComponent,
+    FooterComponent,
   ]);
 
   componentRegistry.mountAll();

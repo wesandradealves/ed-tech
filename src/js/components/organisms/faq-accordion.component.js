@@ -1,6 +1,6 @@
 import { BaseComponent } from '../../core/base-component.js';
-import { getSiteContentValue } from '../../config/site-content.config.js';
 import { isObject, toText } from '../../core/value.utils.js';
+import { getComponentConfig } from '../../core/component-props.utils.js';
 
 const FAQ_SELECTORS = {
   list: '[data-role="faq-list"]',
@@ -16,15 +16,9 @@ function normalizeItems(rawItems) {
 
   return rawItems
     .map((item) => (isObject(item) ? item : {}))
-    .map((item, index) => ({
-      title: toText(
-        item.title,
-        `Lorem Ipsum is simply dummy text of the printing and typesetting industry. (${index + 1})`
-      ),
-      text: toText(
-        item.text,
-        "It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English."
-      ),
+    .map((item) => ({
+      title: toText(item.title, ''),
+      text: toText(item.text, ''),
     }));
 }
 
@@ -111,30 +105,57 @@ export class FaqAccordionComponent extends BaseComponent {
   constructor(root) {
     super(root);
     this.list = null;
+    this.config = {};
     this.items = [];
     this.activeIndex = null;
     this.handleClick = this.handleClick.bind(this);
   }
 
   onMount() {
+    this.config = getComponentConfig(this.root, 'faq', {});
+    this.renderShell();
+
     this.list = this.query(FAQ_SELECTORS.list);
 
     if (!this.list) {
       return;
     }
 
-    this.items = normalizeItems(getSiteContentValue('faq.items', []));
+    this.items = normalizeItems(this.config.items);
     this.activeIndex = parseDefaultOpenIndex(
-      getSiteContentValue('faq.defaultOpenIndex', 0),
+      this.config.defaultOpenIndex,
       this.items.length
     );
 
-    this.render();
+    this.renderItems();
     this.root.addEventListener('click', this.handleClick);
   }
 
   onUnmount() {
     this.root.removeEventListener('click', this.handleClick);
+  }
+
+  renderShell() {
+    const sectionAriaLabel = toText(
+      this.config.sectionAriaLabel,
+      ''
+    );
+    const title = toText(this.config.title, '');
+    const description = toText(this.config.description, '');
+
+    this.root.setAttribute('aria-labelledby', 'faq-title');
+    this.root.setAttribute('aria-label', sectionAriaLabel);
+
+    this.root.innerHTML = `
+      <div class="l-wrapper">
+        <header class="o-faq-accordion__header">
+          <h2 class="o-faq-accordion__title l-section-intro__title" id="faq-title">${title}</h2>
+          <p class="o-faq-accordion__description l-section-intro__description">${description}</p>
+        </header>
+
+        <div class="o-faq-accordion__list" data-role="faq-list"></div>
+      </div>
+    `;
   }
 
   handleClick(event) {
@@ -159,7 +180,7 @@ export class FaqAccordionComponent extends BaseComponent {
     toggleButton.focus();
   }
 
-  render() {
+  renderItems() {
     if (!this.list) {
       return;
     }

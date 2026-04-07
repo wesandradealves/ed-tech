@@ -1,6 +1,6 @@
 import { BaseComponent } from '../../core/base-component.js';
-import { getSiteContentValue } from '../../config/site-content.config.js';
 import { toText } from '../../core/value.utils.js';
+import { getComponentConfig, getComponentValue } from '../../core/component-props.utils.js';
 
 const REVEAL_CARDS_SELECTORS = {
   list: '[data-role="reveal-cards-list"]',
@@ -15,6 +15,7 @@ export class RevealCardsComponent extends BaseComponent {
   constructor(root) {
     super(root);
     this.list = null;
+    this.config = {};
     this.cardText = '';
     this.symbol = '?';
     this.openLabel = 'Abrir';
@@ -25,34 +26,22 @@ export class RevealCardsComponent extends BaseComponent {
   }
 
   onMount() {
+    this.renderShell();
+
     this.list = this.query(REVEAL_CARDS_SELECTORS.list);
 
     if (!this.list) {
       return;
     }
 
-    this.cardText = toText(
-      getSiteContentValue('revealCards.cardText'),
-      ''
-    );
-    this.symbol = toText(getSiteContentValue('revealCards.symbol'), '?');
-    this.openLabel = toText(
-      getSiteContentValue('revealCards.openLabel'),
-      'Abrir'
-    );
-    this.closeLabel = toText(
-      getSiteContentValue('revealCards.closeLabel'),
-      'Fechar'
-    );
-
-    const sectionAriaLabel = getSiteContentValue('revealCards.sectionAriaLabel');
-
-    if (typeof sectionAriaLabel === 'string' && sectionAriaLabel.length > 0) {
-      this.root.setAttribute('aria-label', sectionAriaLabel);
-    }
+    this.config = getComponentConfig(this.root, 'revealCards', {});
+    this.cardText = toText(this.config.cardText, '');
+    this.symbol = toText(this.config.symbol, '');
+    this.openLabel = toText(this.config.openLabel, '');
+    this.closeLabel = toText(this.config.closeLabel, '');
 
     const defaultActiveIndex = Number.parseInt(
-      String(getSiteContentValue('revealCards.defaultActiveIndex', 1)),
+      String(this.config.defaultActiveIndex),
       10
     );
 
@@ -64,7 +53,7 @@ export class RevealCardsComponent extends BaseComponent {
         : null;
 
     this.list.addEventListener('click', this.handleListClick);
-    this.render();
+    this.renderCards();
   }
 
   onUnmount() {
@@ -73,6 +62,21 @@ export class RevealCardsComponent extends BaseComponent {
     }
 
     this.list.removeEventListener('click', this.handleListClick);
+  }
+
+  renderShell() {
+    const sectionAriaLabel = toText(
+      getComponentValue(this.root, 'revealCards', 'sectionAriaLabel', ''),
+      ''
+    );
+
+    this.root.setAttribute('aria-label', sectionAriaLabel);
+
+    this.root.innerHTML = `
+      <div class="l-wrapper">
+        <ul class="o-reveal-cards__list" data-role="reveal-cards-list"></ul>
+      </div>
+    `;
   }
 
   handleListClick(event) {
@@ -96,13 +100,13 @@ export class RevealCardsComponent extends BaseComponent {
 
     if (action === 'reveal-card-open') {
       this.activeIndex = index;
-      this.render();
+      this.renderCards();
       return;
     }
 
     if (action === 'reveal-card-close') {
       this.activeIndex = null;
-      this.render();
+      this.renderCards();
     }
   }
 
@@ -152,7 +156,7 @@ export class RevealCardsComponent extends BaseComponent {
     return item;
   }
 
-  render() {
+  renderCards() {
     if (!this.list) {
       return;
     }
