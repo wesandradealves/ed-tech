@@ -100,14 +100,18 @@ docker compose down -v
    │  │  └─ site-content.config.js
    │  ├─ core/
    │  │  ├─ base-component.js
+   │  │  ├─ component-props.utils.js
    │  │  ├─ component-registry.js
    │  │  └─ value.utils.js
    │  └─ components/
+   │     ├─ atoms/
+   │     │  └─ button.atom.js
    │     └─ organisms/
    │        ├─ activity-panel.component.js
    │        ├─ audio-player.component.js
    │        ├─ dark-text-box.component.js
    │        ├─ faq-accordion.component.js
+   │        ├─ footer.component.js
    │        ├─ hero-banner.component.js
    │        ├─ forest-slider.component.js
    │        ├─ reveal-cards.component.js
@@ -150,8 +154,10 @@ docker compose down -v
 
 ### JavaScript
 - `config`: carregamento e aplicação do conteúdo via JSON
-- `core`: classes base e registro de componentes
+- `core`: classes base, registro de componentes e resolução de propriedades por tag (`data-props`)
+- `components/atoms`: unidades reutilizáveis de comportamento (ex.: `button.atom.js`)
 - `components/organisms`: comportamento específico por seção
+- `index.html`: apenas placeholders de componentes com `data-component` + `data-props`
 
 ## Styleguide
 
@@ -236,9 +242,9 @@ docker compose down -v
 - Reprodução de áudio remoto via URL definida em configuração
 
 ### Seção 8 e 9: Atividades (discursiva e objetiva)
-- Mesmo organismo reutilizável (`activity-panel`) com variação por `data-activity-type`
+- Mesmo organismo reutilizável (`activity-panel`) com variação por propriedades na tag (`data-props`)
 - Atividade discursiva com textarea, validação de preenchimento e ações `Responder`/`Alterar`
-- Atividade objetiva com alternativas e seleção única (sem item marcado por padrão)
+- Atividade objetiva com alternativas e seleção múltipla por `checkbox` (sem item marcado por padrão)
 - Toaster contextual por atividade (sucesso/aviso), com botão de fechar
 - `Responder` habilita apenas após interação válida no formulário
 - `Alterar` reseta formulário e toaster para estado inicial
@@ -260,6 +266,13 @@ docker compose down -v
 - Aplicação desse conteúdo no bootstrap da página por `site-content.config.js`
 - Hero, players de vídeo/áudio, bloco de imagem+texto, slider, box escuro, atividades, FAQ e metadados SEO consomem esse JSON
 
+### Propriedades por tag (`data-props`)
+- Cada seção em `index.html` declara seu `contentPath` (e overrides opcionais) diretamente na tag
+- O utilitário `component-props.utils.js` resolve `data-props` e entrega configuração para cada componente
+- Exemplo:
+  - `<section data-component="video-intro" data-props='{"contentPath":"video"}'></section>`
+  - `<section data-component="activity-panel" data-props='{"contentPath":"activities.objective","values":{"activityType":"objective","activityId":"objective"}}'></section>`
+
 ### Montagem lazy por seção
 - Componentes com `lazyOnScroll = true` são montados com `IntersectionObserver`
 - Montagem acontece quando a seção entra no viewport
@@ -269,7 +282,7 @@ docker compose down -v
 - Configuração centralizada em `vite.config.js` para saída otimizada na Vercel
 
 ## SEO e compartilhamento social
-Metadados configurados no `head`:
+Metadados definidos em `public/config/site-content.json` e aplicados via `site-content.config.js`:
 - `title`
 - `canonical`
 - `meta description`
