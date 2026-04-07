@@ -95,6 +95,11 @@
   background: v.$activity-panel-option-bg-selected;
 }
 
+.o-activity-panel__option:has(.o-activity-panel__option-input:focus-visible) {
+  outline: 2px solid v.$focus-outline;
+  outline-offset: 2px;
+}
+
 .o-activity-panel__option-input {
   position: absolute;
   opacity: 0;

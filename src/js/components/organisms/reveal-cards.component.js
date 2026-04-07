@@ -1,15 +1,12 @@
 import { BaseComponent } from '../../core/base-component.js';
 import { getSiteContentValue } from '../../config/site-content.config.js';
+import { toText } from '../../core/value.utils.js';
 
 const REVEAL_CARDS_SELECTORS = {
   list: '[data-role="reveal-cards-list"]',
 };
 
 const REVEAL_CARDS_LIMIT = 3;
-
-function toStringOrFallback(value, fallback) {
-  return typeof value === 'string' && value.trim().length > 0 ? value : fallback;
-}
 
 export class RevealCardsComponent extends BaseComponent {
   static selector = '[data-component="reveal-cards"]';
@@ -34,16 +31,16 @@ export class RevealCardsComponent extends BaseComponent {
       return;
     }
 
-    this.cardText = toStringOrFallback(
+    this.cardText = toText(
       getSiteContentValue('revealCards.cardText'),
       ''
     );
-    this.symbol = toStringOrFallback(getSiteContentValue('revealCards.symbol'), '?');
-    this.openLabel = toStringOrFallback(
+    this.symbol = toText(getSiteContentValue('revealCards.symbol'), '?');
+    this.openLabel = toText(
       getSiteContentValue('revealCards.openLabel'),
       'Abrir'
     );
-    this.closeLabel = toStringOrFallback(
+    this.closeLabel = toText(
       getSiteContentValue('revealCards.closeLabel'),
       'Fechar'
     );

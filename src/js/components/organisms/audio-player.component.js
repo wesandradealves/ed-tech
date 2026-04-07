@@ -9,6 +9,7 @@ const AUDIO_PLAYER_SELECTORS = {
   time: '[data-role="audio-player-time"]',
   muteButton: '[data-action="audio-player-mute"]',
   volume: '[data-role="audio-player-volume"]',
+  settingsButton: '[data-action="audio-player-settings"]',
 };
 
 function formatTime(totalSeconds) {
@@ -54,8 +55,11 @@ export class AudioPlayerComponent extends BaseComponent {
     this.time = null;
     this.muteButton = null;
     this.volume = null;
+    this.settingsButton = null;
     this.playLabel = 'Reproduzir áudio';
     this.pauseLabel = 'Pausar áudio';
+    this.settingsLabel = 'Configurações de áudio';
+    this.playbackRates = [1, 1.25, 1.5, 2];
     this.durationSeconds = null;
 
     this.handleToggle = this.handleToggle.bind(this);
@@ -65,6 +69,7 @@ export class AudioPlayerComponent extends BaseComponent {
     this.handleProgressInput = this.handleProgressInput.bind(this);
     this.handleMute = this.handleMute.bind(this);
     this.handleVolumeInput = this.handleVolumeInput.bind(this);
+    this.handleSettingsClick = this.handleSettingsClick.bind(this);
   }
 
   onMount() {
@@ -75,6 +80,7 @@ export class AudioPlayerComponent extends BaseComponent {
     this.time = this.query(AUDIO_PLAYER_SELECTORS.time);
     this.muteButton = this.query(AUDIO_PLAYER_SELECTORS.muteButton);
     this.volume = this.query(AUDIO_PLAYER_SELECTORS.volume);
+    this.settingsButton = this.query(AUDIO_PLAYER_SELECTORS.settingsButton);
 
     if (
       !this.controls ||
@@ -83,7 +89,8 @@ export class AudioPlayerComponent extends BaseComponent {
       !this.progress ||
       !this.time ||
       !this.muteButton ||
-      !this.volume
+      !this.volume ||
+      !this.settingsButton
     ) {
       return;
     }
@@ -96,6 +103,10 @@ export class AudioPlayerComponent extends BaseComponent {
       'audioPlayer.controls.pauseAriaLabel',
       this.pauseLabel
     );
+    this.settingsLabel = getSiteContentValue(
+      'audioPlayer.controls.settingsAriaLabel',
+      this.settingsLabel
+    );
 
     this.toggleButton.addEventListener('click', this.handleToggle);
     this.audio.addEventListener('timeupdate', this.handleTimeUpdate);
@@ -104,6 +115,7 @@ export class AudioPlayerComponent extends BaseComponent {
     this.progress.addEventListener('input', this.handleProgressInput);
     this.muteButton.addEventListener('click', this.handleMute);
     this.volume.addEventListener('input', this.handleVolumeInput);
+    this.settingsButton.addEventListener('click', this.handleSettingsClick);
 
     const initialDuration = getSiteContentValue('audioPlayer.durationLabel', '03:03');
     this.durationSeconds = parseDurationLabelToSeconds(initialDuration);
@@ -114,10 +126,18 @@ export class AudioPlayerComponent extends BaseComponent {
     this.updateVolumeVisual(this.audio.volume);
     this.updatePlayState(false);
     this.updateMuteState();
+    this.updateSettingsState(this.audio.playbackRate);
   }
 
   onUnmount() {
-    if (!this.audio || !this.toggleButton || !this.progress || !this.muteButton || !this.volume) {
+    if (
+      !this.audio ||
+      !this.toggleButton ||
+      !this.progress ||
+      !this.muteButton ||
+      !this.volume ||
+      !this.settingsButton
+    ) {
       return;
     }
 
@@ -128,6 +148,7 @@ export class AudioPlayerComponent extends BaseComponent {
     this.progress.removeEventListener('input', this.handleProgressInput);
     this.muteButton.removeEventListener('click', this.handleMute);
     this.volume.removeEventListener('input', this.handleVolumeInput);
+    this.settingsButton.removeEventListener('click', this.handleSettingsClick);
     this.audio.pause();
   }
 
@@ -232,6 +253,25 @@ export class AudioPlayerComponent extends BaseComponent {
     this.updateMuteState();
   }
 
+  handleSettingsClick() {
+    if (!this.audio || !this.settingsButton) {
+      return;
+    }
+
+    const currentRateIndex = this.playbackRates.findIndex(
+      (rate) => Math.abs(rate - this.audio.playbackRate) < 0.001
+    );
+
+    const nextRateIndex =
+      currentRateIndex < 0 || currentRateIndex >= this.playbackRates.length - 1
+        ? 0
+        : currentRateIndex + 1;
+    const nextRate = this.playbackRates[nextRateIndex];
+
+    this.audio.playbackRate = nextRate;
+    this.updateSettingsState(nextRate);
+  }
+
   updatePlayState(isPlaying) {
     if (!this.controls || !this.toggleButton) {
       return;
@@ -248,6 +288,16 @@ export class AudioPlayerComponent extends BaseComponent {
     }
 
     this.muteButton.setAttribute('aria-pressed', this.audio.muted ? 'true' : 'false');
+  }
+
+  updateSettingsState(playbackRate) {
+    if (!this.settingsButton) {
+      return;
+    }
+
+    const label = `${this.settingsLabel}: ${playbackRate.toFixed(2).replace(/\.00$/, '')}x`;
+    this.settingsButton.setAttribute('aria-label', label);
+    this.settingsButton.setAttribute('title', label);
   }
 
   updateProgress(percent) {

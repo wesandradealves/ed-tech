@@ -1,5 +1,6 @@
 import { BaseComponent } from '../../core/base-component.js';
 import { getSiteContentValue } from '../../config/site-content.config.js';
+import { isObject, toText } from '../../core/value.utils.js';
 
 const ACTIVITY_SELECTORS = {
   root: '[data-role="activity-panel-root"]',
@@ -10,14 +11,6 @@ const ACTIVITY_SELECTORS = {
   optionInput: '[data-role="activity-option-input"]',
   textarea: '[data-role="activity-textarea"]',
 };
-
-function isObject(value) {
-  return value !== null && typeof value === 'object' && !Array.isArray(value);
-}
-
-function toText(value, fallback = '') {
-  return typeof value === 'string' && value.trim().length > 0 ? value : fallback;
-}
 
 function normalizeActivityType(type) {
   const value = toText(type, 'objective').toLowerCase();
